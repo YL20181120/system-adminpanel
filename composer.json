@@ -1,0 +1,35 @@
+{
+    "name": "jasmine/adminpanel_2023",
+    "description": "adminpanel",
+    "type": "library",
+    "require": {
+        "laravel/fortify": "^1.16",
+        "mews/captcha": "^3.2",
+        "spatie/laravel-package-tools": "^1.14",
+        "spatie/laravel-permission": "^5.9"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "System\\": "src/"
+        },
+        "files": [
+            "helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "尤敬强",
+            "email": "youjingqiang@vip.qq.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "System\\SystemServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
