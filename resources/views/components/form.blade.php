@@ -10,7 +10,7 @@
     <form action="{{ $action }}" method="post" data-auto="true" class="layui-form layui-card"
           data-table-id="{{ $tableId }}">
 
-        <div class="layui-card-body">
+        <div class="layui-card-body" style="padding-left: 20px">
             {{ $slot }}
         </div>
 

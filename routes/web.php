@@ -17,6 +17,12 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
         $router->get('sessions', [Controllers\SessionController::class, 'sessions'])->name('sessions');
         $router->delete('sessions/other-browser-sessions', [Controllers\SessionController::class, 'destroy'])->name('session.destroy');
 
+        // 用户 Api 登录接口
+        $router->group(['prefix' => 'auth'], function (Router $router) {
+            $router->post('login', [Controllers\AuthController::class, 'login']);
+            $router->get('me', [Controllers\AuthController::class, 'me']);
+            $router->post('logout', [Controllers\AuthController::class, 'logout']);
+        });
 
         $router->group(['prefix' => 'api'], function (Router $router) {
             $router->get('plugs/script', [Controllers\api\PlugsController::class, 'script'])->name('plugs.script');
@@ -29,7 +35,6 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
 
         $router->match(['get', 'post'], 'role', [Controllers\RoleController::class, 'index'])->name('role.index');
         $router->delete('role', [Controllers\RoleController::class, 'destroy'])->name('role.destroy');
-
 
         $router->get('role/create', [Controllers\RoleController::class, 'createOrUpdate'])->name('role.create');
         $router->post('role', [Controllers\RoleController::class, 'createOrUpdate'])->name('role.store');
@@ -55,3 +60,4 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
 
         $router->get('dashboard', [Controllers\DashboradController::class, 'index'])->name('dashboard');
     });
+

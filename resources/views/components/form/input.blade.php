@@ -9,7 +9,7 @@
     'help' => '',
     'onblur' => 'void(0)',
     'disabled' => false,
-    'pattern' => ''
+    'pattern' => '',
 ])
 <div class="layui-form-item">
     <label class="layui-form-label">{{ $label }}</label>

@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/system/extra/style.css') }}?at={{ date('md') }}">
     <script src="{{ asset('vendor/system/plugs/jquery/pace.min.js') }}"></script>
     <script src="{{ route('system.plugs.script') }}"></script>
-    @vite(['resources/css/app.css'])
+    @vite(['resources/js/app.js'])
     {{ $style ?? '' }}
 </head>
 

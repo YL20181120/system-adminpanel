@@ -3,11 +3,12 @@
 namespace System\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Modules\WhatsAPP\Traits\UserWithWhatsAppRelation;
 use Spatie\Permission\Traits\HasRoles;
 use System\Traits\HasDatetimeFormatter;
 
@@ -18,6 +19,10 @@ class User extends Authenticatable
     use HasRoles;
     use HasDatetimeFormatter;
     use SoftDeletes;
+
+    use HasApiTokens;
+
+    use UserWithWhatsAppRelation;
 
     protected $table = 'system_users';
 
@@ -34,8 +39,13 @@ class User extends Authenticatable
         ];
 
 
-    public function tasks(): HasMany
+    public function getSanctumToken($name = 'login'): string
     {
-        return $this->hasMany(Task::class);
+        return $this->createToken($name)->plainTextToken;
+    }
+
+    public function destroyCurrentSanctumTokens()
+    {
+        return $this->currentAccessToken()->delete();
     }
 }
