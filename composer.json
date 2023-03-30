@@ -6,7 +6,8 @@
         "laravel/fortify": "^1.16",
         "mews/captcha": "^3.2",
         "spatie/laravel-package-tools": "^1.14",
-        "spatie/laravel-permission": "^5.9"
+        "spatie/laravel-permission": "^5.9",
+        "jenssegers/agent": "^2.6"
     },
     "license": "MIT",
     "autoload": {
