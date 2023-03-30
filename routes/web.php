@@ -19,10 +19,14 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
 
         // 用户 Api 登录接口
         $router->group(['prefix' => 'auth'], function (Router $router) {
-            $router->post('login', [Controllers\AuthController::class, 'login']);
             $router->get('me', [Controllers\AuthController::class, 'me']);
-            $router->post('logout', [Controllers\AuthController::class, 'logout']);
         });
+
+        // ApiToken
+        $router->get('api_tokens', [Controllers\ApiTokenController::class, 'index'])->name('api-token.index');
+        $router->getOrPost('api_tokens/create', [Controllers\ApiTokenController::class, 'create'])->name('api-token.create');
+        $router->delete('api_tokens', [Controllers\ApiTokenController::class, 'destroy'])->name('api-token.destroy');
+        $router->getOrPost('api_tokens/{token}/permissions', [Controllers\ApiTokenController::class, 'permissions'])->name('api-token.permissions');
 
         $router->group(['prefix' => 'api'], function (Router $router) {
             $router->get('plugs/script', [Controllers\api\PlugsController::class, 'script'])->name('plugs.script');

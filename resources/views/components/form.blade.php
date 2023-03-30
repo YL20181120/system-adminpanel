@@ -4,11 +4,11 @@
     'script' => '',
     'showCancel' => true,
     'cancelText' => '取消编辑',
-    'confirmText' => '保存数据'
+    'confirmText' => '保存数据',
 ])
 <div>
     <form action="{{ $action }}" method="post" data-auto="true" class="layui-form layui-card"
-          data-table-id="{{ $tableId }}">
+          data-table-id="{{ $tableId }}" {{ $attributes->except('action', 'class', 'tableId') }}>
 
         <div class="layui-card-body" style="padding-left: 20px">
             {{ $slot }}

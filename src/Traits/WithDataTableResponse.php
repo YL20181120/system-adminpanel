@@ -30,7 +30,6 @@ trait WithDataTableResponse
             $data = $data->items();
         }
 
-
         $this->callback('_page_filter', $data, $args);
 
         throw new HttpResponseException(response()->json([
@@ -121,10 +120,13 @@ trait WithDataTableResponse
         }
     }
 
-    public function batchDestroy(Model $model, $where = []): void
+    public function batchDestroy(Builder|Model $builder, $where = []): void
     {
         $ids = $this->getBatchIds();
-        foreach ($model::query()->whereIn('id', $ids)
+        if ($builder instanceof Model) {
+            $builder = $builder::query();
+        }
+        foreach ($builder->whereIn('id', $ids)
                      ->where($where)
                      ->select(['id'])
                      ->cursor() as $item) {

@@ -4,6 +4,7 @@ namespace System;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -137,11 +138,15 @@ class SystemServiceProvider extends PackageServiceProvider
             return $this;
         });
 
-        Request::macro('isGet', function () {
+        Request::macro('isGet', function (): bool {
             return $this->isMethod('GET');
         });
-        Request::macro('isPost', function () {
+        Request::macro('isPost', function (): bool {
             return $this->isMethod('POST');
+        });
+
+        Router::macro('getOrPost', function ($uri, $action = null) {
+            return $this->match(['get', 'post'], $uri, $action);
         });
     }
 }

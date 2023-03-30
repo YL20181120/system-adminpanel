@@ -27,10 +27,10 @@ trait WithHttpResponse
      * @param mixed $data 返回数据
      * @param mixed $code 返回代码
      */
-    public function success($info, $data = '{-null-}', $code = 1): void
+    public function success($info, $data = '{-null-}', $code = 1, $flash = []): void
     {
         if ($data === '{-null-}') $data = new stdClass();
-        $result = ['code' => $code, 'info' => $info, 'data' => $data];
+        $result = ['code' => $code, 'info' => $info, 'data' => $data, 'flash' => $flash];
         throw new HttpResponseException(response()->json($result));
     }
 
