@@ -2,10 +2,10 @@
 
 namespace System\Http\Controllers;
 
-class DashboradController
+class DashboardController
 {
     public function index()
     {
-        return view('system::dashborad.index');
+        return view('system::dashboard.index');
     }
 }

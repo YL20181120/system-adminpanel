@@ -19,7 +19,7 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
 
         // 用户 Api 登录接口
         $router->group(['prefix' => 'auth'], function (Router $router) {
-            $router->get('me', [Controllers\AuthController::class, 'me']);
+            $router->get('me', [Controllers\AuthController::class, 'me'])->name('auth.me');
         });
 
         // ApiToken
@@ -62,6 +62,6 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
         $router->match(['get', 'post'], 'user/create', [Controllers\UserController::class, 'create'])->name('user.create');
         $router->match(['get', 'post'], 'user/{user}/edit', [Controllers\UserController::class, 'edit'])->name('user.edit');
 
-        $router->get('dashboard', [Controllers\DashboradController::class, 'index'])->name('dashboard');
+        $router->get('dashboard', [Controllers\DashboardController::class, 'index'])->name('dashboard');
     });
 
