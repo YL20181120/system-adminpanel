@@ -30,7 +30,7 @@
                                 class="layui-icon layui-icon-component"></i>Sessions</a></dd>
                     <dd lay-unselect><a data-modal="{{ route('system.two-factor-auth') }}"><i
                                 class="layui-icon layui-icon-component"></i> 两步验证</a></dd>
-                    <dd lay-unselect><a data-modal="{{ route('system.api-token.index',absolute: false) }}"><i
+                    <dd lay-unselect><a data-open="{{ route('system.api-token.index',absolute: false) }}"><i
                                 class="layui-icon layui-icon-component"></i>Api Tokens</a></dd>
                     {{--                    {if isset($super) and $super}--}}
                     {{--                    <dd lay-unselect><a data-load="{:sysuri('admin/api.system/push')}"><i--}}
