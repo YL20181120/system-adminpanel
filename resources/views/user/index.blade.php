@@ -67,14 +67,14 @@
                             title: 'Email',
                             minWidth: 220,
                             sort: true,
-                            templet: '<div><a href="mailto:@{{d.email}}" target="_blank">@{{d.email}}</a></div>'
+                            templet: '<div><a href="mailto:{%d.email%}" target="_blank">{%d.email%}</a></div>'
                         },
                         {field: 'username', title: 'Username', minWidth: 200, sort: true,},
                         {
                             field: 'phone',
                             title: 'Phone',
                             minWidth: 200,
-                            templet: '<div><a href="tel:@{{d.phone}}" target="_blank">@{{d.phone}}</a></div>'
+                            templet: '<div><a href="tel:{%d.phone%}" target="_blank">{%d.phone%}</a></div>'
                         },
                         {
                             field: 'status',
@@ -114,30 +114,30 @@
         </script>
 
         <script type="text/html" id="StatusSwitchTpl">
-            <input type="checkbox" value="@{{d.id}}" lay-text="已启用|已禁用" lay-filter="UserStatusSwitch"
-                   lay-skin="switch" @{{d.ban_at==null?'checked':''}}>
-            {{--            @{{-d.ban_at==null ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'}}--}}
+            <input type="checkbox" value="{%d.id%}" lay-text="已启用|已禁用" lay-filter="UserStatusSwitch"
+                   lay-skin="switch" {%d.ban_at==null?'checked':''%}>
+            {{--            {%-d.ban_at==null ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'%}--}}
         </script>
 
         <script type="text/html" id="toolbar">
             @if ($type === 'index')
                 <!-- Add -->
                 <x-system::table.row-action data-title="编辑用户"
-                                            data-modal='/system/user/@{{d.id}}/edit' type="success">编 辑
+                                            data-modal='/system/user/{%d.id%}/edit' type="success">编 辑
                 </x-system::table.row-action>
                 <x-system::table.row-action data-title="设置密码"
-                                            data-modal="/system/user/@{{d.id}}/password" type="normal">密
+                                            data-modal="/system/user/{%d.id%}/password" type="normal">密
                     码
                 </x-system::table.row-action>
                 <!-- End Add -->
             @else
                 {{-- Delete--}}
                 <x-system::table.row-action data-title="编辑用户"
-                                            data-modal='/system/user/@{{d.id}}/edit'>编 辑
+                                            data-modal='/system/user/{%d.id%}/edit'>编 辑
                 </x-system::table.row-action>
                 <x-system::table.row-action data-confirm="确定要永久删除此账号吗？"
                                             data-action="route('system.user.destroy')"
-                                            data-value="id#@{{d.id}};_method#delete"
+                                            data-value="id#{%d.id%};_method#delete"
                                             type="danger">删 除
                 </x-system::table.row-action>
             @endif
