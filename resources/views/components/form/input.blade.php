@@ -19,7 +19,7 @@
                vali-name="{{ $valiName ?? $label }}"
                placeholder="{{ $placeholder }}"
                @disabled($disabled)
-               {{ $pattern }}
+               pattern="{{ $pattern }}"
                onblur="{{ $onblur }}"
             @class(['layui-input','layui-bg-gray' => $disabled])
         >
