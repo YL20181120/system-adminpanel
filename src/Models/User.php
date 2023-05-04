@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\WhatsAPP\Traits\UserWithWhatsAppRelation;
@@ -37,6 +38,18 @@ class User extends Authenticatable
         = [
             'email_verified_at', 'two_factor_confirmed_at', 'ban_at', 'last_login_at'
         ];
+
+    protected $appends = ['email_mask', 'phone_mask'];
+
+    public function getEmailMaskAttribute()
+    {
+        return Str::mask($this->attributes['email'], '*', 3, 4);
+    }
+
+    public function getPhoneMaskAttribute()
+    {
+        return Str::mask($this->attributes['phone'], '*', 3, 4);
+    }
 
 
     public function getSanctumToken($name = 'login'): string

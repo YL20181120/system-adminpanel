@@ -8,7 +8,7 @@ class SystemConfigService
 {
     private static $data = [];
 
-    public static function get($name, string $default = '')
+    public static function get($name, string $default = null)
     {
         if (empty(static::$data)) {
             Config::cache()->map(function (Config $config) {

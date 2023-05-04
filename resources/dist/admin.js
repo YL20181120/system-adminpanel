@@ -58,6 +58,7 @@ require.config({
         'jquery.masonry': ['plugs/jquery/masonry.min'],
         'jquery.cropper': ['plugs/cropper/cropper.min'],
         'jquery.autocompleter': ['plugs/jquery/autocompleter.min'],
+        'watermark': ['plugs/watermark/watermark']
     }, shim: {
         'jszip': {deps: ['filesaver']},
         'excel': {deps: [baseRoot + 'plugs/layui_exts/excel.js']},

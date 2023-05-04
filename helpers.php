@@ -3,10 +3,10 @@
 use System\Services\SystemConfigService;
 
 if (!function_exists('sysconf')) {
-    function sysconf(string $name = '', $value = null)
+    function sysconf(string $name = '', $value = null, $default = null)
     {
         if (is_null($value) && is_string($name)) {
-            return SystemConfigService::get($name);
+            return SystemConfigService::get($name, $default);
         } else {
             return SystemConfigService::set($name, $value);
         }

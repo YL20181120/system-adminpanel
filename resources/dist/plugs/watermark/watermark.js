@@ -1,301 +1,181 @@
-(function (root,factory) {
-  if (typeof define === 'function' && define.amd) {
-    /*AMD. Register as an anonymous module.
-    *define([], factory); */
-    define([], factory());
-  } else if (typeof module === 'object' && module.exports) {
-    /*Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.*/
-    module.exports = factory();
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+        typeof define === 'function' && define.amd ? define(factory) :
+            (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.watermark = factory());
+})(this, (function () {
+    'use strict';
 
-  } else {
-    /*Browser globals (root is window)*/
-    root['watermark'] = factory();
-  }
-}(this, function () {
+    var Watermark = {};
 
-  /*Just return a value to define the module export.*/
-  var watermark = {};
+    const WaterMarkDomId = 'w_vm_id_3.14159';
 
-  var forceRemove = false;
+    // 参数配置
+    var w_options = {
+        // 水印块宽度
+        w_width: 240,
+        // 水印块高度
+        w_height: 140,
+        // 水印区域top距离
+        w_top: '0px',
+        // 水印区域left距离
+        w_left: '0px',
+        // 旋转角度
+        w_rotateDeg: 25,
+        // 字体大小、风格
+        w_font: '1.2rem Vedana',
+        // 字体颜色 rgb | 16进制字符串
+        w_color: '#666',
+        // 透明度
+        w_opacity: '0.1',
+        // 层级
+        w_zIndex: '100000',
+    };
 
-  var defaultSettings={
-    watermark_id: 'wm_div_id',          //水印总体的id
-    watermark_prefix: 'mask_div_id',    //小水印的id前缀
-    watermark_txt:"测试水印",             //水印的内容
-    watermark_x:20,                     //水印起始位置x轴坐标
-    watermark_y:20,                     //水印起始位置Y轴坐标
-    watermark_rows:0,                   //水印行数
-    watermark_cols:0,                   //水印列数
-    watermark_x_space:50,              //水印x轴间隔
-    watermark_y_space:50,               //水印y轴间隔
-    watermark_font:'微软雅黑',           //水印字体
-    watermark_color:'black',            //水印字体颜色
-    watermark_fontsize:'18px',          //水印字体大小
-    watermark_alpha:0.15,               //水印透明度，要求设置在大于等于0.005
-    watermark_width:100,                //水印宽度
-    watermark_height:100,               //水印长度
-    watermark_angle:15,                 //水印倾斜度数
-    watermark_parent_width:0,      //水印的总体宽度（默认值：body的scrollWidth和clientWidth的较大值）
-    watermark_parent_height:0,     //水印的总体高度（默认值：body的scrollHeight和clientHeight的较大值）
-    watermark_parent_node:null,     //水印插件挂载的父元素element,不输入则默认挂在body上
-    monitor:true,                   //monitor 是否监控， true: 不可删除水印; false: 可删水印。
-  };
-
-  const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-
-  //监听dom是否被移除或者改变属性的回调函数
-  var domChangeCallback = function (records){
-    if(forceRemove) {
-      forceRemove = false;
-      return;
-    }
-    if ((globalSetting && records.length === 1) || records.length === 1 && records[0].removedNodes.length >= 1) {
-      loadMark(globalSetting);
-    }
-  };
-
-  var hasObserver = MutationObserver !== undefined;
-  var watermarkDom = hasObserver ? new MutationObserver(domChangeCallback) : null;
-  var option = {
-    'childList': true,
-    'attributes': true,
-    'subtree': true,
-  };
-
-  /*加载水印*/
-  var loadMark = function(settings) {
-    /*采用配置项替换默认值，作用类似jquery.extend*/
-    if(arguments.length===1&&typeof arguments[0] ==="object" ){
-      var src=arguments[0]||{};
-      for(key in src)
-      {
-        if(src[key]&&defaultSettings[key]&&src[key]===defaultSettings[key])continue;
-        /*veronic: resolution of watermark_angle=0 not in force*/
-        else if(src[key] || src[key] === 0) defaultSettings[key]=src[key];
-      }
-    }
-
-    /*如果元素存在则移除*/
-    var watermark_element = document.getElementById(defaultSettings.watermark_id);
-    watermark_element && watermark_element.parentNode && watermark_element.parentNode.removeChild(watermark_element);
-
-    /*如果设置水印挂载的父元素的id*/
-    var watermark_parent_element = document.getElementById(defaultSettings.watermark_parent_node);
-    var watermark_hook_element = watermark_parent_element ? watermark_parent_element : document.body;
-
-    /*获取页面宽度*/
-    // var page_width = Math.max(watermark_hook_element.scrollWidth,watermark_hook_element.clientWidth) - defaultSettings.watermark_width/2;
-    var page_width = Math.max(watermark_hook_element.scrollWidth,watermark_hook_element.clientWidth);
-    /*获取页面最大长度*/
-    // var page_height = Math.max(watermark_hook_element.scrollHeight,watermark_hook_element.clientHeight,document.documentElement.clientHeight)-defaultSettings.watermark_height/2;
-    var page_height = Math.max(watermark_hook_element.scrollHeight,watermark_hook_element.clientHeight);
-
-    var setting = arguments[0]||{};
-    var parentEle = watermark_hook_element;
-
-    var page_offsetTop = 0;
-    var page_offsetLeft = 0;
-    if(setting.watermark_parent_width || setting.watermark_parent_height){
-      /*指定父元素同时指定了宽或高*/
-      if(parentEle){
-        page_offsetTop = parentEle.offsetTop || 0;
-        page_offsetLeft = parentEle.offsetLeft || 0;
-        defaultSettings.watermark_x = defaultSettings.watermark_x + page_offsetLeft;
-        defaultSettings.watermark_y = defaultSettings.watermark_y + page_offsetTop;
-      }
-    }else{
-      if(parentEle){
-        page_offsetTop = parentEle.offsetTop || 0;
-        page_offsetLeft = parentEle.offsetLeft || 0;
-      }
-    }
-
-    /*创建水印外壳div*/
-    var otdiv = document.getElementById(defaultSettings.watermark_id);
-    var shadowRoot = null;
-
-    if(!otdiv){
-      otdiv =document.createElement('div');
-      /*创建shadow dom*/
-      otdiv.id = defaultSettings.watermark_id;
-      otdiv.setAttribute('style','pointer-events: none !important; display: block !important');
-      /*判断浏览器是否支持attachShadow方法*/
-      if(typeof otdiv.attachShadow === 'function'){
-        /* createShadowRoot Deprecated. Not for use in new websites. Use attachShadow*/
-        shadowRoot = otdiv.attachShadow({mode: 'open'});
-      }else{
-        shadowRoot = otdiv;
-      }
-      /*将shadow dom随机插入body内的任意位置*/
-      var nodeList = watermark_hook_element.children;
-      var index = Math.floor(Math.random()*(nodeList.length-1 ));
-      if(nodeList[index]){
-        watermark_hook_element.insertBefore(otdiv, nodeList[index]);
-      }else{
-        watermark_hook_element.appendChild(otdiv);
-      }
-    }else if (otdiv.shadowRoot){
-      shadowRoot = otdiv.shadowRoot;
-    }
-    /*三种情况下会重新计算水印列数和x方向水印间隔：1、水印列数设置为0，2、水印宽度大于页面宽度，3、水印宽度小于于页面宽度*/
-    defaultSettings.watermark_cols = parseInt((page_width - defaultSettings.watermark_x) / (defaultSettings.watermark_width + defaultSettings.watermark_x_space));
-    var temp_watermark_x_space = parseInt((page_width - defaultSettings.watermark_x - defaultSettings.watermark_width * defaultSettings.watermark_cols) / (defaultSettings.watermark_cols));
-    defaultSettings.watermark_x_space = temp_watermark_x_space? defaultSettings.watermark_x_space : temp_watermark_x_space;
-    var allWatermarkWidth;
-
-    /*三种情况下会重新计算水印行数和y方向水印间隔：1、水印行数设置为0，2、水印长度大于页面长度，3、水印长度小于于页面长度*/
-    defaultSettings.watermark_rows = parseInt((page_height - defaultSettings.watermark_y) / (defaultSettings.watermark_height + defaultSettings.watermark_y_space));
-    var temp_watermark_y_space = parseInt((page_height - defaultSettings.watermark_y - defaultSettings.watermark_height * defaultSettings.watermark_rows) / (defaultSettings.watermark_rows));
-    defaultSettings.watermark_y_space = temp_watermark_y_space? defaultSettings.watermark_y_space : temp_watermark_y_space;
-    var allWatermarkHeight;
-
-    if(watermark_parent_element){
-      allWatermarkWidth = defaultSettings.watermark_x + defaultSettings.watermark_width * defaultSettings.watermark_cols + defaultSettings.watermark_x_space * (defaultSettings.watermark_cols - 1);
-      allWatermarkHeight = defaultSettings.watermark_y + defaultSettings.watermark_height * defaultSettings.watermark_rows + defaultSettings.watermark_y_space * (defaultSettings.watermark_rows - 1);
-    }else{
-      allWatermarkWidth = page_offsetLeft + defaultSettings.watermark_x + defaultSettings.watermark_width * defaultSettings.watermark_cols + defaultSettings.watermark_x_space * (defaultSettings.watermark_cols - 1);
-      allWatermarkHeight = page_offsetTop + defaultSettings.watermark_y + defaultSettings.watermark_height * defaultSettings.watermark_rows + defaultSettings.watermark_y_space * (defaultSettings.watermark_rows - 1);
-    }
-
-    var x;
-    var y;
-    for (var i = 0; i < defaultSettings.watermark_rows; i++) {
-      if(watermark_parent_element){
-        y = page_offsetTop + defaultSettings.watermark_y + (defaultSettings.watermark_y_space + defaultSettings.watermark_height) * i;
-      }else{
-        y = defaultSettings.watermark_y + (page_height - allWatermarkHeight) / 2 + (defaultSettings.watermark_y_space + defaultSettings.watermark_height) * i;
-      }
-      for (var j = 0; j < defaultSettings.watermark_cols; j++) {
-        if(watermark_parent_element){
-          x = page_offsetLeft + defaultSettings.watermark_x + (page_width - allWatermarkWidth) / 2 + (defaultSettings.watermark_width + defaultSettings.watermark_x_space) * j;
-        }else {
-          x = defaultSettings.watermark_x + (page_width - allWatermarkWidth) / 2 + (defaultSettings.watermark_width + defaultSettings.watermark_x_space) * j;
+    // 添加水印
+    Watermark.setWaterMark = (options) => {
+        var id = Watermark.loadWatermark(options);
+        if (document.getElementById(id) === null) {
+            id = Watermark.loadWatermark(options);
         }
-        var mask_div = document.createElement('div');
-        var oText=document.createTextNode(defaultSettings.watermark_txt);
-        mask_div.appendChild(oText);
-        /*设置水印相关属性start*/
-        mask_div.id = defaultSettings.watermark_prefix + i + j;
-        /*设置水印div倾斜显示*/
-        mask_div.style.webkitTransform = "rotate(-" + defaultSettings.watermark_angle + "deg)";
-        mask_div.style.MozTransform = "rotate(-" + defaultSettings.watermark_angle + "deg)";
-        mask_div.style.msTransform = "rotate(-" + defaultSettings.watermark_angle + "deg)";
-        mask_div.style.OTransform = "rotate(-" + defaultSettings.watermark_angle + "deg)";
-        mask_div.style.transform = "rotate(-" + defaultSettings.watermark_angle + "deg)";
-        mask_div.style.visibility = "";
-        mask_div.style.position = "absolute";
-        /*选不中*/
-        mask_div.style.left = x + 'px';
-        mask_div.style.top = y + 'px';
-        mask_div.style.overflow = "hidden";
-        mask_div.style.zIndex = "9999999";
-        mask_div.style.opacity = defaultSettings.watermark_alpha;
-        mask_div.style.fontSize = defaultSettings.watermark_fontsize;
-        mask_div.style.fontFamily = defaultSettings.watermark_font;
-        mask_div.style.color = defaultSettings.watermark_color;
-        mask_div.style.textAlign = "center";
-        mask_div.style.width = defaultSettings.watermark_width + 'px';
-        mask_div.style.height = defaultSettings.watermark_height + 'px';
-        mask_div.style.display = "block";
-        mask_div.style['-ms-user-select'] = "none";
-        /*设置水印相关属性end*/
-        shadowRoot.appendChild(mask_div);
+    };
+
+    // 移除水印
+    Watermark.removeWatermark = () => {
+        var id = WaterMarkDomId;
+        if (document.getElementById(id) !== null) {
+            Watermark.Observer.disconnect(); // 停止监听
+            setTimeout(() => {
+                document.body.removeChild(document.getElementById(id));
+            }, 0);
+        }
+    };
+
+    /**
+     * 水印添加方法
+     * @param { { w_texts: array, w_options: object } } options 配置对象
+     * - w_texts：水印文案字符串数组集合
+     * - w_options：水印参数配置
+     * @example
+     * options = {
+      w_texts: ['娃哈哈', '177****0000'],
+      w_options: {
+          w_width: 240,
+          w_height: 140,
+          w_top: '0px',
+          w_left: '0px',
+          w_rotateDeg: 25,
+          w_font: '1.2rem Vedana',
+          w_color: '#666',
+          w_opacity: '0.2',
+          w_zIndex: '100000',
       }
     }
+     * @return { string } 返回水印id
+     *
+     */
+    Watermark.loadWatermark = (options) => {
+        var _options = {};
+        if (options.w_options && Object.prototype.toString.call(options.w_options) === "[object Object]") {
+            _options = Object.assign({}, w_options, options.w_options);
+        } else {
+            _options = w_options;
+        }
 
-    // monitor 是否监控， true: 不可删除水印; false: 可删水印。
-    const minotor = settings.monitor === undefined ? defaultSettings.monitor : settings.monitor;
-    if (minotor && hasObserver) {
-      watermarkDom.observe(watermark_hook_element, option);
-      watermarkDom.observe(document.getElementById(defaultSettings.watermark_id).shadowRoot, option);
-    }
-  };
+        var id = WaterMarkDomId;
+        if (document.getElementById(id) !== null) {
+            document.body.removeChild(document.getElementById(id));
+        }
 
-  /*移除水印*/
-  var removeMark = function() {
-    /*采用配置项替换默认值，作用类似jquery.extend*/
-    if(arguments.length===1&&typeof arguments[0] ==="object" )
-    {
-      var src=arguments[0]||{};
-      for(key in src)
-      {
-        if(src[key]&&defaultSettings[key]&&src[key]===defaultSettings[key])continue;
-        /*veronic: resolution of watermark_angle=0 not in force*/
-        else if(src[key] || src[key] === 0) defaultSettings[key]=src[key];
-      }
-    }
+        var can = document.createElement('canvas');
+        // 设置canvas画布大小
+        can.width = _options.w_width;
+        can.height = _options.w_height;
 
-    /*移除水印*/
-    var watermark_element = document.getElementById(defaultSettings.watermark_id);
-    var _parentElement = watermark_element.parentNode;
-    _parentElement.removeChild(watermark_element);
-    // :ambulance: remove()
-    // minotor 这个配置有些冗余
-    // 如果用 MutationObserver 来监听dom变化防止删除水印
-    // remove() 方法里用 MutationObserver 的 disconnect() 解除监听即可
-    watermarkDom.disconnect();
-  };
+        var cans = can.getContext('2d');
+        cans.rotate(-(_options.w_rotateDeg * Math.PI / 180)); // 水印旋转角度
+        cans.font = _options.w_font;
+        cans.fillStyle = _options.w_color;
+        cans.textAlign = 'center';
+        cans.textBaseline = 'middle';
 
-  var globalSetting;
-  /*初始化水印，添加load和resize事件*/
-  watermark.init = function(settings) {
-    globalSetting = settings;
-    loadMark(settings);
-    window.addEventListener('onload', function () {
-      loadMark(settings);
-    });
-    window.addEventListener('resize', function () {
-      loadMark(settings);
-    });
-  };
+        // 水印在画布的位置x，y轴
+        if (options.w_texts && Object.prototype.toString.call(options.w_texts) === "[object Array]") {
+            var w_texts = options.w_texts;
+            for (var index = 0; index < w_texts.length; index++) {
+                cans.fillText(w_texts[index] ? w_texts[index] : '', can.width / 2, can.height + index * 25);
+            }
+        }
 
-  /*手动加载水印*/
-  watermark.load = function(settings){
-    globalSetting = settings;
-    loadMark(settings);
-  };
+        // 生成水印遮罩
+        var div = document.createElement('div');
+        div.id = id;
+        div.style.pointerEvents = 'none';
+        div.style.top = _options.w_top;
+        div.style.left = _options.w_left;
+        div.style.opacity = _options.w_opacity;
+        div.style.position = 'fixed';
+        div.style.zIndex = _options.w_zIndex;
+        div.style.width = '100%';
+        div.style.height = '100%';
+        div.style.background = 'url(' + can.toDataURL('image/png') + ') left top repeat';
+        document.body.appendChild(div);
 
-  /*手动移除水印*/
-  watermark.remove = function(){
-    forceRemove = true;
-    removeMark();
-  };
+        setTimeout(() => {
+            // 监听水印防篡改
+            Watermark.observeDomChange(div, options);
+        }, 0);
 
+        return id
+    };
 
-  //监听dom是否被移除或者改变属性的回调函数
-  var callback = function (records){
-    if ((globalSetting && records.length === 1) || records.length === 1 && records[0].removedNodes.length >= 1) {
-      loadMark(globalSetting);
-      return;
-    }
+    /**
+     * 基于MutationObserver 监听水印DOM变化
+     * @param {*} waterMarkDom 水印DOM
+     * @param {*} options 水印参数配置
+     */
+    Watermark.observeDomChange = (waterMarkDom, options) => {
 
-    // 监听父节点的尺寸是否发生了变化, 如果发生改变, 则进行重新绘制
-    var watermark_parent_element = document.getElementById(defaultSettings.watermark_parent_node);
-    if (watermark_parent_element) {
-      var newWidth = getComputedStyle(watermark_parent_element).getPropertyValue('width');
-      var newHeight = getComputedStyle(watermark_parent_element).getPropertyValue('height');
-      if (newWidth !== recordOldValue.width || newHeight !== recordOldValue.height) {
-        recordOldValue.width = newWidth;
-        recordOldValue.height = newHeight;
-        loadMark(globalSetting);
-      }
-    }
-  };
-  const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-  var watermarkDom = new MutationObserver(callback);
-  var option = {
-    'childList': true,
-    'attributes': true,
-    'subtree': true,
-    'attributeFilter': ['style'],
-    'attributeOldValue': true
-  };
-  var recordOldValue = {
-    width: 0,
-    height: 0
-  }
+        // 选择需要观察变动的节点
+        const targetNode = document.querySelector('body');
 
-  return watermark;
+        // 观察器的配置（需要观察什么变动）
+        const config = {
+            attributes: true, // 观察属性变动
+            childList: true, // 观察目标子节点的变化，是否有添加或者删除
+            subtree: true, // 观察后代节点，默认为 false
+        };
+
+        // 当观察到变动时执行的回调函数
+        const callback = function (mutationsList, observer) {
+            for (let mutation of mutationsList) {
+
+                /** 修改了水印节点属性 */
+                if (mutation.target === waterMarkDom) {
+                    // window.alert('非法操作！！！')
+                    mutation.target.remove(); // 删除已经修改的水印节点
+                    Watermark.loadWatermark(options); // 重新渲染水印
+                    // 停止观察
+                    observer.disconnect();
+                }
+
+                /** 强行手动删除了水印节点 */
+                if (mutation.removedNodes.length && mutation.removedNodes[0] === waterMarkDom) {
+                    // window.alert('非法操作！！！')
+                    Watermark.loadWatermark(options);
+                    // 停止观察
+                    observer.disconnect();
+                }
+            }
+        };
+
+        // 创建一个观察器实例并传入回调函数
+        // 用法详见: https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver
+        Watermark.Observer = new MutationObserver(callback);
+
+        // 以上述配置开始观察目标节点
+        Watermark.Observer.observe(targetNode, config);
+    };
+
+    return Watermark;
+
 }));
