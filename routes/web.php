@@ -63,5 +63,10 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
         $router->match(['get', 'post'], 'user/{user}/edit', [Controllers\UserController::class, 'edit'])->name('user.edit');
 
         $router->get('dashboard', [Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+        // Config
+        $router->get('config/index', [Controllers\ConfigController::class, 'index'])->name('config.index');
+
+        $router->impersonate();
     });
 

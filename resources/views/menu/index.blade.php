@@ -43,13 +43,13 @@
                             title: '图 标',
                             width: 80,
                             align: 'center',
-                            templet: '<div><i class="{%d.icon%} font-s18"></i></div>'
+                            templet: '<div><i class="<%d.icon%> font-s18"></i></div>'
                         },
                         {
                             field: 'title',
                             title: '菜单名称',
                             minWidth: 220,
-                            templet: '<div><span class="color-desc">{%d.spl%}</span>{%d.title%}</div>'
+                            templet: "<div><span class=\"color-desc\"><%d.spl%></span><%d.title%></div>"
                         },
                         {field: 'url', title: '跳转链接', minWidth: 200},
                         {
@@ -81,44 +81,42 @@
         <x-system::table.sort id="SortInputTpl"/>
 
         <script type="text/html" id="StatusSwitchTpl">
-            <?php
-            echo sprintf('{{# if( "%s"==\'index\' || (d.spc<1 || d.status<1)){ }}', $type);
-            ?>
-            <input type="checkbox" value="{%d.sps%}|{%d.spp%}" lay-text="已激活|已禁用" lay-filter="StatusSwitch"
-                   lay-skin="switch" {%-d.status>0?'checked':''%}>
-            {%# }else{ %}
-            {%-d.status ? '<b class="color-green">已激活</b>' : '<b class="color-red">已禁用</b>'%}
-            {%# } %}
+            <%# if( "{{ $type }}"=="index"|| (d.spc<1 || d.status<1)){ %>
+            <input type="checkbox" value="<%d.sps%>|<%d.spp%>" lay-text="已激活|已禁用" lay-filter="StatusSwitch"
+                   lay-skin="switch" <%-d.status>0?'checked':''%>>
+            <%# }else{ %>
+            <%-d.status ? '<b class="color-green">已激活</b>' : '<b class="color-red">已禁用</b>'%>
+            <%# } %>
         </script>
 
         <script type="text/html" id="toolbar">
             @if ($type == 'index')
                 <!-- Add -->
-                {%# if(d.spt<2){ %}
+                <%# if(d.spt<2){ %>
                 <x-system::table.row-action data-title="添加系统菜单"
-                                            data-modal='/system/menu/create?pid={%d.id%}'>添 加
+                                            data-modal='/system/menu/create?pid=<%d.id%>'>添 加
                 </x-system::table.row-action>
-                {%# }else{ %}
+                <%# }else{ %>
                 <x-system::table.row-action type="disabled">添 加</x-system::table.row-action>
-                {%# } %}
+                <%# } %>
                 <!-- End Add -->
                 {{--Edit--}}
                 <x-system::table.row-action data-event-dbclick data-title="编辑系统菜单"
-                                            data-modal='/system/menu/{%d.id%}'>编 辑
+                                            data-modal='/system/menu/<%d.id%>'>编 辑
                 </x-system::table.row-action>
                 {{-- End Edit --}}
             @else
                 {{-- Delete--}}
-                {%# if( (d.spc<1 || d.status<1)){ %}
+                <%# if( (d.spc<1 || d.status<1)){ %>
                 <x-system::table.row-action data-confirm="确定要删除菜单吗？"
                                             data-action="{{ route('system.menu.destroy') }}"
-                                            data-value="id#{%d.sps%};_method#delete"
+                                            data-value="id#<%d.sps%>;_method#delete"
                                             type="danger">删 除
                 </x-system::table.row-action>
-                {%# }else{ %}
+                <%# }else{ %>
                 <x-system::table.row-action type="disabled">删 除
                 </x-system::table.row-action>
-                {%# } %}
+                <%# } %>
             @endif
         </script>
     </x-slot:script>

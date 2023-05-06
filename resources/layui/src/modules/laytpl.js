@@ -7,8 +7,8 @@ layui.define(function(exports){
 
   // 默认属性
   var config = {
-    open: '{%', // 标签符前缀
-    close: '%}' // 标签符后缀
+    open: '<%', // 标签符前缀
+    close: '%>' // 标签符后缀
   };
 
   // 模板工具

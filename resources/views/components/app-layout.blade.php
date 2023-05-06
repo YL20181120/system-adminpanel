@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/system/extra/style.css') }}?at={{ date('md') }}">
     <script src="{{ asset('vendor/system/plugs/jquery/pace.min.js') }}"></script>
     <script src="{{ route('system.plugs.script') }}"></script>
+    @routes()
     @vite(['resources/js/app.js'])
     {{ $style ?? '' }}
 </head>
@@ -69,9 +70,8 @@
 <script src="{{ asset('vendor/system/plugs/require/require.js') }}"></script>
 <script src="{{ asset('vendor/system/admin.js') }}"></script>
 <script src="{{ asset('vendor/system/extra/script.js') }}"></script>
-
 {{ $script ?? '' }}
-
+@includeWhen(auth()->user()->isImpersonated(), 'system::components.impersonate')
 </body>
 
 </html>

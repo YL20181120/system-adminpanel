@@ -21,4 +21,9 @@ class ConfigController extends Controller
             'green-2' => '小草绿2',
             'black-2' => '经典黑2',
         ];
+
+    public function index()
+    {
+        return view('system::config.index');
+    }
 }

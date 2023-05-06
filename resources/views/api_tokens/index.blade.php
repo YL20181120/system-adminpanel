@@ -35,7 +35,7 @@
                         },
                         {
                             field: 'last_used_at', title: 'LAST USED AGO', align: 'center', minWidth: 170, sort: true,
-                            templet: '<div>{%d.last_used_ago%}</div>'
+                            templet: '<div><%d.last_used_ago%></div>'
                         },
                         {
                             toolbar: '#ToolbarRoleTableTpl',
@@ -51,11 +51,11 @@
         <!-- 数据操作工具条模板 -->
         <script type="text/html" id="ToolbarRoleTableTpl">
             <x-system::table.row-action data-event-dbclick data-width="600px" data-title="编辑权限"
-                                        data-modal='/system/api_tokens/{%d.id%}/permissions'>Permissions
+                                        data-modal='/system/api_tokens/<%d.id%>/permissions'>Permissions
             </x-system::table.row-action>
             <x-system::table.row-action data-confirm="确定要删除 Token 吗?"
                                         data-action="{{ route('system.api-token.destroy') }}"
-                                        data-value="id#{%d.id%};_method#delete"
+                                        data-value="id#<%d.id%>;_method#delete"
                                         type="danger">删 除
             </x-system::table.row-action>
         </script>

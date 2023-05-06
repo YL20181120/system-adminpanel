@@ -2,11 +2,11 @@
 
 namespace System\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\WhatsAPP\Traits\UserWithWhatsAppRelation;
@@ -15,7 +15,6 @@ use System\Traits\HasDatetimeFormatter;
 
 class User extends Authenticatable
 {
-    use HasFactory;
     use Notifiable, TwoFactorAuthenticatable;
     use HasRoles;
     use HasDatetimeFormatter;
@@ -25,9 +24,11 @@ class User extends Authenticatable
 
     use UserWithWhatsAppRelation;
 
+    use Impersonate;
+
     protected $table = 'system_users';
 
-    protected $fillable = ['email', 'email_verified_at', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at', 'username', 'phone', 'last_login_at', 'last_login_ip', 'ban_at', 'description', 'theme'];
+    protected $fillable = ['email', 'email_verified_at', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at', 'username', 'phone', 'last_login_at', 'last_login_ip', 'ban_at', 'description', 'theme', 'lang'];
 
     protected $hidden
         = [
@@ -41,12 +42,12 @@ class User extends Authenticatable
 
     protected $appends = ['email_mask', 'phone_mask'];
 
-    public function getEmailMaskAttribute()
+    public function getEmailMaskAttribute(): string
     {
         return Str::mask($this->attributes['email'], '*', 3, 4);
     }
 
-    public function getPhoneMaskAttribute()
+    public function getPhoneMaskAttribute(): string
     {
         return Str::mask($this->attributes['phone'], '*', 3, 4);
     }
@@ -60,5 +61,19 @@ class User extends Authenticatable
     public function destroyCurrentSanctumTokens()
     {
         return $this->currentAccessToken()->delete();
+    }
+
+    /**
+     * ToDo 增加角色权限时增加
+     * @return true
+     */
+    public function canImpersonate()
+    {
+        return true;
+    }
+
+    public function canBeImpersonated()
+    {
+        return true;
     }
 }

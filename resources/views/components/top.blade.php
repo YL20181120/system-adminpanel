@@ -44,9 +44,8 @@
                                         data-method="post"><i
                                 class="layui-icon layui-icon-release"></i> 退出登录</a></dd>
                 </dl>
-                <a class="layui-elip">
-                    {{--                    <span class="headimg" data-lazy-src="{:htmlentities(session('user.headimg'))}"></span>--}}
-                    <span>{{ auth()->user()->username ?? '1' }}</span>
+                <a class="layui-elip" style="min-width: 132px;text-align: center">
+                    <span>{{ auth()->user()->username ?? '' }}</span>
                 </a>
             </li>
         @endauth

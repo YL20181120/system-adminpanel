@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Lab404\Impersonate\Events\LeaveImpersonation;
+use Lab404\Impersonate\Events\TakeImpersonation;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Fortify;
@@ -18,6 +21,7 @@ use System\Traits\WithHttpResponse;
 use System\View\Components\AppLayout;
 use System\View\Components\Main;
 use System\View\Components\Table;
+use Illuminate\Routing\Route;
 
 class SystemServiceProvider extends PackageServiceProvider
 {
@@ -91,6 +95,14 @@ class SystemServiceProvider extends PackageServiceProvider
             }
         });
 
+
+        $this->app['events']->listen(TakeImpersonation::class, function (TakeImpersonation $event) {
+            Log::info('Impersonated:', [$event->impersonator->getAuthIdentifier(), $event->impersonated->getAuthIdentifier()]);
+        });
+        $this->app['events']->listen(LeaveImpersonation::class, function (LeaveImpersonation $event) {
+            Log::info('Leave Impersonated:', [$event->impersonator->getAuthIdentifier(), $event->impersonated->getAuthIdentifier()]);
+        });
+
         return parent::boot();
     }
 
@@ -145,7 +157,7 @@ class SystemServiceProvider extends PackageServiceProvider
             return $this->isMethod('POST');
         });
 
-        Router::macro('getOrPost', function ($uri, $action = null) {
+        Router::macro('getOrPost', function ($uri, $action = null): Route {
             return $this->match(['get', 'post'], $uri, $action);
         });
     }

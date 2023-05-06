@@ -95,7 +95,7 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
     if(templet){
       content = typeof templet === 'function'
         ? templet.call(item3, obj.tplData, obj.obj)
-      : laytpl($(templet).html() || String(content)).render($.extend({
+      : laytpl(util.unescape($(templet).html()) || String(content)).render($.extend({
         LAY_COL: item3
       }, obj.tplData));
     }
@@ -137,79 +137,79 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
 
   // thead 区域模板
   var TPL_HEADER = function(options){
-    var rowCols = '{%#if(item2.colspan){%} colspan="{%=item2.colspan%}"{%#} if(item2.rowspan){%} rowspan="{%=item2.rowspan%}"{%#%}}';
+    var rowCols = '<%#if(item2.colspan){%> colspan="<%=item2.colspan%>"<%#} if(item2.rowspan){%> rowspan="<%=item2.rowspan%>"<%#%>}';
 
     options = options || {};
     return ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" '
-      ,'{%# if(d.data.skin){ %}lay-skin="{%=d.data.skin%}"{%# } %} {%# if(d.data.size){ %}lay-size="{%=d.data.size%}"{%# } %} {%# if(d.data.even){ %}lay-even{%# } %}>'
+      ,'<%# if(d.data.skin){ %>lay-skin="<%=d.data.skin%>"<%# } %> <%# if(d.data.size){ %>lay-size="<%=d.data.size%>"<%# } %> <%# if(d.data.even){ %>lay-even<%# } %>>'
       ,'<thead>'
-      ,'{%# layui.each(d.data.cols, function(i1, item1){ %}'
+      ,'<%# layui.each(d.data.cols, function(i1, item1){ %>'
         ,'<tr>'
-        ,'{%# layui.each(item1, function(i2, item2){ %}'
-          ,'{%# if(item2.fixed && item2.fixed !== "right"){ left = true; } %}'
-          ,'{%# if(item2.fixed === "right"){ right = true; } %}'
+        ,'<%# layui.each(item1, function(i2, item2){ %>'
+          ,'<%# if(item2.fixed && item2.fixed !== "right"){ left = true; } %>'
+          ,'<%# if(item2.fixed === "right"){ right = true; } %>'
           ,function(){
             if(options.fixed && options.fixed !== 'right'){
-              return '{%# if(item2.fixed && item2.fixed !== "right"){ %}';
+              return '<%# if(item2.fixed && item2.fixed !== "right"){ %>';
             }
             if(options.fixed === 'right'){
-              return '{%# if(item2.fixed === "right"){ %}';
+              return '<%# if(item2.fixed === "right"){ %>';
             }
             return '';
           }()
-          ,'{%# var isSort = !(item2.colGroup) && item2.sort; %}'
-          ,'<th data-field="{%= item2.field||i2 %}" data-key="{%=d.index%}-{%=i1%}-{%=i2%}" {%# if( item2.parentKey){ %}data-parentkey="{%= item2.parentKey %}"{%# } %} {%# if(item2.minWidth){ %}data-minwidth="{%=item2.minWidth%}"{%# } %} {%# if(item2.maxWidth){ %}data-maxwidth="{%=item2.maxWidth%}"{%# } %} '+ rowCols +' {%# if(item2.unresize || item2.colGroup){ %}data-unresize="true"{%# } %} class="{%# if(item2.hide){ %}layui-hide{%# } %}{%# if(isSort){ %} layui-unselect{%# } %}{%# if(!item2.field){ %} layui-table-col-special{%# } %}"{%# if(item2.title){ %} title="{% layui.$(\'<div>\' + item2.title + \'</div>\').text() %}"{%# } %}>'
+          ,'<%# var isSort = !(item2.colGroup) && item2.sort; %>'
+          ,'<th data-field="<%= item2.field||i2 %>" data-key="<%=d.index%>-<%=i1%>-<%=i2%>" <%# if( item2.parentKey){ %>data-parentkey="<%= item2.parentKey %>"<%# } %> <%# if(item2.minWidth){ %>data-minwidth="<%=item2.minWidth%>"<%# } %> <%# if(item2.maxWidth){ %>data-maxwidth="<%=item2.maxWidth%>"<%# } %> '+ rowCols +' <%# if(item2.unresize || item2.colGroup){ %>data-unresize="true"<%# } %> class="<%# if(item2.hide){ %>layui-hide<%# } %><%# if(isSort){ %> layui-unselect<%# } %><%# if(!item2.field){ %> layui-table-col-special<%# } %>"<%# if(item2.title){ %> title="<% layui.$(\'<div>\' + item2.title + \'</div>\').text() %>"<%# } %>>'
             ,'<div class="layui-table-cell laytable-cell-'
-              ,'{%# if(item2.colGroup){ %}'
+              ,'<%# if(item2.colGroup){ %>'
                 ,'group'
-              ,'{%# } else { %}'
-                ,'{%=d.index%}-{%=i1%}-{%=i2%}'
-                ,'{%# if(item2.type !== "normal"){ %}'
-                  ,' laytable-cell-{%= item2.type %}'
-                ,'{%# } %}'
-              ,'{%# } %}'
-            ,'" {%#if(item2.align){%}align="{%=item2.align%}"{%#%}}>'
-              ,'{%# if(item2.type === "checkbox"){ %}' //复选框
-                ,'<input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose" {%# if(item2[d.data.checkName]){ %}checked{%# }; %}>'
-              ,'{%# } else { %}'
-                ,'<span>{%-item2.title||""%}</span>'
-                ,'{%# if(isSort){ %}'
+              ,'<%# } else { %>'
+                ,'<%=d.index%>-<%=i1%>-<%=i2%>'
+                ,'<%# if(item2.type !== "normal"){ %>'
+                  ,' laytable-cell-<%= item2.type %>'
+                ,'<%# } %>'
+              ,'<%# } %>'
+            ,'" <%#if(item2.align){%>align="<%=item2.align%>"<%#%>}>'
+              ,'<%# if(item2.type === "checkbox"){ %>' //复选框
+                ,'<input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose" <%# if(item2[d.data.checkName]){ %>checked<%# }; %>>'
+              ,'<%# } else { %>'
+                ,'<span><%-item2.title||""%></span>'
+                ,'<%# if(isSort){ %>'
                   ,'<span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span>'
-                ,'{%# } %}'
-              ,'{%# } %}'
+                ,'<%# } %>'
+              ,'<%# } %>'
             ,'</div>'
           ,'</th>'
-          ,(options.fixed ? '{%# }; %}' : '')
-        ,'{%# }); %}'
+          ,(options.fixed ? '<%# }; %>' : '')
+        ,'<%# }); %>'
         ,'</tr>'
-      ,'{%# }); %}'
+      ,'<%# }); %>'
       ,'</thead>'
     ,'</table>'].join('');
   };
 
   // tbody 区域模板
   var TPL_BODY = ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" '
-    ,'{%# if(d.data.skin){ %}lay-skin="{%=d.data.skin%}"{%# } %} {%# if(d.data.size){ %}lay-size="{%=d.data.size%}"{%# } %} {%# if(d.data.even){ %}lay-even{%# } %}>'
+    ,'<%# if(d.data.skin){ %>lay-skin="<%=d.data.skin%>"<%# } %> <%# if(d.data.size){ %>lay-size="<%=d.data.size%>"<%# } %> <%# if(d.data.even){ %>lay-even<%# } %>>'
     ,'<tbody></tbody>'
   ,'</table>'].join('');
 
   // 主模板
   var TPL_MAIN = [
-    ,'{%# if(d.data.toolbar){ %}'
+    ,'<%# if(d.data.toolbar){ %>'
     ,'<div class="layui-table-tool">'
       ,'<div class="layui-table-tool-temp"></div>'
       ,'<div class="layui-table-tool-self"></div>'
     ,'</div>'
-    ,'{%# } %}'
+    ,'<%# } %>'
 
     ,'<div class="layui-table-box">'
-      ,'{%# if(d.data.loading){ %}'
+      ,'<%# if(d.data.loading){ %>'
       ,'<div class="layui-table-init" style="background-color: #fff;">'
         ,'<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>'
       ,'</div>'
-      ,'{%# } %}'
+      ,'<%# } %>'
 
-      ,'{%# var left, right; %}'
+      ,'<%# var left, right; %>'
       ,'<div class="layui-table-header">'
         ,TPL_HEADER()
       ,'</div>'
@@ -217,7 +217,7 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
         ,TPL_BODY
       ,'</div>'
 
-      ,'{%# if(left){ %}'
+      ,'<%# if(left){ %>'
       ,'<div class="layui-table-fixed layui-table-fixed-l">'
         ,'<div class="layui-table-header">'
           ,TPL_HEADER({fixed: true})
@@ -226,9 +226,9 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
           ,TPL_BODY
         ,'</div>'
       ,'</div>'
-      ,'{%# }; %}'
+      ,'<%# }; %>'
 
-      ,'{%# if(right){ %}'
+      ,'<%# if(right){ %>'
       ,'<div class="layui-table-fixed layui-table-fixed-r layui-hide">'
         ,'<div class="layui-table-header">'
           ,TPL_HEADER({fixed: 'right'})
@@ -238,43 +238,43 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
           ,TPL_BODY
         ,'</div>'
       ,'</div>'
-      ,'{%# }; %}'
+      ,'<%# }; %>'
     ,'</div>'
 
-    ,'{%# if(d.data.totalRow){ %}'
+    ,'<%# if(d.data.totalRow){ %>'
       ,'<div class="layui-table-total">'
         ,'<table cellspacing="0" cellpadding="0" border="0" class="layui-table" '
-        ,'{%# if(d.data.skin){ %}lay-skin="{%=d.data.skin%}"{%# } %} {%# if(d.data.size){ %}lay-size="{%=d.data.size%}"{%# } %} {%# if(d.data.even){ %}lay-even{%# } %}>'
+        ,'<%# if(d.data.skin){ %>lay-skin="<%=d.data.skin%>"<%# } %> <%# if(d.data.size){ %>lay-size="<%=d.data.size%>"<%# } %> <%# if(d.data.even){ %>lay-even<%# } %>>'
           ,'<tbody><tr><td><div class="layui-table-cell" style="visibility: hidden;">Total</div></td></tr></tbody>'
       , '</table>'
       ,'</div>'
-    ,'{%# } %}'
+    ,'<%# } %>'
 
     ,'<div class="layui-table-column layui-table-page layui-hide">'
-      ,'<div class="layui-inline layui-table-pageview" id="layui-table-page{%=d.index%}"></div>'
+      ,'<div class="layui-inline layui-table-pageview" id="layui-table-page<%=d.index%>"></div>'
     ,'</div>'
 
     ,'<style>'
-    ,'{%# layui.each(d.data.cols, function(i1, item1){'
-      ,'layui.each(item1, function(i2, item2){ %}'
-        ,'.laytable-cell-{%=d.index%}-{%=i1%}-{%=i2%}{ '
-        ,'{%# if(item2.width){ %}'
-          ,'width: {%=item2.width%}px;'
-        ,'{%# } %}'
+    ,'<%# layui.each(d.data.cols, function(i1, item1){'
+      ,'layui.each(item1, function(i2, item2){ %>'
+        ,'.laytable-cell-<%=d.index%>-<%=i1%>-<%=i2%>{ '
+        ,'<%# if(item2.width){ %>'
+          ,'width: <%=item2.width%>px;'
+        ,'<%# } %>'
         ,' }'
-      ,'{%# });'
-    ,'}); %}'
-    ,'{%# if(d.data.lineStyle){'
+      ,'<%# });'
+    ,'}); %>'
+    ,'<%# if(d.data.lineStyle){'
       ,'var cellClassName = ".layui-table-view-"+ d.index +" .layui-table-body .layui-table .layui-table-cell";'
-    ,'%}'
-      ,'{%= cellClassName %}{'
-        ,'display: -webkit-box; -webkit-box-align: center; white-space: normal; {%- d.data.lineStyle %} '
+    ,'%>'
+      ,'<%= cellClassName %>{'
+        ,'display: -webkit-box; -webkit-box-align: center; white-space: normal; <%- d.data.lineStyle %> '
       ,'}'
-      ,'{%= cellClassName %}:hover{overflow: auto;}'
-    ,'{%# } %}'
-    ,'{%# if(d.data.css){ %}'
-      ,'{%- d.data.css %}'
-    ,'{%# } %}'
+      ,'<%= cellClassName %>:hover{overflow: auto;}'
+    ,'<%# } %>'
+    ,'<%# if(d.data.css){ %>'
+      ,'<%- d.data.css %>'
+    ,'<%# } %>'
     ,'</style>'
   ].join('');
 
@@ -406,8 +406,8 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
         return arr.join('')
       }()
     }).html(laytpl(TPL_MAIN, {
-      open: '{%', // 标签符前缀
-      close: '%}' // 标签符后缀
+      open: '<%', // 标签符前缀
+      close: '%>' // 标签符后缀
     }).render({
       data: options
       ,index: that.index //索引
@@ -564,7 +564,7 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
     if(options.toolbar === 'default'){
       elemToolTemp.html(leftDefaultTemp);
     } else if(typeof options.toolbar === 'string'){
-      var toolbarHtml = $(options.toolbar).html() || '';
+      var toolbarHtml = util.unescape($(options.toolbar).html()) || '';
       toolbarHtml && elemToolTemp.html(
         laytpl(toolbarHtml).render(options)
       );
@@ -611,7 +611,7 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
 
     //开启分页栏自定义模板
     if(options.pagebar){
-      var pagebarHtml = $(options.pagebar).html() || '';
+      var pagebarHtml = util.unescape($(options.pagebar).html()) || '';
       pagebarHtml && layPagebar.append(laytpl(pagebarHtml).render(options));
       that.layPage.append(layPagebar);
     }
@@ -1147,7 +1147,7 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
 
             //解析工具列模板
             if(item3.toolbar){
-              return laytpl($(item3.toolbar).html()||'').render(tplData);
+              return laytpl(util.unescape($(item3.toolbar).html())||'').render(tplData);
             }
             return parseTempData.call(that, {
               item3: item3
@@ -1880,10 +1880,10 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
             ,'a{color: #5F5F5F; text-decoration:none;}'
             ,'*.layui-hide{display: none}'
           ,'</style>'].join('')
-          ,html = $(that.layHeader.html()); //输出表头
+          ,html = util.unescape($(that.layHeader.html())); //输出表头
 
-          html.append(that.layMain.find('table').html()); //输出表体
-          html.append(that.layTotal.find('table').html()) //输出合计行
+          html.append(util.unescape(that.layMain.find('table').html())); //输出表体
+          html.append(util.unescape(that.layTotal.find('table').html())) //输出合计行
 
           html.find('th.layui-table-patch').remove(); //移除补丁
           // 移除表头特殊列
@@ -2338,7 +2338,7 @@ layui.define(['lay', 'laytpl', 'laypage', 'form', 'util'], function(exports){
           }
           return '';
         }() +'">'
-          ,elemCell.html()
+          ,util.unescape(elemCell.html())
         ,'</div>'
         ,'<i class="layui-icon layui-table-tips-c layui-icon-close"></i>'
       ].join(''), elemCell[0], {

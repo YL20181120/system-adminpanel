@@ -75,20 +75,20 @@ layui.define(['laytpl', 'form'], function(exports){
     obj = obj || {};
     return ['<div class="layui-transfer-box" data-index="'+ obj.index +'">'
       ,'<div class="layui-transfer-header">'
-        ,'<input type="checkbox" name="'+ obj.checkAllName +'" lay-filter="layTransferCheckbox" lay-type="all" lay-skin="primary" title="{%= d.data.title['+ obj.index +'] || \'list'+ (obj.index + 1) +'\' %}">'
+        ,'<input type="checkbox" name="'+ obj.checkAllName +'" lay-filter="layTransferCheckbox" lay-type="all" lay-skin="primary" title="<%= d.data.title['+ obj.index +'] || \'list'+ (obj.index + 1) +'\' %>">'
       ,'</div>'
-      ,'{%# if(d.data.showSearch){ %}'
+      ,'<%# if(d.data.showSearch){ %>'
       ,'<div class="layui-transfer-search">'
         ,'<i class="layui-icon layui-icon-search"></i>'
         ,'<input type="text" class="layui-input" placeholder="关键词搜索">'
       ,'</div>'
-      ,'{%# } %}'
+      ,'<%# } %>'
       ,'<ul class="layui-transfer-data"></ul>'
     ,'</div>'].join('');
   };
 
   // 主模板
-  var TPL_MAIN = ['<div class="layui-transfer layui-form layui-border-box" lay-filter="LAY-transfer-{%= d.index %}">'
+  var TPL_MAIN = ['<div class="layui-transfer layui-form layui-border-box" lay-filter="LAY-transfer-<%= d.index %>">'
     ,TPL_BOX({
       index: 0
       ,checkAllName: 'layTransferLeftCheckAll'
@@ -144,8 +144,8 @@ layui.define(['laytpl', 'form'], function(exports){
 
     //解析模板
     var thisElem = that.elem = $(laytpl(TPL_MAIN, {
-      open: '{%', // 标签符前缀
-      close: '%}' // 标签符后缀
+      open: '<%', // 标签符前缀
+      close: '%>' // 标签符后缀
     }).render({
       data: options
       ,index: that.index //索引
