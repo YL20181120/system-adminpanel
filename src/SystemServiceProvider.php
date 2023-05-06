@@ -14,8 +14,10 @@ use Lab404\Impersonate\Events\TakeImpersonation;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Fortify;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use System\Http\Middleware\Locale;
 use System\Models\User;
 use System\Traits\WithHttpResponse;
 use System\View\Components\AppLayout;
@@ -44,6 +46,21 @@ class SystemServiceProvider extends PackageServiceProvider
     public function boot(): SystemServiceProvider
     {
         Fortify::viewPrefix('system::auth.');
+
+        /**
+         * 重新定义 Fortify 路由
+         */
+        Fortify::ignoreRoutes();
+
+        \Illuminate\Support\Facades\Route::group([
+            'namespace'  => 'Laravel\Fortify\Http\Controllers',
+            'domain'     => config('fortify.domain', null),
+            'prefix'     => LaravelLocalization::setLocale() . '/' . config('fortify.prefix'),
+            'middleware' => [Locale::class]
+        ], function () {
+            $this->loadRoutesFrom(base_path('vendor/laravel/fortify/routes/routes.php'));
+        });
+
         Fortify::authenticateUsing(function (Request $request) {
             $request->validate([
                 'email'    => 'required|email',
@@ -67,7 +84,7 @@ class SystemServiceProvider extends PackageServiceProvider
             }
 
             if (Hash::check($request->password, $user->password)) {
-                $user->update(['last_login_at' => now(), 'last_login_ip' => $request->getClientIp()]);
+                $user->update(['last_login_at' => now(), 'last_login_ip' => $request->getClientIp(), 'lang' => $this->app->getLocale()]);
                 return $user;
             } else {
                 throw ValidationException::withMessages([
@@ -83,7 +100,7 @@ class SystemServiceProvider extends PackageServiceProvider
 
             public function toResponse($request)
             {
-                $this->success('Login Success!', route('system.index'));
+                $this->success(__('system::login.login_successful'), route('system.index'));
             }
         });
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
@@ -91,7 +108,7 @@ class SystemServiceProvider extends PackageServiceProvider
 
             public function toResponse($request)
             {
-                $this->success('Logout Success!', url('system/login'));
+                $this->success(__('system::login.logout_successful'), LaravelLocalization::getLocalizedUrl(url: 'system/login'));
             }
         });
 
@@ -102,6 +119,7 @@ class SystemServiceProvider extends PackageServiceProvider
         $this->app['events']->listen(LeaveImpersonation::class, function (LeaveImpersonation $event) {
             Log::info('Leave Impersonated:', [$event->impersonator->getAuthIdentifier(), $event->impersonated->getAuthIdentifier()]);
         });
+
 
         return parent::boot();
     }

@@ -32,6 +32,7 @@
             </div>
         </fieldset>
         <fieldset class="layui-bg-gray">
+
             <legend><b class="layui-badge think-bg-violet">用户资料</b></legend>
             <label class="layui-form-item block relative margin-top-10">
                 <span class="help-label"><b>联系手机</b>Contact Mobile</span>
@@ -41,6 +42,16 @@
                 <span class="color-desc">可选，请填写用户常用的联系手机号</span>
             </label>
 
+            <label class="layui-form-item block relative margin-top-10">
+                <span class="help-label"><b>用户语言</b></span>
+                <select name="lang">
+                    @foreach(\Mcamara\LaravelLocalization\Facades\LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <option
+                            value="{{ $localeCode }}"
+                            @selected($model->lang == $localeCode)>{{ $properties['native'] }}</option>
+                    @endforeach
+                </select>
+            </label>
             <label class="layui-form-item block relative margin-top-10">
                 <span class="help-label"><b>用户描述</b>User Remark</span>
                 <textarea placeholder="请输入用户描述" class="layui-textarea"

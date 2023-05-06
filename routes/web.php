@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use System\Http\Controllers;
 
 Route::prefix(config('system.prefix', 'system'))->name('system.')
-    ->middleware('web')
+    ->middleware(['web', \System\Http\Middleware\Locale::class])
     ->group(function (Router $router) {
         $router->get('captcha/{config?}', [Controllers\CaptchaController::class, 'captcha'])->name('captcha');
         $router->get('index.html', [Controllers\IndexController::class, 'index'])->name('index');

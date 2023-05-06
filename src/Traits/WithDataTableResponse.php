@@ -112,9 +112,9 @@ trait WithDataTableResponse
                 $model->exists ? $model->update(Arr::only($data, $fillable)) : $model::create(Arr::only($data, $fillable));
                 if (false !== $this->callback('_form_result', $result, $model)) {
                     if ($result !== false) {
-                        $this->success(__('恭喜, 数据保存成功'), '');
+                        $this->success(__('system::system.save_success'), '');
                     }
-                    $this->error(__('数据保存失败, 请稍候再试'));
+                    $this->error(__('system::system.save_fail'));
                 }
             }
         }
@@ -132,7 +132,7 @@ trait WithDataTableResponse
                      ->cursor() as $item) {
             $item->delete();
         };
-        $this->success('删除成功', '');
+        $this->success(__('system::system.delete_success'), '');
     }
 
     public function batchUpdate(Model $model, $data, $where = []): void
@@ -144,7 +144,7 @@ trait WithDataTableResponse
                      ->cursor() as $item) {
             $item->update($data);
         };
-        $this->success('更新成功', '');
+        $this->success(__('system::system.update_success'), '');
     }
 
     public function __set(string $name, $value): void

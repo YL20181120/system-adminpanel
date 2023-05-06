@@ -71,7 +71,7 @@
 <script src="{{ asset('vendor/system/admin.js') }}"></script>
 <script src="{{ asset('vendor/system/extra/script.js') }}"></script>
 {{ $script ?? '' }}
-@includeWhen(auth()->user()->isImpersonated(), 'system::components.impersonate')
+@includeWhen(!auth()->guest() && auth()->user()->isImpersonated(), 'system::components.impersonate')
 </body>
 
 </html>
