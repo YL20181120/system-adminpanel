@@ -5,7 +5,6 @@ namespace System\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Laravel\Jetstream\Jetstream;
 use Laravel\Sanctum\PersonalAccessToken;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

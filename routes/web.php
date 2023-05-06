@@ -2,10 +2,16 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use System\Http\Controllers;
 
 Route::prefix(config('system.prefix', 'system'))->name('system.')
-    ->middleware(['web', \System\Http\Middleware\Locale::class])
+    ->middleware([
+        'web',
+        \System\Http\Middleware\Locale::class,
+        InitializeTenancyByDomain::class,
+        PreventAccessFromCentralDomains::class,])
     ->group(function (Router $router) {
         $router->get('captcha/{config?}', [Controllers\CaptchaController::class, 'captcha'])->name('captcha');
         $router->get('index.html', [Controllers\IndexController::class, 'index'])->name('index');

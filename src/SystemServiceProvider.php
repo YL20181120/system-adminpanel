@@ -17,6 +17,8 @@ use Laravel\Fortify\Fortify;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use System\Http\Middleware\Locale;
 use System\Models\User;
 use System\Traits\WithHttpResponse;
@@ -32,11 +34,10 @@ class SystemServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('system')
-            ->hasConfigFile()
+            ->hasConfigFile(['system', 'laravellocalization'])
             ->hasViews()
             ->hasAssets()
             ->hasTranslations()
-            ->hasMigrations(['create_users_table', 'create_configs_table', 'create_menus_table', 'create_system_password_resets_table'])
             ->hasViewComponents('system', AppLayout::class, Main::class, Table::class)
             ->hasCommands([])
             ->hasRoutes(['web']);
@@ -56,7 +57,7 @@ class SystemServiceProvider extends PackageServiceProvider
             'namespace'  => 'Laravel\Fortify\Http\Controllers',
             'domain'     => config('fortify.domain', null),
             'prefix'     => LaravelLocalization::setLocale() . '/' . config('fortify.prefix'),
-            'middleware' => [Locale::class]
+            'middleware' => [Locale::class, InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,]
         ], function () {
             $this->loadRoutesFrom(base_path('vendor/laravel/fortify/routes/routes.php'));
         });
