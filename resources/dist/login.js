@@ -38,7 +38,7 @@ $(function () {
         require(['md5'], function (md5) {
             $(form).vali(function (data) {
                 data['password'] = md5.hash(md5.hash(data['password']));
-                $.form.load(location.href, data, "post", function (ret) {
+                $.form.load($(this).attr('action') || location.href, data, "post", function (ret) {
                     if (parseInt(ret.status) === 429 || parseInt(ret.status) === 422) {
                         $(form).find('[data-captcha]').trigger('click');
                         $(form).find('.verify.layui-hide').removeClass('layui-hide');

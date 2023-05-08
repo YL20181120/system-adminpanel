@@ -14,3 +14,7 @@
 /* | 自定义后台扩展样式，需要在加载 console.css 后载入
 /* | 使用 composer require zoujingli/think-plugs-static 时不会更新此文件
 /* +---------------------------------------------------------------------- */
+
+.layui-form-switch em {
+    top: -2px;
+}

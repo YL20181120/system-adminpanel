@@ -9,6 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -36,7 +37,7 @@ trait WithDataTableResponse
             'code'  => 0,
             'data'  => $data,
             'msg'   => 'success',
-            'count' => $count ?? 0
+            'count' => $count ?? 0,
         ]));
     }
 
@@ -109,7 +110,7 @@ trait WithDataTableResponse
             }
             $data = array_merge(request()->except('spm', '_method'), $data);
             if (false !== $this->callback('_form_filter', $model, $data, $fillable)) {
-                $model->exists ? $model->update(Arr::only($data, $fillable)) : $model::create(Arr::only($data, $fillable));
+                $model->exists ? $model->update(Arr::only($data, $fillable)) : $model = $model::create(Arr::only($data, $fillable));
                 if (false !== $this->callback('_form_result', $result, $model)) {
                     if ($result !== false) {
                         $this->success(__('system::system.save_success'), '');
