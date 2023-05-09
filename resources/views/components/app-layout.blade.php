@@ -19,6 +19,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=0.4">
     @vite('resources/css/app.css')
+    <link rel="icon" type="image/x-icon" href="{{ sysconf('site_icon') }}">
     <link rel="stylesheet" href="{{ asset('vendor/system/plugs/layui/css/layui.css') }}?at={{ date('md') }}">
     <link rel="stylesheet" href="{{ asset('vendor/system/theme/css/iconfont.css') }}?at={{ date('md') }}">
     <link rel="stylesheet" href="{{ asset('vendor/system/theme/css/console.css') }}?at={{ date('md') }}">

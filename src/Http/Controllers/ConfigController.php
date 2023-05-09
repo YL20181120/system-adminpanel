@@ -37,13 +37,6 @@ class ConfigController extends Controller
             return view('system::config.system', ['themes' => self::themes]);
         } else {
             $post = $request->post();
-            // 修改网站 ICON 图标，替换 public/favicon.ico
-//            if (preg_match('#^https?://#', $post['site_icon'] ?? '')) try {
-//                SystemService::setFavicon($post['site_icon'] ?? '');
-//            } catch (\Exception $exception) {
-//                trace_file($exception);
-//            }
-            // 数据数据到系统配置表
             foreach ($post as $k => $v) sysconf($k, $v);
             $this->success('修改系统参数成功！', 'javascript:window.location.reload()');
         }

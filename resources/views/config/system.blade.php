@@ -27,7 +27,8 @@
             <label class="relative block label-required-null">
                 <input class="layui-input" required pattern="url" vali-name="图标文件" placeholder="请上传浏览器图标"
                        value="{{ sysconf('site_icon') }}" name="site_icon">
-                <a class="input-right-icon layui-icon layui-icon-upload-drag" data-file="btn" data-type="png,jpg,jpeg"
+                <a class="input-right-icon layui-icon layui-icon-upload-drag" data-file="btn"
+                   data-type="png,jpg,jpeg"
                    data-field="site_icon"></a>
             </label>
             <div class="help-block sub-span-blue">
@@ -99,7 +100,7 @@
                     <span class="help-label"><b>运行货币</b>Currency</span>
                     <select name="currency" lay-search>
                         @foreach(\System\Services\CurrencyService::$currency as $key => $currency)
-                            <option value="{{ $key }}">{{ $currency['symbol'] }}-{{ $currency['name'] }}</option>
+                            <option value="{{ $key }}" @selected(sysconf('currency') == $key)>{{ $currency['symbol'] }}-{{ $currency['name'] }}</option>
                         @endforeach
                     </select>
                 </label>

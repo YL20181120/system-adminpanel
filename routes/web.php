@@ -43,6 +43,7 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
             $router->post('upload/state', [Controllers\api\UploadController::class, 'state'])->name('upload.state');
             $router->post('upload/file', [Controllers\api\UploadController::class, 'file'])->name('upload.file');
             $router->post('upload/done', [Controllers\api\UploadController::class, 'done'])->name('upload.done');
+            $router->get('upload/image', [Controllers\api\UploadController::class, 'image'])->name('upload.image');
 
             $router->post('system/editor', [Controllers\api\SystemController::class, 'editor'])->name('system.editor');
         });

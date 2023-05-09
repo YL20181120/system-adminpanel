@@ -7,15 +7,19 @@ use Illuminate\Http\Request;
 use System\Helpers\Storage;
 use System\Http\Controllers\Controller;
 use System\Models\File;
+use System\Traits\WithDataTableResponse;
 
 class UploadController extends Controller
 {
+    use WithDataTableResponse;
+
     public function index()
     {
         $data = ['exts' => []];
         foreach (str2arr(sysconf('storage.allow_exts|raw')) as $ext) {
             $data['exts'][$ext] = Storage::mime($ext);
         }
+        $data['nameType'] = sysconf('storage.name_type|raw') ?: 'xmd5';
         return response(view('system::api.upload-js', $data)->render())->header('Content-Type', 'application/x-javascript');
     }
 
@@ -113,4 +117,11 @@ class UploadController extends Controller
         return boolval(request('safe', 0));
     }
 
+    public function image(File $file, Request $request)
+    {
+        return $this->page('system::api.upload.image', $file->newQuery()->where(['status' => 2, 'issafe' => 0])
+            ->searchLike('name')
+            ->searchIn('xext')
+        );
+    }
 }

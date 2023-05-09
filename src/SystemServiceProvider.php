@@ -163,7 +163,21 @@ class SystemServiceProvider extends PackageServiceProvider
 
             if ($value !== null && $value !== false) {
                 list($start, $end) = explode(' - ', str_replace('+-+', ' - ', $value));
-                $this->whereBetween($field, [$start, $end], $boolean);
+                $this->whereBetween($field, [$start, $end], $boolean, $not);
+            }
+            return $this;
+        });
+
+        Builder::macro('searchIn', function ($field, array|string $value = null, $boolean = 'and', $not = false): Builder {
+            if ($value === null) {
+                $value = Arr::get(\request()->get('_search', []), $field, false);
+            }
+
+            if ($value !== null && $value !== false) {
+                if (is_string($value)) {
+                    $value = explode(',', $value);
+                }
+                $this->whereIn($field, $value, $boolean, $not);
             }
             return $this;
         });
