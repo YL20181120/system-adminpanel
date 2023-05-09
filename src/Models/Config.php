@@ -13,6 +13,9 @@ class Config extends Model
 
     protected static string $cache_key = 'system_config';
 
+
+    protected $fillable = ['type', 'name', 'value'];
+
     public static function cache(): Collection
     {
         return Cache::rememberForever(self::$cache_key, function () {

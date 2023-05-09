@@ -49,7 +49,7 @@ class IndexController extends Controller
     protected function _userinfo_form_result($result, $model)
     {
         if ($model->wasChanged('lang')) {
-            $this->success(__('system::system.update_success'), route('system.index'));
+            $this->success(__('system::system.update_success'), 'javascript:location.reload()');
         }
     }
 

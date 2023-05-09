@@ -6,12 +6,14 @@ use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use System\Http\Controllers;
 
+
 Route::prefix(config('system.prefix', 'system'))->name('system.')
     ->middleware([
         'web',
-        \System\Http\Middleware\Locale::class,
         InitializeTenancyByDomain::class,
-        PreventAccessFromCentralDomains::class,])
+        PreventAccessFromCentralDomains::class,
+        System\Http\Middleware\Locale::class,
+    ])
     ->group(function (Router $router) {
         $router->get('captcha/{config?}', [Controllers\CaptchaController::class, 'captcha'])->name('captcha');
         $router->get('index.html', [Controllers\IndexController::class, 'index'])->name('index');
@@ -41,6 +43,8 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
             $router->post('upload/state', [Controllers\api\UploadController::class, 'state'])->name('upload.state');
             $router->post('upload/file', [Controllers\api\UploadController::class, 'file'])->name('upload.file');
             $router->post('upload/done', [Controllers\api\UploadController::class, 'done'])->name('upload.done');
+
+            $router->post('system/editor', [Controllers\api\SystemController::class, 'editor'])->name('system.editor');
         });
 
         $router->match(['get', 'post'], 'role', [Controllers\RoleController::class, 'index'])->name('role.index');
@@ -72,6 +76,8 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
 
         // Config
         $router->get('config/index', [Controllers\ConfigController::class, 'index'])->name('config.index');
+        $router->getOrPost('config/storage', [Controllers\ConfigController::class, 'storage'])->name('config.storage');
+        $router->getOrPost('config/system', [Controllers\ConfigController::class, 'system'])->name('config.system');
 
         $router->impersonate();
     });

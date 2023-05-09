@@ -70,6 +70,7 @@
                     <span class="padding-5">|</span><a target="_blank"
                                                        href="https://beian.miit.gov.cn/">{{ sysconf('miitbeian') }}</a>
                 @endif
+                <div>{{ tenant('name') }}</div>
             </div>
         </div>
     </x-slot:body>

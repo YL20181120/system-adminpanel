@@ -1,6 +1,6 @@
 <x-system::app-layout>
     <x-slot:script>
-        @if (sysconf('show_watermark', default: 'on') == 'on')
+        @if (sysconf('watermark', default: 'off') == 'on')
             <script>
                 require(['watermark'], function (Watermark) {
                     const user = @json(auth()->user());

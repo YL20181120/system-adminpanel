@@ -55,9 +55,8 @@ class SystemServiceProvider extends PackageServiceProvider
 
         \Illuminate\Support\Facades\Route::group([
             'namespace'  => 'Laravel\Fortify\Http\Controllers',
-            'domain'     => config('fortify.domain', null),
             'prefix'     => LaravelLocalization::setLocale() . '/' . config('fortify.prefix'),
-            'middleware' => [Locale::class, InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class,]
+            'middleware' => [InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class, Locale::class]
         ], function () {
             $this->loadRoutesFrom(base_path('vendor/laravel/fortify/routes/routes.php'));
         });

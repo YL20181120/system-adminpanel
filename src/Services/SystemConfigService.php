@@ -36,14 +36,16 @@ class SystemConfigService
         if (is_array($value)) {
             $count = 0;
             foreach ($value as $kk => $vv) {
-                $count += static::set("{$field}.{$kk}", $vv);
+                $count += static::set("$field.$kk", $vv);
             }
             return $count;
         } else {
             $map = ['type' => $type, 'name' => $field];
             $data = array_merge($map, ['value' => $value]);
             $query = Config::query()->where($map);
-            return $query->clone()->count() > 0 ? $query->update($data) : $query->insert($data);
+            $result = $query->clone()->count() > 0 ? $query->update($data) : $query->create($data);
+            Config::refreshCache();
+            return $result;
         }
     }
 

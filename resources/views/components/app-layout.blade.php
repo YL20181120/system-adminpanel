@@ -9,7 +9,7 @@
 
 <head>
     <title>
-        {{ $title }}
+        {{ $title }} {{ sysconf('site_name') }}
     </title>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit">
@@ -30,9 +30,8 @@
     {{ $style ?? '' }}
 </head>
 
-{{--// {$theme|default='default'}--}}
 <body
-    class="layui-layout-body layui-layout-theme-{{ !auth('system')->guest() ? auth('system')->user()->theme : 'default' }}">
+    class="layui-layout-body layui-layout-theme-{{ !auth('system')->guest() ? auth('system')->user()->theme : sysconf('site_theme', default: 'default') }}">
 
 @unless($body !== null)
     <div class="layui-layout layui-layout-admin layui-layout-left-hide">

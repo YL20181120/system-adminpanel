@@ -51,3 +51,11 @@ if (!function_exists('arr2str')) {
         return $separ . join($separ, $data) . $separ;
     }
 }
+
+if (!function_exists('system_route')) {
+    function system_route($name, $parameters = [], $absolute = true): string
+    {
+        $url = app('url')->route($name, $parameters, $absolute);
+        return urldecode($url);
+    }
+}
