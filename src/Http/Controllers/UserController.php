@@ -38,7 +38,10 @@ class UserController extends Controller
     public function create(User $user, CreatesNewUsers $creator, Request $request)
     {
         if (\request()->isMethod('post')) {
-            $creator->create($request->only('email', 'phone', 'username', 'description', 'headimg'));
+            /** @var User $user */
+            $user = $creator->create($request->only('email', 'phone', 'username', 'description', 'headimg'));
+            $roles = \request('roles', []);
+            $user->syncRoles($roles);
             $this->success('Created.', '');
         }
         return $this->form('system::user.form', $user);
@@ -47,7 +50,9 @@ class UserController extends Controller
     public function edit(User $user, UpdateUserProfileInformation $updater, Request $request)
     {
         if (\request()->isMethod('post')) {
-            $updater->update($user, $request->only('email', 'phone', 'username', 'description', 'haeaimg'));
+            $updater->update($user, $request->only('email', 'phone', 'username', 'description', 'headimg'));
+            $roles = \request('roles', []);
+            $user->syncRoles($roles);
             $this->success('Updated.', '');
         }
         return $this->form('system::user.form', $user);

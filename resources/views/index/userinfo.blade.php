@@ -10,7 +10,7 @@
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-xs2 text-center padding-top-15">
                     <input type="hidden" data-cut-width="500" data-cut-height="500" data-max-width="500"
-                           data-max-height="500" name="headimg" value="{$vo.headimg|default=''}">
+                           data-max-height="500" name="headimg" value="{{ $model->headimg ?? '' }}">
                     <script>$('[name=headimg]').uploadOneImage();</script>
                 </div>
                 <div class="layui-col-xs5">

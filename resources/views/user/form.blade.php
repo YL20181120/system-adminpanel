@@ -10,7 +10,7 @@
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-xs2 text-center padding-top-15">
                     <input type="hidden" data-cut-width="500" data-cut-height="500" data-max-width="500"
-                           data-max-height="500" name="headimg" value="{$vo.headimg|default=''}">
+                           data-max-height="500" name="headimg" value="{{ $model->headimg ?? '' }}">
                     <script>$('[name=headimg]').uploadOneImage();</script>
                 </div>
                 <div class="layui-col-xs5">
@@ -50,6 +50,20 @@
                 <span class="help-label"><b>用户描述</b>User Remark</span>
                 <textarea placeholder="请输入用户描述" class="layui-textarea"
                           name="description">{{ $model->description }}</textarea>
+            </label>
+        </fieldset>
+        <fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">用户权限</b></legend>
+            <label class="layui-form-item block relative margin-top-10">
+                <span class="help-label"><b>角色</b>Role</span>
+                <div class="layui-textarea help-checks">
+                    @foreach(\System\Models\Role::query()->where('guard_name', 'system')->pluck('name', 'id') as $k => $v)
+                        <label class="think-checkbox">
+                            <input type="checkbox" @checked($model->hasRole($k)) name="roles[]" value="{{ $k }}"
+                                   lay-ignore>{{ $v }}
+                        </label>
+                    @endforeach
+                </div>
             </label>
         </fieldset>
     </div>
