@@ -87,5 +87,13 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
         $router->getOrPost('config/system', [Controllers\ConfigController::class, 'system'])->name('config.system');
 
         $router->impersonate();
+
+        $router->get('test', function (\Faker\Generator $faker) {
+            $images = [];
+            for ($i = 0; $i < 5; $i++) {
+                $images[] = $faker->imageUrl(1024, 768);
+            }
+            return view('system::test', compact('images'));
+        });
     });
 

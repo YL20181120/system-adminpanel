@@ -58,7 +58,8 @@ require.config({
         'jquery.masonry': ['plugs/jquery/masonry.min'],
         'jquery.cropper': ['plugs/cropper/cropper.min'],
         'jquery.autocompleter': ['plugs/jquery/autocompleter.min'],
-        'watermark': ['plugs/watermark/watermark']
+        'watermark': ['plugs/watermark/watermark'],
+        'viewer': ['plugs/viewer/viewer.min'],
     }, shim: {
         'jszip': {deps: ['filesaver']},
         'excel': {deps: [baseRoot + 'plugs/layui_exts/excel.js']},
@@ -69,6 +70,7 @@ require.config({
         'vue.sortable': {deps: ['vue', 'sortablejs']},
         'jquery.ztree': {deps: ['jquery', 'css!' + baseRoot + 'plugs/ztree/zTreeStyle/zTreeStyle.css']},
         'jquery.autocompleter': {deps: ['jquery', 'css!' + baseRoot + 'plugs/jquery/autocompleter.css']},
+        'viewer': {deps: ['css!' + baseRoot + 'plugs/viewer/viewer.min.css']},
     }
 });
 
