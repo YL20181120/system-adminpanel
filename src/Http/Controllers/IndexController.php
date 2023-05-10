@@ -34,7 +34,7 @@ class IndexController extends Controller
 
     public function userinfo()
     {
-        return $this->form('system::index.userinfo', $this->user(), fillable: ['username', 'phone', 'description', 'lang'],
+        return $this->form('system::index.userinfo', $this->user(), fillable: ['username', 'phone', 'description', 'lang', 'headimg'],
             validators: [
                 'username'    => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
                 'description' => ['nullable', 'string', 'max:255'],

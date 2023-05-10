@@ -38,7 +38,7 @@ class UserController extends Controller
     public function create(User $user, CreatesNewUsers $creator, Request $request)
     {
         if (\request()->isMethod('post')) {
-            $creator->create($request->only('email', 'phone', 'username', 'description'));
+            $creator->create($request->only('email', 'phone', 'username', 'description', 'headimg'));
             $this->success('Created.', '');
         }
         return $this->form('system::user.form', $user);
@@ -47,7 +47,7 @@ class UserController extends Controller
     public function edit(User $user, UpdateUserProfileInformation $updater, Request $request)
     {
         if (\request()->isMethod('post')) {
-            $updater->update($user, $request->only('email', 'phone', 'username', 'description'));
+            $updater->update($user, $request->only('email', 'phone', 'username', 'description', 'haeaimg'));
             $this->success('Updated.', '');
         }
         return $this->form('system::user.form', $user);

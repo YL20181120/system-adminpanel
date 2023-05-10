@@ -2,6 +2,7 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
+use Stancl\Tenancy\Features\UserImpersonation;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use System\Http\Controllers;
@@ -15,6 +16,11 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
         System\Http\Middleware\Locale::class,
     ])
     ->group(function (Router $router) {
+
+        $router->get('central/impersonate/{token}', function ($token) {
+            return UserImpersonation::makeResponse($token);
+        })->name('central.impersonate');
+
         $router->get('captcha/{config?}', [Controllers\CaptchaController::class, 'captcha'])->name('captcha');
         $router->get('index.html', [Controllers\IndexController::class, 'index'])->name('index');
         $router->match(['get', 'post'], 'theme.html', [Controllers\IndexController::class, 'theme'])->name('theme');

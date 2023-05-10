@@ -51,6 +51,7 @@
                                 class="layui-icon layui-icon-release"></i> 退出登录</a></dd>
                 </dl>
                 <a class="layui-elip" style="min-width: 132px;text-align: center">
+                    <span class="headimg" data-lazy-src="{{ auth()->user()->headimg ?? '' }}"></span>
                     <span>{{ auth()->user()->username ?? '' }}</span>
                 </a>
             </li>

@@ -127,6 +127,9 @@ trait WithDataTableResponse
         if ($builder instanceof Model) {
             $builder = $builder::query();
         }
+        dd($builder->whereIn('id', $ids)
+            ->where($where)
+            ->select(['id'])->get());
         foreach ($builder->whereIn('id', $ids)
                      ->where($where)
                      ->select(['id'])
