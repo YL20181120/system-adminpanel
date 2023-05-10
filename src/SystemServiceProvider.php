@@ -6,6 +6,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -120,6 +121,11 @@ class SystemServiceProvider extends PackageServiceProvider
             Log::info('Leave Impersonated:', [$event->impersonator->getAuthIdentifier(), $event->impersonated->getAuthIdentifier()]);
         });
 
+        Gate::before(function (User $user, $ability) {
+            if ($user->hasRole('Administrator')) {
+                return true;
+            }
+        });
 
         return parent::boot();
     }

@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return true;
     }
+
+    public function isAdministrator(): bool
+    {
+        return $this->hasRole('Administrator');
+    }
 }
