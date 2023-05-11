@@ -21,6 +21,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use System\Http\Middleware\Locale;
+use System\Http\Middleware\SystemPermissionChecker;
 use System\Models\User;
 use System\Traits\WithHttpResponse;
 use System\View\Components\AppLayout;
@@ -127,7 +128,20 @@ class SystemServiceProvider extends PackageServiceProvider
             }
         });
 
+        $this->registerMiddlewareGroup();
+
         return parent::boot();
+    }
+
+    protected function registerMiddlewareGroup()
+    {
+        $middlewares = [
+            InitializeTenancyByDomain::class,
+            PreventAccessFromCentralDomains::class,
+            SystemPermissionChecker::class,
+            Locale::class
+        ];
+        $this->app['router']->middlewareGroup('system', $middlewares);
     }
 
     protected function bootMacro()
@@ -197,6 +211,15 @@ class SystemServiceProvider extends PackageServiceProvider
 
         Router::macro('getOrPost', function ($uri, $action = null): Route {
             return $this->match(['get', 'post'], $uri, $action);
+        });
+
+        Router::macro('system', function ($name, $controller) {
+            $this->get($name, [$controller, 'index'])->name($name . '.index');
+            $this->delete($name . '/destroy', [$controller, 'destroy'])->name($name . '.destroy');
+            $this->get("$name/create", [$controller, 'createOrUpdate'])->name($name . '.create');
+            $this->post($name, [$controller, 'createOrUpdate'])->name($name . '.store');
+            $this->get(sprintf("%s/{%s}", $name, $name), [$controller, 'createOrUpdate'])->name($name . '.edit');
+            $this->post(sprintf("%s/{%s}", $name, $name), [$controller, 'createOrUpdate'])->name($name . '.update');
         });
     }
 }

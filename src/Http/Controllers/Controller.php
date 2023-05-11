@@ -17,6 +17,8 @@ class Controller extends BaseController
 
     public array $except = [];
 
+    public array $exceptPermissions = [];
+
     public function __construct()
     {
         $this->middleware(['auth:system'])->except($this->except);

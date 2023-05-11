@@ -62,9 +62,9 @@
         node.id = 'passwordForm'
         node.style.display = 'none'
         node.innerHTML = `
-<form action="" method="post" data-auto="true" class="layui-form layui-card"
-          >
-
+<form action="{{ route('system.session.destroy') }}" method="post" data-auto="true" class="layui-form layui-card"
+          onsubmit="return false;">
+        <input name="_method" value="delete" type="hidden"/>
         <div class="layui-card-body">
             <div class="layui-form-item">
     <label class="layui-form-label">Password</label>
@@ -83,25 +83,20 @@
 
         <div class="layui-form-item text-center">
             <button class="layui-btn" type='submit'>Confirm</button>
-        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>
-Cancel
-        </button>
         </div>
     </form>
         `
+        $('#passwordForm').remove()
         document.body.appendChild(node)
+        $.form.reInit($('#passwordForm'))
     });
 
     function logout() {
-        layer.open({
+        let idx = layer.open({
             type: 1,
             content: $('#passwordForm')
         })
-        {{--layer.prompt({title: 'Password Confirm', formType: 1}, function (password, index) {--}}
-        {{--    $.form.load('{{ route('system.session.destroy') }}', {--}}
-        {{--        '_method': 'delete',--}}
-        {{--        password: password--}}
-        {{--    }, 'post');--}}
-        {{--})--}}
+        $.msg.closeLastModal()
+        $.msg.mdx.push(idx)
     }
 </script>

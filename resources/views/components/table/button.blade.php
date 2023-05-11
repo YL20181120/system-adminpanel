@@ -1,6 +1,6 @@
 @props([
     'type' => 'primary',
-    'auth' => '', // todo check auth
 ])
-
-<button {{ $attributes->merge(['class' => 'layui-btn layui-btn-sm layui-btn-' . $type]) }}>{{ $slot->isEmpty() ? 'Button' : $slot }}</button>
+@if(\System\System::check_system_permission(auth('system')->user(), $attributes))
+    <button {{ $attributes->merge(['class' => 'layui-btn layui-btn-sm layui-btn-' . $type]) }}>{{ $slot->isEmpty() ? 'Button' : $slot }}</button>
+@endif

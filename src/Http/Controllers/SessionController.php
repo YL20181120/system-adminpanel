@@ -2,6 +2,7 @@
 
 namespace System\Http\Controllers;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -65,6 +66,7 @@ class SessionController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \Illuminate\Contracts\Auth\StatefulGuard $guard
      * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthenticationException
      */
     public function destroy(Request $request, StatefulGuard $guard)
     {

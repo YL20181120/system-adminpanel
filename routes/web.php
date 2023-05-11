@@ -3,17 +3,13 @@
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Features\UserImpersonation;
-use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
-use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use System\Http\Controllers;
 
 
 Route::prefix(config('system.prefix', 'system'))->name('system.')
     ->middleware([
         'web',
-        InitializeTenancyByDomain::class,
-        PreventAccessFromCentralDomains::class,
-        System\Http\Middleware\Locale::class,
+        'system'
     ])
     ->group(function (Router $router) {
 
@@ -23,10 +19,10 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
 
         $router->get('captcha/{config?}', [Controllers\CaptchaController::class, 'captcha'])->name('captcha');
         $router->get('index.html', [Controllers\IndexController::class, 'index'])->name('index');
-        $router->match(['get', 'post'], 'theme.html', [Controllers\IndexController::class, 'theme'])->name('theme');
-        $router->match(['get', 'post'], 'userinfo.html', [Controllers\IndexController::class, 'userinfo'])->name('userinfo');
-        $router->match(['get', 'post'], 'password.html', [Controllers\IndexController::class, 'password'])->name('password');
-        $router->match(['get', 'post'], 'two-factor-auth.html', [Controllers\IndexController::class, 'twoFactorAuth'])->name('two-factor-auth');
+        $router->match(['get', 'post'], 'index/theme.html', [Controllers\IndexController::class, 'theme'])->name('theme');
+        $router->match(['get', 'post'], 'index/userinfo.html', [Controllers\IndexController::class, 'userinfo'])->name('userinfo');
+        $router->match(['get', 'post'], 'index/password.html', [Controllers\IndexController::class, 'password'])->name('password');
+        $router->match(['get', 'post'], 'index/two-factor-auth.html', [Controllers\IndexController::class, 'twoFactorAuth'])->name('two-factor-auth');
         // Sessions
         $router->get('sessions', [Controllers\SessionController::class, 'sessions'])->name('sessions');
         $router->delete('sessions/other-browser-sessions', [Controllers\SessionController::class, 'destroy'])->name('session.destroy');
@@ -54,17 +50,21 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
             $router->post('system/editor', [Controllers\api\SystemController::class, 'editor'])->name('system.editor');
         });
 
-        $router->match(['get', 'post'], 'role', [Controllers\RoleController::class, 'index'])->name('role.index');
-        $router->delete('role', [Controllers\RoleController::class, 'destroy'])->name('role.destroy');
+        $router->get('role', [Controllers\RoleController::class, 'index'])->name('role.index');
+        $router->delete('role/destroy', [Controllers\RoleController::class, 'destroy'])->name('role.destroy');
 
         $router->get('role/create', [Controllers\RoleController::class, 'createOrUpdate'])->name('role.create');
         $router->post('role', [Controllers\RoleController::class, 'createOrUpdate'])->name('role.store');
         $router->get('role/{role}', [Controllers\RoleController::class, 'createOrUpdate'])->name('role.edit');
         $router->post('role/{role}', [Controllers\RoleController::class, 'createOrUpdate'])->name('role.update');
+        $router->getOrPost('role/{role}/apply', [Controllers\RoleController::class, 'apply'])->name('role.apply');
+
+
+        $router->system('permission', Controllers\PermissionController::class);
 
 
         $router->match(['get', 'post'], 'menu', [Controllers\MenuController::class, 'index'])->name('menu.index');
-        $router->delete('menu', [Controllers\MenuController::class, 'destroy'])->name('menu.destroy');
+        $router->delete('menu/destroy', [Controllers\MenuController::class, 'destroy'])->name('menu.destroy');
         $router->post('menu/state', [Controllers\MenuController::class, 'state'])->name('menu.state');
 
         $router->get('menu/create', [Controllers\MenuController::class, 'createOrUpdate'])->name('menu.create');
@@ -74,7 +74,7 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
 
         $router->get('user', [Controllers\UserController::class, 'index'])->name('user.index');
         $router->post('user/state', [Controllers\UserController::class, 'state'])->name('user.state');
-        $router->delete('user', [Controllers\UserController::class, 'destroy'])->name('user.destroy');
+        $router->delete('user/destroy', [Controllers\UserController::class, 'destroy'])->name('user.destroy');
         $router->match(['get', 'post'], 'user/{user}/password', [Controllers\UserController::class, 'password'])->name('user.password');
         $router->match(['get', 'post'], 'user/create', [Controllers\UserController::class, 'create'])->name('user.create');
         $router->match(['get', 'post'], 'user/{user}/edit', [Controllers\UserController::class, 'edit'])->name('user.edit');

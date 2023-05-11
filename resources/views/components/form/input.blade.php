@@ -10,6 +10,7 @@
     'onblur' => 'void(0)',
     'disabled' => false,
     'pattern' => '',
+    'id' => ''
 ])
 <div class="layui-form-item">
     <label class="layui-form-label">{{ $label }}</label>
@@ -21,6 +22,7 @@
                @disabled($disabled)
                pattern="{{ $pattern }}"
                onblur="{{ $onblur }}"
+               id="{{ $id }}"
             @class(['layui-input','layui-bg-gray' => $disabled])
         >
         <p class="help-block">

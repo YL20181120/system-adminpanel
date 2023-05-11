@@ -18,30 +18,27 @@
         @endforeach
     </ul>
     <ul class="layui-nav layui-layout-right">
-        <li lay-unselect class="layui-nav-item">
-            <div
-                style="color: black">{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getCurrentLocaleNative() }}</div>
-        </li>
+        @if (app()->environment('local'))
+            <li lay-unselect class="layui-nav-item">
+                <div
+                    style="color: black">{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getCurrentLocaleNative() }}</div>
+            </li>
+        @endif
+
         <li lay-unselect class="layui-nav-item"><a data-reload><i class="layui-icon layui-icon-refresh-3"></i></a></li>
         @auth
             <li class="layui-nav-item">
                 <dl class="layui-nav-child">
                     <dd lay-unselect><a data-modal="{{ route('system.userinfo') }}"><i
-                                class="layui-icon layui-icon-set-fill"></i> 基本资料</a></dd>
+                                class="layui-icon layui-icon-set-fill"></i>基本资料</a></dd>
                     <dd lay-unselect><a data-modal="{{ route('system.password') }}"><i
-                                class="layui-icon layui-icon-component"></i> 安全设置</a></dd>
+                                class="layui-icon layui-icon-component"></i>安全设置</a></dd>
                     <dd lay-unselect><a data-modal="{{ route('system.sessions') }}"><i
                                 class="layui-icon layui-icon-component"></i>Sessions</a></dd>
                     <dd lay-unselect><a data-modal="{{ route('system.two-factor-auth') }}"><i
-                                class="layui-icon layui-icon-component"></i> 两步验证</a></dd>
+                                class="layui-icon layui-icon-component"></i>两步验证</a></dd>
                     <dd lay-unselect><a data-open="{{ route('system.api-token.index',absolute: false) }}"><i
-                                class="layui-icon layui-icon-component"></i>Api Tokens</a></dd>
-                    {{--                    {if isset($super) and $super}--}}
-                    {{--                    <dd lay-unselect><a data-load="{:sysuri('admin/api.system/push')}"><i--}}
-                    {{--                                class="layui-icon layui-icon-template-1"></i> 缓存加速</a></dd>--}}
-                    {{--                    <dd lay-unselect><a data-load="{:sysuri('admin/api.system/clear')}"><i--}}
-                    {{--                                class="layui-icon layui-icon-fonts-clear"></i> 清理缓存</a></dd>--}}
-                    {{--                    {/if}--}}
+                                class="layui-icon layui-icon-component"></i>Tokens</a></dd>
                     <dd lay-unselect><a data-width="520px" data-modal="{{ route('system.theme') }}"><i
                                 class="layui-icon layui-icon-theme"></i> 配色方案</a></dd>
                     <dd lay-unselect><a
