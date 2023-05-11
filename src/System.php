@@ -54,6 +54,9 @@ class System
 
     public static function check_system_permission($user, ComponentAttributeBag|array $attributes = [])
     {
+        if ($user->hasAnyRole('Administrator')) {
+            return true;
+        }
         $url = self::get_permission_from_component($attributes);
         $permissions = app(PermissionRegistrar::class)->getPermissions()->where('guard_name', 'system');
         $permission = $permissions->first(function (Permission $permission) use ($url) {
