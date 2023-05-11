@@ -133,6 +133,35 @@ class SystemServiceProvider extends PackageServiceProvider
         return parent::boot();
     }
 
+    public function bootingPackage()
+    {
+        $this->registerAuthGuardsAndProviders();
+    }
+
+    protected function registerAuthGuardsAndProviders()
+    {
+        config(
+            Arr::dot([
+                'guards' => [
+                    'system'     => [
+                        'driver'   => 'session',
+                        'provider' => 'system'
+                    ],
+                    'system-api' => [
+                        'driver'   => 'sanctum',
+                        'provider' => 'system'
+                    ],
+                ],
+
+                'providers' => [
+                    'system' => [
+                        'driver' => 'eloquent',
+                        'model'  => User::class
+                    ],
+                ],
+            ], 'auth.'));
+    }
+
     protected function registerMiddlewareGroup()
     {
         $middlewares = [
