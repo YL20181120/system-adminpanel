@@ -36,7 +36,7 @@ class SystemServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('system')
-            ->hasConfigFile(['system', 'laravellocalization'])
+            ->hasConfigFile(['system', 'laravellocalization', 'laravel-impersonate', 'permission', 'translatable'])
             ->hasViews()
             ->hasAssets()
             ->hasTranslations()
