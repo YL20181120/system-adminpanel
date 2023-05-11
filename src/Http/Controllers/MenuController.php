@@ -3,6 +3,7 @@
 namespace System\Http\Controllers;
 
 
+use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Http\Request;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -80,12 +81,16 @@ class MenuController extends Controller
             'system::menu.form',
             $menu,
             [],
-            ['title', 'url', 'params', 'icon', 'pid'],
-            [
-                'title'  => 'required|max:255',
-                'url'    => 'required|max:400',
-                'params' => 'nullable|max:500'
-            ]
+            ['title', 'url', 'params', 'icon', 'pid', ...config('translatable.locales')],
+            array_merge(
+                [
+                    'url'    => 'required|max:400',
+                    'params' => 'nullable|max:500'
+                ],
+                RuleFactory::make([
+                    '%title%' => 'required|string|max:255',
+                ])
+            )
         );
     }
 

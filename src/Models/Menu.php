@@ -2,6 +2,7 @@
 
 namespace System\Models;
 
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 use Stancl\Tenancy\Database\Concerns\TenantConnection;
@@ -22,4 +23,8 @@ class Menu extends Model
         = [
             'params' => ''
         ];
+
+    use Translatable;
+
+    public $translatedAttributes = ['title'];
 }

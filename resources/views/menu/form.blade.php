@@ -4,10 +4,11 @@
     <x-system::form.select :options="$menus" name="pid" label="上级菜单"
                            :value="$model->pid"/>
 
-    <x-system::form.input label="菜单名称" name="title" :required="true"
-                          placeholder="请输入菜单名称" :value="$model->title">
-        <x-slot:help><b>必选</b>，请填写菜单名称 ( 如：系统管理 )，建议字符不要太长，一般 4-6 个汉字</x-slot:help>
-    </x-system::form.input>
+    <x-system::form.translation-input label="菜单名称" name="title" :model="$model">
+        <x-slot:help>
+            <b>必选</b>，请填写菜单名称 ( 如：系统管理 )，建议字符不要太长，一般 4-6 个汉字
+        </x-slot:help>
+    </x-system::form.translation-input>
 
     <x-system::form.input label="菜单链接" name="url" :required="true"
                           placeholder="请输入菜单链接" :value="$model->url"

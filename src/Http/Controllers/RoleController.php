@@ -3,6 +3,7 @@
 namespace System\Http\Controllers;
 
 
+use Astrotomic\Translatable\Validation\RuleFactory;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use System\Models\Role;
@@ -34,10 +35,24 @@ class RoleController extends Controller
         return $this->form(
             'system::role.form',
             $role, [],
-            ['guard_name', 'name'],
-            [
+            ['guard_name', 'name', ...config('translatable.locales')],
+            array_merge([
                 'guard_name' => 'required|in:system,user',
-                'name'       => 'required|max:255'
-            ]);
+            ], RuleFactory::make([
+                '%name%' => 'required|string|max:255',
+            ]))
+        );
+    }
+
+    protected function _form_filter(Role $role, &$data)
+    {
+        if (\request()->isPost()) {
+            $data['name'] = $role->fill($data)->translate('en')?->name;
+        }
+    }
+
+    protected function _form_result($result, Role $model)
+    {
+        \Spatie\Permission\Models\Role::where(['id' => $model->id])->update(['name' => $model->translate($model->getDefaultLocale())?->name]);
     }
 }
