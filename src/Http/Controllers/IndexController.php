@@ -5,7 +5,6 @@ namespace System\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rule;
-use Jenssegers\Agent\Agent;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use System\Models\User;

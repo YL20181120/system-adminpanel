@@ -1,9 +1,5 @@
 <?php
 
-use Illuminate\Support\Str;
-use Illuminate\View\ComponentAttributeBag;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\PermissionRegistrar;
 use System\Services\SystemConfigService;
 
 if (!function_exists('sysconf')) {

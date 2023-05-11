@@ -4,6 +4,7 @@ namespace System;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
@@ -27,7 +28,6 @@ use System\Traits\WithHttpResponse;
 use System\View\Components\AppLayout;
 use System\View\Components\Main;
 use System\View\Components\Table;
-use Illuminate\Routing\Route;
 
 class SystemServiceProvider extends PackageServiceProvider
 {
