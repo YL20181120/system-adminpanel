@@ -178,6 +178,6 @@ class CurrencyService
 
     public static function currency()
     {
-        return self::$currency[sysconf('base.currency')];
+        return self::$currency[sysconf('base.currency', default: 'USD')];
     }
 }
