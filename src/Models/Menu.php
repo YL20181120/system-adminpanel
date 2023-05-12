@@ -17,7 +17,7 @@ class Menu extends Model
 
     protected $guarded = ['id'];
 
-    protected $guard_name = 'system';
+    protected string $guard_name = 'system';
 
     protected $attributes
         = [
@@ -26,5 +26,5 @@ class Menu extends Model
 
     use Translatable;
 
-    public $translatedAttributes = ['title'];
+    public array $translatedAttributes = ['title'];
 }

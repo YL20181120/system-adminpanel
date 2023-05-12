@@ -4,7 +4,7 @@ namespace System\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use System\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use System\Models\User;
 use System\Traits\WithHttpResponse;
 
@@ -15,7 +15,7 @@ class SystemPermissionChecker
     public array $except
         = [
             'system/login*', 'system/index*', 'system/logout', 'system/api*',
-            'api/*', 'horizon/*', '_ignition/*', 'docs/*'
+            'api/*', 'horizon/*', '_ignition/*', 'docs/*', 'system/impersonate/leave'
         ];
 
     /**
@@ -32,11 +32,15 @@ class SystemPermissionChecker
         }
         /** @var User $user */
         $user = auth('system')->user();
-        /** @var Controller $controller */
-        $controller = $request->route()->getController();
-        if (in_array($request->route()->getActionMethod(), $controller->exceptPermissions ?? [])) {
-            return $next($request);
+        if ($request->route()->controller !== null) {
+            /** @var Controller $controller */
+            $controller = $request->route()->getController();
+
+            if ($controller instanceof Controller && in_array($request->route()->getActionMethod(), $controller->exceptPermissions ?? [])) {
+                return $next($request);
+            }
         }
+
 
         if ($user->can(preg_replace('/\{[\s\S]*?\}/i', '*', $request->route()->uri()))) {
             return $next($request);
@@ -49,6 +53,10 @@ class SystemPermissionChecker
         }
     }
 
+    /**
+     * @param Request $request
+     * @return bool
+     */
     protected function inExceptArray($request)
     {
         foreach ($this->except as $except) {

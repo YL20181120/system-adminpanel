@@ -26,7 +26,7 @@ class IndexController extends Controller
 
     public function theme()
     {
-        return $this->form('system::index.theme', auth()->user(), [
+        return $this->form('system::index.theme', $this->user(), [
             'themes' => ConfigController::themes
         ], fillable: ['theme']);
     }

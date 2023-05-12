@@ -2,22 +2,25 @@
 
 namespace System\Services;
 
+use Illuminate\Support\Facades\App;
 use System\Models\Menu;
 use System\Models\User;
 
 class SystemMenuService
 {
-    public static function getList()
-    {
-
-    }
-
     public static function getTree(): array
     {
-        $menus = Menu::query()->where(['status' => 1])->orderByRaw('sort desc, id asc')
-            ->with('roles')
-            ->get()->toArray();
-        return static::filter(TreeService::arr2tree($menus));
+        $menus = Menu::query()
+            ->where(['status' => 1])
+            ->orderByRaw('sort desc, id asc')
+            ->with('roles', 'translations')
+            ->get()
+            ->transform(function (Menu $menu) {
+                $item = $menu->toArray();
+                $item['title'] = $menu->translate(App::getLocale())?->title;
+                return $item;
+            });
+        return static::filter(TreeService::arr2tree($menus->toArray()));
     }
 
     private static function filter(array $menus): array
@@ -37,7 +40,7 @@ class SystemMenuService
             } elseif (empty($menu['url']) || $menu['url'] === '#' || !(empty($menu['node']) || $unset)) {
                 unset($menus[$key]);
             } elseif (preg_match('#^(https?:)?//\w+#i', $menu['url'])) {
-                if ($menu['params']) $menu['url'] .= (strpos($menu['url'], '?') === false ? '?' : '&') . $menu['params'];
+                if ($menu['params']) $menu['url'] .= (!str_contains($menu['url'], '?') ? '?' : '&') . $menu['params'];
             } else {
                 $menu['url'] = url('/system/index.html#/' . $menu['url']) . (empty($menu['params']) ? '' : "?{$menu['params']}");
                 if ($unset) unset($menus[$key]);
