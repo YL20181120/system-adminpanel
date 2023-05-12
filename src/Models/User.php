@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\WhatsAPP\Traits\UserWithWhatsAppRelation;
 use Spatie\Permission\Traits\HasRoles;
 use System\Traits\HasDatetimeFormatter;
 
@@ -21,8 +20,6 @@ class User extends Authenticatable
     use SoftDeletes;
 
     use HasApiTokens;
-
-    use UserWithWhatsAppRelation;
 
     use Impersonate;
 

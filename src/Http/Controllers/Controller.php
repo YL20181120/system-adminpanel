@@ -24,6 +24,9 @@ class Controller extends BaseController
         $this->middleware(['auth:system'])->except($this->except);
     }
 
+    /**
+     * @return User
+     */
     public function user(): User
     {
         return auth('system')->user();

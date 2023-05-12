@@ -164,7 +164,7 @@ class SystemServiceProvider extends PackageServiceProvider
                 'providers' => [
                     'system' => [
                         'driver' => 'eloquent',
-                        'model'  => User::class
+                        'model'  => config('system.model') ?? User::class
                     ],
                 ],
             ], 'auth.'));
