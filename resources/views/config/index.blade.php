@@ -184,18 +184,20 @@
                         {{ phpversion() }}
                     </td>
                 </tr>
-                <tr>
-                    <th class="nowrap text-center">Tenant ID</th>
-                    <td>
-                        {{ tenant('id') }}
-                    </td>
-                </tr>
-                <tr>
-                    <th class="nowrap text-center">Tenant Name</th>
-                    <td>
-                        {{ tenant('name') }}
-                    </td>
-                </tr>
+                @if (class_exists(\Stancl\Tenancy\Tenancy::class))
+                    <tr>
+                        <th class="nowrap text-center">Tenant ID</th>
+                        <td>
+                            {{ tenant('id') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="nowrap text-center">Tenant Name</th>
+                        <td>
+                            {{ tenant('name') }}
+                        </td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
         </div>
