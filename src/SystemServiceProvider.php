@@ -165,11 +165,17 @@ class SystemServiceProvider extends PackageServiceProvider
     protected function registerMiddlewareGroup()
     {
         $middlewares = [
-            InitializeTenancyByDomain::class,
-            PreventAccessFromCentralDomains::class,
             SystemPermissionChecker::class,
             Locale::class
         ];
+
+        if (class_exists(InitializeTenancyByDomain::class)) {
+            $middlewares[] = InitializeTenancyByDomain::class;
+        }
+        if (class_exists(PreventAccessFromCentralDomains::class)) {
+            $middlewares[] = PreventAccessFromCentralDomains::class;
+        }
+
         $this->app['router']->middlewareGroup('system', $middlewares);
     }
 
