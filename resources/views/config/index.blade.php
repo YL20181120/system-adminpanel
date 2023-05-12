@@ -60,7 +60,7 @@
             <div class="layui-btn-group shadow-mini nowrap">
                 @foreach(['local'=>'本地服务器存储'] as $k => $v)
                     <a data-title="配置{{$v}}" data-modal="{{ route('system.config.storage', ['type' => $k]) }}"
-                       class="layui-btn layui-btn-sm" @class(['layui-btn-active' => sysconf('storage.type') == $k])>{{$v}}</a>
+                        @class(["layui-btn layui-btn-sm", 'layui-btn-active' => sysconf('storage.type') == $k])>{{$v}}</a>
                 @endforeach
             </div>
             <div class="margin-top-20 nowrap full-width pull-left">
