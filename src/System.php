@@ -54,7 +54,7 @@ class System
 
     public static function check_system_permission($user, ComponentAttributeBag|array $attributes = [])
     {
-        if (in_array(request()->getHost(), config('tenancy.central_domains'))) {
+        if (in_array(request()->getHost(), config('tenancy.central_domains', []))) {
             return true;
         }
 
