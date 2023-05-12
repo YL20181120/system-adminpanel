@@ -19,8 +19,6 @@ use Laravel\Fortify\Fortify;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
-use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use System\Http\Middleware\Locale;
 use System\Http\Middleware\SystemPermissionChecker;
 use System\Models\User;
@@ -168,12 +166,11 @@ class SystemServiceProvider extends PackageServiceProvider
             SystemPermissionChecker::class,
             Locale::class
         ];
-
-        if (class_exists(InitializeTenancyByDomain::class)) {
-            $middlewares[] = InitializeTenancyByDomain::class;
+        if (class_exists(\Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class)) {
+            $middlewares[] = \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class;
         }
-        if (class_exists(PreventAccessFromCentralDomains::class)) {
-            $middlewares[] = PreventAccessFromCentralDomains::class;
+        if (class_exists(\Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class)) {
+            $middlewares[] = \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class;
         }
 
         $this->app['router']->middlewareGroup('system', $middlewares);
