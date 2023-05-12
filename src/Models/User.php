@@ -25,6 +25,8 @@ class User extends Authenticatable
 
     protected $table = 'system_users';
 
+    public string $guard_name = 'system';
+
     protected $fillable = ['email', 'email_verified_at', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at', 'username', 'phone', 'last_login_at', 'last_login_ip', 'ban_at', 'description', 'theme', 'lang', 'headimg'];
 
     protected $hidden

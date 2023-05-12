@@ -27,7 +27,7 @@ class SystemPermissionChecker
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->inExceptArray($request)) {
+        if ($this->inExceptArray($request) || auth('system')->guest()) {
             return $next($request);
         }
         /** @var User $user */
