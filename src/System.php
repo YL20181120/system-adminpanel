@@ -54,17 +54,25 @@ class System
 
     public static function check_system_permission($user, ComponentAttributeBag|array $attributes = [])
     {
-        if ($user->hasAnyRole('Administrator')) {
+        if (in_array(request()->getHost(), config('tenancy.central_domains'))) {
             return true;
         }
-        $url = self::get_permission_from_component($attributes);
-        $permissions = app(PermissionRegistrar::class)->getPermissions()->where('guard_name', 'system');
-        $permission = $permissions->first(function (Permission $permission) use ($url) {
-            return Str::is($permission->name, $url);
-        });
-        if ($permission) {
-            return $user->can($permission->name);
+
+        if ($user != null && method_exists($user, 'hasAnyRole') && $user->hasAnyRole('Administrator')) {
+            return true;
         }
+
+        if ($user != null) {
+            $url = self::get_permission_from_component($attributes);
+            $permissions = app(PermissionRegistrar::class)->getPermissions()->where('guard_name', 'system');
+            $permission = $permissions->first(function (Permission $permission) use ($url) {
+                return Str::is($permission->name, $url);
+            });
+            if ($permission) {
+                return $user->can($permission->name);
+            }
+        }
+
         return false;
     }
 }
