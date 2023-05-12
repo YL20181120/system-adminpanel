@@ -53,10 +53,20 @@ class SystemServiceProvider extends PackageServiceProvider
          */
         Fortify::ignoreRoutes();
 
+        $middlewares = [
+            Locale::class
+        ];
+        if (class_exists(\Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class)) {
+            $middlewares[] = \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class;
+        }
+        if (class_exists(\Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class)) {
+            $middlewares[] = \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class;
+        }
+
         \Illuminate\Support\Facades\Route::group([
             'namespace'  => 'Laravel\Fortify\Http\Controllers',
             'prefix'     => LaravelLocalization::setLocale() . '/' . config('fortify.prefix'),
-            'middleware' => [InitializeTenancyByDomain::class, PreventAccessFromCentralDomains::class, Locale::class]
+            'middleware' => $middlewares
         ], function () {
             $this->loadRoutesFrom(base_path('vendor/laravel/fortify/routes/routes.php'));
         });
