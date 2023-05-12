@@ -18,13 +18,6 @@
         @endforeach
     </ul>
     <ul class="layui-nav layui-layout-right">
-        @if (app()->environment('local'))
-            <li lay-unselect class="layui-nav-item">
-                <div
-                    style="color: black">{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getCurrentLocaleNative() }}</div>
-            </li>
-        @endif
-
         <li lay-unselect class="layui-nav-item"><a data-reload><i class="layui-icon layui-icon-refresh-3"></i></a></li>
         @auth
             <li class="layui-nav-item">
