@@ -1,6 +1,12 @@
 define(['md5', 'notify'], function (SparkMD5, Notify, allowMime) {
     allowMime = @json($exts);
-
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
     function UploadAdapter(elem, done) {
         return new (function (elem, done, that) {
 
@@ -109,7 +115,9 @@ define(['md5', 'notify'], function (SparkMD5, Notify, allowMime) {
         var that = this, data = {key: file.xkey, safe: that.option.safe, uptype: that.option.type};
         data.size = file.size, data.name = file.name, data.hash = file.xmd5, data.mime = file.type, data.xext = file.xext;
         jQuery.ajax("{{ route('system.upload.state') }}", {
-            data: data, method: 'post', success: function (ret) {
+            data: data, method: 'post',
+            headers: {'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')},
+            success: function (ret) {
                 file.id = ret.data.id || 0, file.xurl = ret.data.url;
                 file.xsafe = ret.data.safe, file.xpath = ret.data.key, file.xtype = ret.data.uptype;
                 if (parseInt(ret.code) === 404) {
@@ -145,7 +153,7 @@ define(['md5', 'notify'], function (SparkMD5, Notify, allowMime) {
                         uploader.form.append('Content-Disposition', 'inline;filename=' + encodeURIComponent(file.name));
                     }
                     uploader.form.append('file', file, file.name), jQuery.ajax({
-                        url: uploader.url, data: uploader.form, type: 'post', xhr: function (xhr) {
+                        url: uploader.url, headers: {'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')}, data: uploader.form, type: 'post', xhr: function (xhr) {
                             xhr = new XMLHttpRequest();
                             return xhr.upload.addEventListener('progress', function (event) {
                                 file.xtotal = event.total, file.xloaded = event.loaded || 0;
@@ -192,7 +200,7 @@ define(['md5', 'notify'], function (SparkMD5, Notify, allowMime) {
         /*! 检查单个文件上传返回的结果 */
         if (ret.code < 1) return $.msg.tips(ret.info || '文件上传失败！');
         if (typeof file.xurl !== 'string') return $.msg.tips('无效的文件上传对象！');
-        jQuery.post("{{ route('system.upload.done') }}", {id: file.id, hash: file.xmd5});
+        jQuery.ajax("{{ route('system.upload.done') }}", {data: {id: file.id, hash: file.xmd5}, method: 'post', headers: {'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')},});
         /*! 单个文件上传成功结果处理 */
         if (typeof done === 'function') {
             done.call(this.option.elem, file.xurl, this.files['id']);

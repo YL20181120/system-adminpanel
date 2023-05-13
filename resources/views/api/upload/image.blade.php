@@ -11,8 +11,8 @@
     </div>
     <div class="image-dialog-body">
         <div class="image-dialog-item" v-for="item in list" @click="setItem(x)" style="display:none" v-show="show"
-             :class="{'image-dialog-checked':item.checked}">
-            <div class="uploadimage" :style="item.style"></div>
+             v-bind:class="{'image-dialog-checked':item.checked}">
+            <div class="uploadimage" v-bind:style="item.style"></div>
             <p class="image-dialog-item-name layui-elip" v-text="item.name"></p>
             <span class="image-dialog-item-size">@{{formatSize(item.size)}}</span>
             <span class="image-dialog-item-type">@{{item.xext.toUpperCase()}}</span>

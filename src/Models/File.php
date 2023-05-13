@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use System\Models\Traits\HasUser;
+use System\Traits\HasDatetimeFormatter;
 
 class File extends Model
 {
+    use HasDatetimeFormatter;
+
     protected $table = 'system_files';
 
     protected $guarded = ['id'];
@@ -28,7 +31,9 @@ class File extends Model
 
         static::deleted(function (File $file) {
             try {
-                Storage::disk('public')->delete($file->xkey);
+                if (Storage::disk('public')->exists($file->xkey)) {
+                    Storage::disk('public')->delete($file->xkey);
+                }
             } catch (Exception $exception) {
                 Log::error('删除文件失败:' . $exception->getMessage());
             }

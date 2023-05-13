@@ -20,6 +20,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use System\Http\Middleware\Locale;
+use System\Http\Middleware\SystemLogger;
 use System\Http\Middleware\SystemPermissionChecker;
 use System\Models\User;
 use System\Traits\WithHttpResponse;
@@ -34,7 +35,7 @@ class SystemServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('system')
-            ->hasConfigFile(['system', 'laravellocalization', 'laravel-impersonate', 'permission', 'translatable'])
+            ->hasConfigFile(['system', 'laravellocalization', 'laravel-impersonate', 'permission', 'translatable', 'fortify'])
             ->hasViews()
             ->hasAssets()
             ->hasTranslations()
@@ -54,7 +55,9 @@ class SystemServiceProvider extends PackageServiceProvider
         Fortify::ignoreRoutes();
 
         $middlewares = [
-            Locale::class
+            Locale::class,
+            SystemLogger::class,
+            ...config('system.middlewares', [])
         ];
         if (class_exists(\Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class)) {
             $middlewares[] = \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class;
@@ -63,10 +66,11 @@ class SystemServiceProvider extends PackageServiceProvider
             $middlewares[] = \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class;
         }
 
-        \Illuminate\Support\Facades\Route::group([
+        \Illuminate\Support\Facades\Route::
+        group([
             'namespace'  => 'Laravel\Fortify\Http\Controllers',
             'prefix'     => LaravelLocalization::setLocale() . '/' . config('fortify.prefix'),
-            'middleware' => $middlewares
+            'middleware' => $middlewares,
         ], function () {
             $this->loadRoutesFrom(base_path('vendor/laravel/fortify/routes/routes.php'));
         });
@@ -118,7 +122,7 @@ class SystemServiceProvider extends PackageServiceProvider
 
             public function toResponse($request)
             {
-                $this->success(__('system::login.logout_successful'), LaravelLocalization::getLocalizedUrl(url: 'system/login'));
+                $this->success(__('system::login.logout_successful'), LaravelLocalization::getLocalizedUrl(url: config('system.prefix') . '/login'));
             }
         });
 
@@ -173,6 +177,7 @@ class SystemServiceProvider extends PackageServiceProvider
     protected function registerMiddlewareGroup()
     {
         $middlewares = [
+            SystemLogger::class,
             SystemPermissionChecker::class,
             Locale::class
         ];

@@ -116,7 +116,7 @@
         <script type="text/html" id="StatusSwitchTpl">
             <input type="checkbox" value="<%d.id%>" lay-text="已启用|已禁用" lay-filter="UserStatusSwitch"
                    lay-skin="switch" <%d.ban_at==null?'checked':''%>>
-            {{--            <%-d.ban_at==null ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'%>--}}
+            <%-d.ban_at==null ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'%>
         </script>
 
         <?php
@@ -130,7 +130,7 @@
             @if ($type === 'index')
                 <!-- Add -->
                 <x-system::table.row-action data-title="编辑用户"
-                                            data-modal='/system/user/<%d.id%>/edit' type="success">编 辑
+                                            data-modal='<%=taAdmin%>/user/<%d.id%>/edit' type="success">编 辑
                 </x-system::table.row-action>
                 <%# if(d.id!='{{ auth()->user()->getAuthIdentifier() }}' && d.id!={{ $impersonator ? $impersonator->getAuthIdentifier() : '0' }}) { %>
                 <x-system::table.row-action
@@ -138,14 +138,14 @@
                 </x-system::table.row-action>
                 <%#} %>
                 <x-system::table.row-action data-title="设置密码"
-                                            data-modal="/system/user/<%d.id%>/password" type="normal">密
+                                            data-modal="<%=taAdmin%>/user/<%d.id%>/password" type="normal">密
                     码
                 </x-system::table.row-action>
                 <!-- End Add -->
             @else
-                {{-- Delete--}}
+                Delete
                 <x-system::table.row-action data-title="编辑用户"
-                                            data-modal='/system/user/<%d.id%>/edit'>编 辑
+                                            data-modal='<%=taAdmin%>/user/<%d.id%>/edit'>编 辑
                 </x-system::table.row-action>
                 <x-system::table.row-action data-confirm="确定要永久删除此账号吗？"
                                             data-action="route('system.user.destroy')"

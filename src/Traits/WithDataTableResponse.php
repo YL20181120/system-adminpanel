@@ -120,7 +120,7 @@ trait WithDataTableResponse
         }
     }
 
-    public function batchDestroy(Builder|Model $builder, $where = []): void
+    public function batchDestroy(Builder|Model $builder, $where = [], $select = []): void
     {
         $ids = $this->getBatchIds();
         if ($builder instanceof Model) {
@@ -128,7 +128,7 @@ trait WithDataTableResponse
         }
         foreach ($builder->whereIn('id', $ids)
                      ->where($where)
-                     ->select(['id'])
+                     ->select(['id', ...$select])
                      ->cursor() as $item) {
             $item->delete();
         };

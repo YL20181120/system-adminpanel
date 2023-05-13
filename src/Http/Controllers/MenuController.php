@@ -5,6 +5,7 @@ namespace System\Http\Controllers;
 
 use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use System\Models\Menu;
@@ -27,7 +28,13 @@ class MenuController extends Controller
 
     protected function _index_page_filter(&$data, $ext)
     {
-        $data = TreeService::arr2tree($data->toArray());
+        $data = TreeService::arr2tree($data
+            ->transform(function (Menu $menu) {
+                $item = $menu->toArray();
+                $item['title'] = $menu->translate(App::getLocale())?->title;
+                return $item;
+            })
+            ->toArray());
         if ($ext['type'] === 'recycle') foreach ($data as $k1 => &$p1) {
             if (!empty($p1['sub'])) foreach ($p1['sub'] as $k2 => &$p2) {
                 if (!empty($p2['sub'])) foreach ($p2['sub'] as $k3 => $p3) {

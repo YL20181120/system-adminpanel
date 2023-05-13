@@ -18,8 +18,9 @@ class PlugsController extends Controller
     {
         // 这里和图片上传, 图标选择有关系
         return response(join("\r\n", [
-            sprintf("window.taAdmin = '%s';", '/system'),
+            sprintf("window.taAdmin = '%s';", '/' . config('system.prefix')),
             sprintf("window.taEditor = '%s';", sysconf('base.editor|raw') ?: 'ckeditor4'),
+            sprintf("window.lang = '%s';", app()->getLocale() ?: 'en'),
         ]))->header('Content-Type', 'application/x-javascript');
     }
 

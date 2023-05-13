@@ -13,6 +13,8 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
     ])
     ->group(function (Router $router) {
 
+        $router->redirect('/', url(config('system.prefix') . '/index.html'));
+
         $router->get('central/impersonate/{token}', function ($token) {
             return UserImpersonation::makeResponse($token);
         })->name('central.impersonate');
@@ -85,6 +87,16 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
         $router->get('config/index', [Controllers\ConfigController::class, 'index'])->name('config.index');
         $router->getOrPost('config/storage', [Controllers\ConfigController::class, 'storage'])->name('config.storage');
         $router->getOrPost('config/system', [Controllers\ConfigController::class, 'system'])->name('config.system');
+
+        // File
+        $router->get('files', [Controllers\FileController::class, 'index'])->name('files');
+        $router->getOrPost('file/{file}/update', [Controllers\FileController::class, 'update'])->name('file.update');
+        $router->delete('file/{file}', [Controllers\FileController::class, 'destroy'])->name('file.destroy');
+        $router->post('files/distinct', [Controllers\FileController::class, 'distinct'])->name('file.distinct');
+
+        $router->get('logs', [Controllers\LogController::class, 'index'])->name('log.index');
+        $router->delete('logs/destroy', [Controllers\LogController::class, 'destroy'])->name('log.destroy');
+        $router->get('log/{log}', [Controllers\LogController::class, 'show'])->name('log.show');
 
         $router->impersonate();
     });

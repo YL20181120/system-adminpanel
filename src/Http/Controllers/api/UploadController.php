@@ -57,6 +57,7 @@ class UploadController extends Controller
         } else {
             $file = $file->replicate(['user_id']);
             $file->user_id = auth()->id();
+            $file->isfast = 1;
             $file->push();
             $this->success('文件已上传', [
                 'uptype' => 'local',

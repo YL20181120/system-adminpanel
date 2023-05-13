@@ -48,11 +48,11 @@
         <!-- 数据操作工具条模板 -->
         <script type="text/html" id="ToolbarRoleTableTpl">
             <x-system::table.row-action data-event-dbclick data-width="600px" data-title="授 权" type="info"
-                                        data-open='/system/role/<%d.id%>/apply'>授 权
+                                        data-open='<%=taAdmin%>/role/<%d.id%>/apply'>授 权
             </x-system::table.row-action>
 
             <x-system::table.row-action data-event-dbclick data-width="600px" data-title="编辑权限"
-                                        data-modal='/system/role/<%d.id%>'>编 辑
+                                        data-modal='<%=taAdmin%>/role/<%d.id%>'>编 辑
             </x-system::table.row-action>
             <x-system::table.row-action data-confirm="确定要删除权限吗?"
                                         data-action="{{ route('system.role.destroy') }}"

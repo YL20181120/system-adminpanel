@@ -14,9 +14,19 @@ class SystemPermissionChecker
 
     public array $except
         = [
-            'system/login*', 'system/index*', 'system/logout', 'system/api*',
-            'api/*', 'horizon/*', '_ignition/*', 'docs/*', 'system/impersonate/leave'
+            'api/*', 'horizon/*', '_ignition/*', 'docs/*',
         ];
+
+    public function __construct()
+    {
+        $this->except = array_merge($this->except, [
+            config('system.prefix') . '/login*',
+            config('system.prefix') . '/index*',
+            config('system.prefix') . '/logout',
+            config('system.prefix') . '/api*',
+            config('system.prefix') . '/impersonate/leave',
+        ]);
+    }
 
     /**
      * Handle an incoming request.

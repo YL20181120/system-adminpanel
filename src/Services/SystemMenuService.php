@@ -18,6 +18,8 @@ class SystemMenuService
             ->transform(function (Menu $menu) {
                 $item = $menu->toArray();
                 $item['title'] = $menu->translate(App::getLocale())?->title;
+                // 替换默认的路由前缀
+                $item['url'] = preg_replace('/^system/', config('system.prefix'), $item['url']);
                 return $item;
             });
         return static::filter(TreeService::arr2tree($menus->toArray()));
@@ -29,20 +31,18 @@ class SystemMenuService
         $user = auth('system')->user();
         foreach ($menus as $key => &$menu) {
             $roles = array_column($menu['roles'], 'id');
-
             $unset = !$user->isAdministrator() && !$user->hasAnyRole($roles);
-
             if (!empty($menu['sub'])) {
                 $menu['sub'] = static::filter($menu['sub']);
             }
             if (!empty($menu['sub'])) {
                 $menu['url'] = '#';
-            } elseif (empty($menu['url']) || $menu['url'] === '#' || !(empty($menu['node']) || $unset)) {
+            } elseif (empty($menu['url']) || $menu['url'] === '#') {
                 unset($menus[$key]);
             } elseif (preg_match('#^(https?:)?//\w+#i', $menu['url'])) {
                 if ($menu['params']) $menu['url'] .= (!str_contains($menu['url'], '?') ? '?' : '&') . $menu['params'];
             } else {
-                $menu['url'] = url('/system/index.html#/' . $menu['url']) . (empty($menu['params']) ? '' : "?{$menu['params']}");
+                $menu['url'] = url(config('system.prefix') . '/index.html#/' . $menu['url']) . (empty($menu['params']) ? '' : "?{$menu['params']}");
                 if ($unset) unset($menus[$key]);
             }
         }

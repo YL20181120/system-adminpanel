@@ -35,7 +35,7 @@
                     <dd lay-unselect><a data-width="520px" data-modal="{{ route('system.theme') }}"><i
                                 class="layui-icon layui-icon-theme"></i> 配色方案</a></dd>
                     <dd lay-unselect><a
-                            data-load="{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getLocalizedUrl(url: 'system/logout') }}"
+                            data-load="{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getLocalizedUrl(url: config('system.prefix'). '/logout') }}"
                             data-confirm="确定要退出登录吗？"
                             data-method="post"><i
                                 class="layui-icon layui-icon-release"></i> 退出登录</a></dd>

@@ -51,7 +51,7 @@
         <!-- 数据操作工具条模板 -->
         <script type="text/html" id="ToolbarRoleTableTpl">
             <x-system::table.row-action data-event-dbclick data-width="600px" data-title="编辑权限"
-                                        data-modal='/system/api_tokens/<%d.id%>/permissions'>Permissions
+                                        data-modal='<%=taAdmin%>/api_tokens/<%d.id%>/permissions'>Permissions
             </x-system::table.row-action>
             <x-system::table.row-action data-confirm="确定要删除 Token 吗?"
                                         data-action="{{ route('system.api-token.destroy') }}"

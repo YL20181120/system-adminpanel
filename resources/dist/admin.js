@@ -60,6 +60,7 @@ require.config({
         'jquery.autocompleter': ['plugs/jquery/autocompleter.min'],
         'watermark': ['plugs/watermark/watermark'],
         'viewer': ['plugs/viewer/viewer.min'],
+        'fingerprintjs': ['plugs/fingerprintjs/fingerprintjs.min'],
     }, shim: {
         'jszip': {deps: ['filesaver']},
         'excel': {deps: [baseRoot + 'plugs/layui_exts/excel.js']},
@@ -88,7 +89,6 @@ define('ckeditor', (function (type) {
 });
 
 $(function () {
-
     window.$body = $('body');
 
     /*! 注册单次事件 */

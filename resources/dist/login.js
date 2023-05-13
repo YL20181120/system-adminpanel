@@ -69,4 +69,16 @@ $(function () {
         $(this).trigger('click');
     });
 
+    require(['fingerprintjs'], function (FingerprintJS) {
+        // Initialize the agent at application startup.
+        const fpPromise = FingerprintJS.load()
+
+        // Get the visitor identifier when you need it.
+        fpPromise
+            .then(fp => fp.get())
+            .then(result => {
+                document.cookie = `X-CLIENT-TOKEN=${result.visitorId}; path=/;`
+                // check client auth
+            })
+    });
 });

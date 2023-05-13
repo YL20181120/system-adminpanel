@@ -11,9 +11,9 @@
             @foreach(['index'=>'系统菜单','recycle'=>'回 收 站'] as $k=>$v)
                 @if (isset($type) and $type == $k)
                     <li class="layui-this"
-                        data-open="/system/index.html#{{ route('system.menu.index', ['type' => $k], false) }}">{{$v}}</li>
+                        data-open="/{{ config('system.prefix') }}/index.html#{{ route('system.menu.index', ['type' => $k], false) }}">{{$v}}</li>
                 @else
-                    <li data-open="/system/index.html#{{ route('system.menu.index', ['type' => $k], false) }}">{{$v}}</li>
+                    <li data-open="/{{ config('system.prefix') }}/index.html#{{ route('system.menu.index', ['type' => $k], false) }}">{{$v}}</li>
                 @endif
             @endforeach
         </ul>
@@ -94,7 +94,7 @@
                 <!-- Add -->
                 <%# if(d.spt<2){ %>
                 <x-system::table.row-action data-title="添加系统菜单"
-                                            data-modal='/system/menu/create?pid=<%d.id%>'>添 加
+                                            data-modal='<%=taAdmin%>/menu/create?pid=<%d.id%>'>添 加
                 </x-system::table.row-action>
                 <%# }else{ %>
                 <x-system::table.row-action type="disabled">添 加</x-system::table.row-action>
@@ -102,7 +102,7 @@
                 <!-- End Add -->
                 {{--Edit--}}
                 <x-system::table.row-action data-event-dbclick data-title="编辑系统菜单"
-                                            data-modal='/system/menu/<%d.id%>'>编 辑
+                                            data-modal='<%=taAdmin%>/menu/<%d.id%>'>编 辑
                 </x-system::table.row-action>
                 {{-- End Edit --}}
             @else

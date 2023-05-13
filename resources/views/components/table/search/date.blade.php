@@ -1,7 +1,7 @@
 @props([
     'name' => 'create_at',
-    'label' => '创建时间',
-    'placeholder' => '请选择创建时间',
+    'label' => 'Created At',
+    'placeholder' => 'Please select time',
     'range' => true
 ])
 <div class="layui-form-item layui-inline">
