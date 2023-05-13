@@ -19,6 +19,7 @@ use Laravel\Fortify\Fortify;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use System\Commands\PruneSystemLog;
 use System\Http\Middleware\Locale;
 use System\Http\Middleware\SystemLogger;
 use System\Http\Middleware\SystemPermissionChecker;
@@ -40,7 +41,7 @@ class SystemServiceProvider extends PackageServiceProvider
             ->hasAssets()
             ->hasTranslations()
             ->hasViewComponents('system', AppLayout::class, Main::class, Table::class)
-            ->hasCommands([])
+            ->hasCommand(PruneSystemLog::class)
             ->hasRoutes(['web']);
     }
 
