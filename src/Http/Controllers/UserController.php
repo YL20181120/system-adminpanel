@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 
 use Illuminate\Http\Request;
@@ -8,10 +8,10 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use System\Actions\Fortify\ResetUserPassword;
-use System\Actions\Fortify\UpdateUserProfileInformation;
-use System\Models\User;
-use System\Traits\WithDataTableResponse;
+use Admin\Actions\Fortify\ResetUserPassword;
+use Admin\Actions\Fortify\UpdateUserProfileInformation;
+use Admin\Models\User;
+use Admin\Traits\WithDataTableResponse;
 
 class UserController extends Controller
 {
@@ -24,7 +24,7 @@ class UserController extends Controller
     public function index(User $user)
     {
         $type = request()->get('type', 'index');
-        return $this->page('system::user.index', builder: $user::query()
+        return $this->page('admin::user.index', builder: $user::query()
             ->searchDate('created_at')
             ->searchLike('email')
             ->when($type === 'index', function ($q) {
@@ -44,7 +44,7 @@ class UserController extends Controller
             $user->syncRoles($roles);
             $this->success('Created.', '');
         }
-        return $this->form('system::user.form', $user);
+        return $this->form('admin::user.form', $user);
     }
 
     public function edit(User $user, UpdateUserProfileInformation $updater, Request $request)
@@ -55,7 +55,7 @@ class UserController extends Controller
             $user->syncRoles($roles);
             $this->success('Updated.', '');
         }
-        return $this->form('system::user.form', $user);
+        return $this->form('admin::user.form', $user);
     }
 
     /**
@@ -71,7 +71,7 @@ class UserController extends Controller
             $reset->reset($user, $request->only('password', 'password_confirmation'));
             $this->success('Password reset success.', '');
         }
-        return $this->form('system::user.password', $user);
+        return $this->form('admin::user.password', $user);
     }
 
 

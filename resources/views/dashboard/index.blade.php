@@ -1,4 +1,4 @@
-<x-system::main>
+<x-admin::main>
     <x-slot:title>Title</x-slot:title>
     asdf
-</x-system::main>
+</x-admin::main>

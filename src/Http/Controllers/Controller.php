@@ -1,13 +1,13 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use System\Models\User;
-use System\Traits\WithHttpResponse;
+use Admin\Models\User;
+use Admin\Traits\WithHttpResponse;
 
 class Controller extends BaseController
 {
@@ -21,7 +21,7 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $this->middleware(['auth:system'])->except($this->except);
+        $this->middleware(['auth:admin'])->except($this->except);
     }
 
     /**
@@ -29,6 +29,6 @@ class Controller extends BaseController
      */
     public function user(): User
     {
-        return auth('system')->user();
+        return auth('admin')->user();
     }
 }

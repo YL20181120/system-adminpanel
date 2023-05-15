@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Traits;
+namespace Admin\Traits;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use stdClass;

@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Traits;
+namespace Admin\Traits;
 
 
 use Illuminate\Contracts\Database\Query\Builder;
@@ -112,9 +112,9 @@ trait WithDataTableResponse
                 $model->exists ? $model->update(Arr::only($data, $fillable)) : $model = $model::create(Arr::only($data, $fillable));
                 if (false !== $this->callback('_form_result', $result, $model)) {
                     if ($result !== false) {
-                        $this->success(__('system::system.save_success'), '');
+                        $this->success(__('admin::admin.save_success'), '');
                     }
-                    $this->error(__('system::system.save_fail'));
+                    $this->error(__('admin::admin.save_fail'));
                 }
             }
         }
@@ -132,7 +132,7 @@ trait WithDataTableResponse
                      ->cursor() as $item) {
             $item->delete();
         };
-        $this->success(__('system::system.delete_success'), '');
+        $this->success(__('admin::admin.delete_success'), '');
     }
 
     public function batchUpdate(Model $model, $data, $where = []): void
@@ -144,7 +144,7 @@ trait WithDataTableResponse
                      ->cursor() as $item) {
             $item->update($data);
         };
-        $this->success(__('system::system.update_success'), '');
+        $this->success(__('admin::admin.update_success'), '');
     }
 
     public function __set(string $name, $value): void

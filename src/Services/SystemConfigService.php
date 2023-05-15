@@ -1,8 +1,8 @@
 <?php
 
-namespace System\Services;
+namespace Admin\Services;
 
-use System\Models\Config;
+use Admin\Models\Config;
 
 class SystemConfigService
 {

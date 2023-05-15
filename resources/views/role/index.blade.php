@@ -1,19 +1,19 @@
-<x-system::table>
+<x-admin::table>
     <x-slot:title>Role</x-slot:title>
     <x-slot:button>
-        <x-system::table.button data-table-id="role" data-modal="{{ route('system.role.create') }}" data-width="600px">
+        <x-admin::table.button data-table-id="role" data-modal="{{ route('admin.role.create') }}" data-width="600px">
             添加
-        </x-system::table.button>
+        </x-admin::table.button>
 
-        <x-system::table.button data-table-id="role" data-action="{{ route('system.role.destroy') }}"
+        <x-admin::table.button data-table-id="role" data-action="{{ route('admin.role.destroy') }}"
                                 data-rule="id#{id};_method#delete"
                                 data-confirm="确定要批量 Role 吗？"
                                 type="danger">
             删除
-        </x-system::table.button>
+        </x-admin::table.button>
     </x-slot:button>
     <div class="think-box-shadow">
-        @include('system::role.index_search')
+        @include('admin::role.index_search')
         <table id="role" data-url="{{ request()->url() }}" data-target-search="form.form-search"></table>
     </div>
     <x-slot:script>
@@ -47,18 +47,18 @@
         </script>
         <!-- 数据操作工具条模板 -->
         <script type="text/html" id="ToolbarRoleTableTpl">
-            <x-system::table.row-action data-event-dbclick data-width="600px" data-title="授 权" type="info"
+            <x-admin::table.row-action data-event-dbclick data-width="600px" data-title="授 权" type="info"
                                         data-open='<%=taAdmin%>/role/<%d.id%>/apply'>授 权
-            </x-system::table.row-action>
+            </x-admin::table.row-action>
 
-            <x-system::table.row-action data-event-dbclick data-width="600px" data-title="编辑权限"
+            <x-admin::table.row-action data-event-dbclick data-width="600px" data-title="编辑权限"
                                         data-modal='<%=taAdmin%>/role/<%d.id%>'>编 辑
-            </x-system::table.row-action>
-            <x-system::table.row-action data-confirm="确定要删除权限吗?"
-                                        data-action="{{ route('system.role.destroy') }}"
+            </x-admin::table.row-action>
+            <x-admin::table.row-action data-confirm="确定要删除权限吗?"
+                                        data-action="{{ route('admin.role.destroy') }}"
                                         data-value="id#<%d.id%>;_method#delete"
                                         type="danger">删 除
-            </x-system::table.row-action>
+            </x-admin::table.row-action>
         </script>
     </x-slot:script>
-</x-system::table>
+</x-admin::table>

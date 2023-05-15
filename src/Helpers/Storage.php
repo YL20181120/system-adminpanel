@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Helpers;
+namespace Admin\Helpers;
 
 class Storage
 {

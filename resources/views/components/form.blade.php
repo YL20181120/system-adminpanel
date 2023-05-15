@@ -3,8 +3,8 @@
     'tableId' => '',
     'script' => '',
     'showCancel' => true,
-    'cancelText' => __('system::form.cancel'),
-    'confirmText' => __('system::form.saveData'),
+    'cancelText' => __('admin::form.cancel'),
+    'confirmText' => __('admin::form.saveData'),
 ])
 <div>
     <form action="{{ $action }}" method="post" data-auto="true" class="layui-form layui-card"

@@ -1,9 +1,9 @@
-<x-system::main>
+<x-admin::main>
     <x-slot:title>系统参数配置</x-slot:title>
     <x-slot:button>
-        <x-system::table.button data-modal="{{ route('system.config.system') }}">
+        <x-admin::table.button data-modal="{{ route('admin.config.admin') }}">
             修改系统参数
-        </x-system::table.button>
+        </x-admin::table.button>
     </x-slot:button>
 
     <div class="layui-card padding-20 shadow">
@@ -21,7 +21,7 @@
                     @if (sysconf('base.editor') == $k)
                         <a data-title="配置{{$v}}" class="layui-btn layui-btn-sm layui-btn-active">{{$v}}</a>
                     @else
-                        <a data-title="配置{{$v}}" data-action="{{ route('system.system.editor') }}"
+                        <a data-title="配置{{$v}}" data-action="{{ route('admin.admin.editor') }}"
                            data-value="editor#{{$k}}"
                            class="layui-btn layui-btn-sm layui-btn-primary">{{$v}}</a>
                     @endif
@@ -59,7 +59,7 @@
         <div class="layui-card-body layui-clear">
             <div class="layui-btn-group shadow-mini nowrap">
                 @foreach(['local'=>'本地服务器存储'] as $k => $v)
-                    <a data-title="配置{{$v}}" data-modal="{{ route('system.config.storage', ['type' => $k]) }}"
+                    <a data-title="配置{{$v}}" data-modal="{{ route('admin.config.storage', ['type' => $k]) }}"
                         @class(["layui-btn layui-btn-sm", 'layui-btn-active' => sysconf('storage.type') == $k])>{{$v}}</a>
                 @endforeach
             </div>
@@ -82,7 +82,7 @@
 
     <div class="layui-card padding-20 shadow">
         <div class="layui-card-header notselect">
-            <b>系统参数</b><span class="color-desc font-s12 padding-left-5">System Parameter</span>
+            <b>系统参数</b><span class="color-desc font-s12 padding-left-5">admin Parameter</span>
         </div>
         <div class="layui-card-body">
             <div class="layui-form-item">
@@ -154,7 +154,7 @@
                 <div class="help-label"><b>运行货币</b>Currency</div>
                 <label class="relative block">
                     <input readonly
-                           value="{{ \System\Services\CurrencyService::currency()['symbol'] }} {{ \System\Services\CurrencyService::currency()['name'] }}"
+                           value="{{ \admin\Services\CurrencyService::currency()['symbol'] }} {{ \admin\Services\CurrencyService::currency()['name'] }}"
                            class="layui-input layui-bg-gray">
                 </label>
             </div>
@@ -164,7 +164,7 @@
 
     <div class="layui-card padding-20 shadow">
         <div class="layui-card-header notselect">
-            <b>系统信息</b><span class="color-desc font-s12 padding-left-5">System Information</span>
+            <b>系统信息</b><span class="color-desc font-s12 padding-left-5">admin Information</span>
         </div>
         <div class="layui-card-body">
             <table class="layui-table" lay-even>
@@ -203,4 +203,4 @@
         </div>
     </div>
 
-</x-system::main>
+</x-admin::main>

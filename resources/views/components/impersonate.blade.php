@@ -14,7 +14,7 @@ $impersonator = $app->getImpersonator();
         user <span style="color: yellowgreen;font-weight: 800;font-size: 18px">{{ auth()->user()->username }}</span>
     </div>
     <div>
-        <a data-href="{{ route('system.impersonate.leave') }}" style="color: white">Click to Stop Impersonate</a>
+        <a data-href="{{ route('admin.impersonate.leave') }}" style="color: white">Click to Stop Impersonate</a>
     </div>
 </div>
 <style>

@@ -20,29 +20,29 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=0.4">
     @vite('resources/css/app.css')
     <link rel="icon" type="image/x-icon" href="{{ sysconf('site_icon') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/system/plugs/layui/css/layui.css') }}?at={{ date('md') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/system/theme/css/iconfont.css') }}?at={{ date('md') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/system/theme/css/console.css') }}?at={{ date('md') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/system/extra/style.css') }}?at={{ date('md') }}">
-    <script src="{{ asset('vendor/system/plugs/jquery/pace.min.js') }}"></script>
-    <script src="{{ route('system.plugs.script') }}"></script>
+    <link rel="stylesheet" href="{{ asset('vendor/admin/plugs/layui/css/layui.css') }}?at={{ date('md') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/admin/theme/css/iconfont.css') }}?at={{ date('md') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/admin/theme/css/console.css') }}?at={{ date('md') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/admin/extra/style.css') }}?at={{ date('md') }}">
+    <script src="{{ asset('vendor/admin/plugs/jquery/pace.min.js') }}"></script>
+    <script src="{{ route('admin.plugs.script') }}"></script>
     @routes()
     @vite(['resources/js/app.js'])
     {{ $style ?? '' }}
 </head>
 
 <body
-    class="layui-layout-body layui-layout-theme-{{ !auth('system')->guest() ? auth('system')->user()->theme : sysconf('site_theme', default: 'default') }}">
+    class="layui-layout-body layui-layout-theme-{{ !auth('admin')->guest() ? auth('admin')->user()->theme : sysconf('site_theme', default: 'default') }}">
 
 @unless($body !== null)
     <div class="layui-layout layui-layout-admin layui-layout-left-hide">
 
         <!-- 左则菜单 开始 -->
-        <x-system::left/>
+        <x-admin::left/>
         <!-- 左则菜单 结束 -->
 
         <!-- 顶部菜单 开始 -->
-        <x-system::top/>
+        <x-admin::top/>
         <!-- 顶部菜单 结束 -->
 
         <!-- 主体内容 开始 -->
@@ -66,12 +66,12 @@
 @else
     {{ $body }}
 @endunless
-<script src="{{ asset('vendor/system/plugs/layui/layui.js') }}"></script>
-<script src="{{ asset('vendor/system/plugs/require/require.js') }}"></script>
-<script src="{{ asset('vendor/system/admin.js') }}"></script>
-<script src="{{ asset('vendor/system/extra/script.js') }}"></script>
+<script src="{{ asset('vendor/admin/plugs/layui/layui.js') }}"></script>
+<script src="{{ asset('vendor/admin/plugs/require/require.js') }}"></script>
+<script src="{{ asset('vendor/admin/admin.js') }}"></script>
+<script src="{{ asset('vendor/admin/extra/script.js') }}"></script>
 {{ $script ?? '' }}
-@includeWhen(!auth()->guest() && auth()->user()->isImpersonated(), 'system::components.impersonate')
+@includeWhen(!auth()->guest() && auth()->user()->isImpersonated(), 'admin::components.impersonate')
 </body>
 
 </html>

@@ -1,9 +1,9 @@
 <?php
 
-namespace System\Models\Traits;
+namespace Admin\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use System\Models\User;
+use Admin\Models\User;
 
 trait HasUser
 {

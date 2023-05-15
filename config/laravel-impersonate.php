@@ -20,7 +20,7 @@ return [
     /**
      * The default impersonator guard used.
      */
-    'default_impersonator_guard' => 'system',
+    'default_impersonator_guard' => 'admin',
 
     /**
      * The URI to redirect after taking an impersonation.
@@ -28,7 +28,7 @@ return [
      * Only used in the built-in controller.
      * * Use 'back' to redirect to the previous page
      */
-    'take_redirect_to'           => '/system/index.html',
+    'take_redirect_to'           => '/' . config('admin.prefix') . '/index.html',
 
     /**
      * The URI to redirect after leaving an impersonation.
@@ -36,6 +36,6 @@ return [
      * Only used in the built-in controller.
      * Use 'back' to redirect to the previous page
      */
-    'leave_redirect_to'          => '/system/index.html',
+    'leave_redirect_to'          => '/' . config('admin.prefix') . '/index.html',
 
 ];

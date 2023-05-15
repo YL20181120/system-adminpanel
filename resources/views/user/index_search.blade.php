@@ -1,5 +1,5 @@
-<x-system::table.search :fieldset="false">
-    <x-system::table.search.input label="Email" name="email"
+<x-admin::table.search :fieldset="false">
+    <x-admin::table.search.input label="Email" name="email"
                                   placeholder="Please type email for search"/>
-    <x-system::table.search.date :range="false" name="created_at"/>
-</x-system::table.search>
+    <x-admin::table.search.date :range="false" name="created_at"/>
+</x-admin::table.search>

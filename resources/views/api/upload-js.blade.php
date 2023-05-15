@@ -38,7 +38,7 @@ define(['md5', 'notify'], function (SparkMD5, Notify, allowMime) {
 
             /*! 初始化上传组件 */
             this.adapter = new Adapter(this.option, layui.upload.render({
-                url: '{{ route('system.upload.file') }}', auto: false, elem: elem, accept: 'file', multiple: this.option.mult, exts: this.option.exts.join('|'), acceptMime: this.option.mimes.join(','), choose: function (obj) {
+                url: '{{ route('admin.upload.file') }}', auto: false, elem: elem, accept: 'file', multiple: this.option.mult, exts: this.option.exts.join('|'), acceptMime: this.option.mimes.join(','), choose: function (obj) {
                     obj.items = [], obj.files = obj.pushFile();
                     layui.each(obj.files, function (idx, file) {
                         obj.items.push(file);
@@ -114,7 +114,7 @@ define(['md5', 'notify'], function (SparkMD5, Notify, allowMime) {
     Adapter.prototype.request = function (file, done) {
         var that = this, data = {key: file.xkey, safe: that.option.safe, uptype: that.option.type};
         data.size = file.size, data.name = file.name, data.hash = file.xmd5, data.mime = file.type, data.xext = file.xext;
-        jQuery.ajax("{{ route('system.upload.state') }}", {
+        jQuery.ajax("{{ route('admin.upload.state') }}", {
             data: data, method: 'post',
             headers: {'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')},
             success: function (ret) {
@@ -200,7 +200,7 @@ define(['md5', 'notify'], function (SparkMD5, Notify, allowMime) {
         /*! 检查单个文件上传返回的结果 */
         if (ret.code < 1) return $.msg.tips(ret.info || '文件上传失败！');
         if (typeof file.xurl !== 'string') return $.msg.tips('无效的文件上传对象！');
-        jQuery.ajax("{{ route('system.upload.done') }}", {data: {id: file.id, hash: file.xmd5}, method: 'post', headers: {'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')},});
+        jQuery.ajax("{{ route('admin.upload.done') }}", {data: {id: file.id, hash: file.xmd5}, method: 'post', headers: {'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')},});
         /*! 单个文件上传成功结果处理 */
         if (typeof done === 'function') {
             done.call(this.option.elem, file.xurl, this.files['id']);

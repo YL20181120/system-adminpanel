@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Jenssegers\Agent\Agent;
 use Laravel\Fortify\Actions\ConfirmPassword;
-use System\Traits\WithAuthUser;
-use System\Traits\WithDataTableResponse;
+use Admin\Traits\WithAuthUser;
+use Admin\Traits\WithDataTableResponse;
 
 class SessionController extends Controller
 {
@@ -43,7 +43,7 @@ class SessionController extends Controller
                 ];
             });
         }
-        return view('system::session.sessions', ['data' => $data]);
+        return view('admin::session.sessions', ['data' => $data]);
     }
 
     /**

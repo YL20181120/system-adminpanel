@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Enums;
+namespace Admin\Enums;
 
 use Spatie\Enum\Enum;
 

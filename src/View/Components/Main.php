@@ -1,6 +1,6 @@
 <?php
 
-namespace System\View\Components;
+namespace Admin\View\Components;
 
 use Illuminate\View\Component;
 
@@ -23,6 +23,6 @@ class Main extends Component
      */
     public function render()
     {
-        return view('system::components.main');
+        return view('admin::components.main');
     }
 }

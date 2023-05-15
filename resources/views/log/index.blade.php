@@ -1,19 +1,19 @@
-<x-system::table>
+<x-admin::table>
     <x-slot name="title">
         {{ __('Logs') }}
     </x-slot>
     <x-slot name="button">
-        <x-system::table.button
-            data-confirm="{{ __('system::system.delete_confirmation',['attribute' => __('Logs')]) }}"
+        <x-admin::table.button
+            data-confirm="{{ __('admin::admin.delete_confirmation',['attribute' => __('Logs')]) }}"
             data-table-id="LogTable"
-            data-action="{{ route('system.log.destroy', '0') }}"
+            data-action="{{ route('admin.log.destroy', '0') }}"
             data-rule="id#{id};_method#delete"
             type="danger">
-            {{ __('system::system.batch_delete') }}
-        </x-system::table.button>
+            {{ __('admin::admin.batch_delete') }}
+        </x-admin::table.button>
     </x-slot>
     <div class="think-box-shadow">
-        @include('system::log.index_search')
+        @include('admin::log.index_search')
         <table id="LogTable" data-url="{{ request()->url() }}" data-target-search="form.form-search"></table>
     </div>
     <x-slot:script>
@@ -45,17 +45,17 @@
             });
         </script>
         <script type="text/html" id="toolbar">
-            <x-system::table.row-action
-                data-modal="{{ system_route('system.log.show', '<%d.id%>')  }}"
+            <x-admin::table.row-action
+                data-modal="{{ admin_route('admin.log.show', '<%d.id%>')  }}"
                 data-full
-                data-title="{{ __('system::system.view_log') }}"
+                data-title="{{ __('admin::admin.view_log') }}"
                 type="primary">View
-            </x-system::table.row-action>
-            <x-system::table.row-action
-                data-action="{{ system_route('system.log.destroy', '<%d.id%>')  }}"
+            </x-admin::table.row-action>
+            <x-admin::table.row-action
+                data-action="{{ admin_route('admin.log.destroy', '<%d.id%>')  }}"
                 data-value="id#<%d.id%>;_method#delete"
                 type="danger">删 除
-            </x-system::table.row-action>
+            </x-admin::table.row-action>
         </script>
     </x-slot:script>
-</x-system::table>
+</x-admin::table>

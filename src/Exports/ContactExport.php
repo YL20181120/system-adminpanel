@@ -1,13 +1,13 @@
 <?php
 
-namespace System\Exports;
+namespace Admin\Exports;
 
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use System\Models\Contact;
-use System\Models\Task;
+use Admin\Models\Contact;
+use Admin\Models\Task;
 
 class ContactExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {

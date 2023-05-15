@@ -1,4 +1,4 @@
-<x-system::app-layout>
+<x-admin::app-layout>
     <x-slot:script>
         @if (sysconf('watermark', default: 'off') == 'on')
             <script>
@@ -20,4 +20,4 @@
             </script>
         @endif
     </x-slot:script>
-</x-system::app-layout>
+</x-admin::app-layout>

@@ -1,12 +1,12 @@
 <?php
 
-namespace System\Imports;
+namespace Admin\Imports;
 
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use System\Models\Contact;
-use System\Models\Task;
+use Admin\Models\Contact;
+use Admin\Models\Task;
 
 class ContactImport implements ToModel, WithHeadingRow, WithBatchInserts
 {

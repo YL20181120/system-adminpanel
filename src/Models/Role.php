@@ -1,10 +1,10 @@
 <?php
 
-namespace System\Models;
+namespace Admin\Models;
 
 use Astrotomic\Translatable\Translatable;
 use Spatie\Permission\Models\Role as BaseRole;
-use System\Traits\HasDatetimeFormatter;
+use Admin\Traits\HasDatetimeFormatter;
 
 class Role extends BaseRole
 {

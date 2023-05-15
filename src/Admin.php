@@ -1,6 +1,6 @@
 <?php
 
-namespace System;
+namespace Admin;
 
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
@@ -8,14 +8,14 @@ use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
-use System\Http\Middleware\SystemPermissionChecker;
+use Admin\Http\Middleware\SystemPermissionChecker;
 
 /**
  * Class System
  * @package System
  * @author Jasmine <youjingqiang@gmail.com>
  */
-class System
+class Admin
 {
     public static function countries()
     {
@@ -64,7 +64,7 @@ class System
 
         if ($user != null) {
             $url = self::get_permission_from_component($attributes);
-            $permissions = app(PermissionRegistrar::class)->getPermissions()->where('guard_name', 'system');
+            $permissions = app(PermissionRegistrar::class)->getPermissions()->where('guard_name', 'admin');
             $permission = $permissions->first(function (Permission $permission) use ($url) {
                 return Str::is($permission->name, $url);
             });

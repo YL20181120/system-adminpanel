@@ -1,9 +1,9 @@
 <?php
 /**
- * @var \System\Models\User $model
+ * @var \admin\Models\User $model
  */
 ?>
-<x-system::form table-id="UserTable">
+<x-admin::form table-id="UserTable">
     <div class="padding-left-40">
         <fieldset class="layui-bg-gray">
             <legend><b class="layui-badge think-bg-violet">用户账号</b></legend>
@@ -59,4 +59,4 @@
             </label>
         </fieldset>
     </div>
-</x-system::form>
+</x-admin::form>

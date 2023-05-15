@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Http\Middleware;
+namespace Admin\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class Locale extends LaravelLocalizationMiddlewareBase
 //            return $next($request);
 //        }
 
-        if (!auth('system')->guest() && $user = auth('system')->user()) {
+        if (!auth('admin')->guest() && $user = auth('admin')->user()) {
             LaravelLocalization::setLocale($user->lang);
         }
 

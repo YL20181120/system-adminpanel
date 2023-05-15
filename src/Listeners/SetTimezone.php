@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Listeners;
+namespace Admin\Listeners;
 
 use Stancl\Tenancy\Events\TenancyInitialized;
 

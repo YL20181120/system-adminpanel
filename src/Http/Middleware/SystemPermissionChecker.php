@@ -1,12 +1,12 @@
 <?php
 
-namespace System\Http\Middleware;
+namespace Admin\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use System\Models\User;
-use System\Traits\WithHttpResponse;
+use Admin\Models\User;
+use Admin\Traits\WithHttpResponse;
 
 class SystemPermissionChecker
 {
@@ -20,11 +20,11 @@ class SystemPermissionChecker
     public function __construct()
     {
         $this->except = array_merge($this->except, [
-            config('system.prefix') . '/login*',
-            config('system.prefix') . '/index*',
-            config('system.prefix') . '/logout',
-            config('system.prefix') . '/api*',
-            config('system.prefix') . '/impersonate/leave',
+            config('admin.prefix') . '/login*',
+            config('admin.prefix') . '/index*',
+            config('admin.prefix') . '/logout',
+            config('admin.prefix') . '/api*',
+            config('admin.prefix') . '/impersonate/leave',
         ]);
     }
 
@@ -37,11 +37,11 @@ class SystemPermissionChecker
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->inExceptArray($request) || auth('system')->guest()) {
+        if ($this->inExceptArray($request) || auth('admin')->guest()) {
             return $next($request);
         }
         /** @var User $user */
-        $user = auth('system')->user();
+        $user = auth('admin')->user();
         if ($request->route()->controller !== null) {
             /** @var Controller $controller */
             $controller = $request->route()->getController();
@@ -58,7 +58,7 @@ class SystemPermissionChecker
             if ($request->expectsJson()) {
                 $this->error(__('You are not allowed access this page'), 'javascript:void');
             } else {
-                return redirect()->route('system.index');
+                return redirect()->route('admin.index');
             }
         }
     }

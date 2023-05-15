@@ -1,10 +1,10 @@
 <?php
 /**
- * @var \System\Models\Role $role
- * @var \System\Models\Permission $permission
+ * @var \admin\Models\Role $role
+ * @var \admin\Models\Permission $permission
  */
 ?>
-<x-system::table>
+<x-admin::table>
     <x-slot:title>授 权: {{ $role->name }}</x-slot:title>
     <div class="think-box-shadow">
         <ul id="zTree" class="ztree notselect"></ul>
@@ -36,7 +36,7 @@
                     return childrens;
                 };
                 this.getData = function () {
-                    $.form.load('{{ route('system.role.apply', $role) }}', {
+                    $.form.load('{{ route('admin.role.apply', $role) }}', {
                         action: 'get'
                     }, 'post', function (ret) {
                         return (that.data = that.renderChildren(ret.data, 1)), that.showTree(), false;
@@ -55,7 +55,7 @@
                 this.submit = function () {
                     var nodes = [], data = this.ztree.getCheckedNodes(true);
                     for (var i in data) if (data[i].node) nodes.push(data[i].node);
-                    $.form.load('{{ route('system.role.apply', $role) }}', {action: 'save', nodes: nodes}, 'post');
+                    $.form.load('{{ route('admin.role.apply', $role) }}', {action: 'save', nodes: nodes}, 'post');
                 };
                 // 刷新数据
                 this.getData();
@@ -105,4 +105,4 @@
             }
         </style>
     </x-slot:style>
-</x-system::table>
+</x-admin::table>

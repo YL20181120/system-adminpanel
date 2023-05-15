@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 
 use Astrotomic\Translatable\Validation\RuleFactory;
@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use System\Models\Menu;
-use System\Services\TreeService;
-use System\Traits\WithDataTableResponse;
+use Admin\Models\Menu;
+use Admin\Services\TreeService;
+use Admin\Traits\WithDataTableResponse;
 
 class MenuController extends Controller
 {
@@ -22,7 +22,7 @@ class MenuController extends Controller
      */
     public function index(Menu $menu)
     {
-        return $this->page('system::menu.index', builder: $menu::query()
+        return $this->page('admin::menu.index', builder: $menu::query()
             ->orderByRaw('sort desc, id asc'), page: false, data: ['type' => \request()->get('type', 'index')]);
     }
 
@@ -85,7 +85,7 @@ class MenuController extends Controller
     public function createOrUpdate(Request $request, Menu $menu)
     {
         return $this->form(
-            'system::menu.form',
+            'admin::menu.form',
             $menu,
             [],
             ['title', 'url', 'params', 'icon', 'pid', ...config('translatable.locales')],

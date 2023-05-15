@@ -1,14 +1,14 @@
 <?php
 
-namespace System\Traits;
+namespace Admin\Traits;
 
 
-use System\Models\User;
+use Admin\Models\User;
 
 trait WithAuthUser
 {
     public function user(): User
     {
-        return auth('system')->user();
+        return auth('admin')->user();
     }
 }

@@ -1,6 +1,6 @@
 <div class="layui-side">
     <a class="layui-side-target" data-target-menu-type></a>
-    <a class="layui-logo layui-elip" href="{{ route('system.index') }}" title="{{ sysconf('app_name') }}">
+    <a class="layui-logo layui-elip" href="{{ route('admin.index') }}" title="{{ sysconf('app_name') }}">
         <span class="headimg headimg-no headimg-xs" data-lazy-src="{{ sysconf('site_icon') }}"></span>
         <span
             class="headtxt">{{ sysconf('app_name') }} @if(sysconf('app_version'))

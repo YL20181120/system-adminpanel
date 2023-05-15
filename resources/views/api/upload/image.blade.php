@@ -117,7 +117,7 @@
                         '_search[name]': this.keys || ''
                     };
                     this.params['_search[xext]'] = '{{ request('type', 'gif,png,jpg,jpeg') }}';
-                    $.form.load('{{ route('system.upload.image') }}', this.params, 'get', function (ret) {
+                    $.form.load('{{ route('admin.upload.image') }}', this.params, 'get', function (ret) {
                         return app.setList(ret.data, ret.count), false;
                     });
                 },

@@ -1,10 +1,10 @@
 <?php
 
-namespace System\Http\Controllers\api;
+namespace Admin\Http\Controllers\api;
 
 
 use Illuminate\Http\Request;
-use System\Http\Controllers\Controller;
+use Admin\Http\Controllers\Controller;
 
 class PlugsController extends Controller
 {
@@ -18,7 +18,7 @@ class PlugsController extends Controller
     {
         // 这里和图片上传, 图标选择有关系
         return response(join("\r\n", [
-            sprintf("window.taAdmin = '%s';", '/' . config('system.prefix')),
+            sprintf("window.taAdmin = '%s';", '/' . config('admin.prefix')),
             sprintf("window.taEditor = '%s';", sysconf('base.editor|raw') ?: 'ckeditor4'),
             sprintf("window.lang = '%s';", app()->getLocale() ?: 'en'),
         ]))->header('Content-Type', 'application/x-javascript');
@@ -26,7 +26,7 @@ class PlugsController extends Controller
 
     public function icon(Request $request)
     {
-        return view('system::api.plugs.icon', [
+        return view('admin::api.plugs.icon', [
             'title' => '图标选择器',
             'field' => $request->get('field', 'icon')
         ]);

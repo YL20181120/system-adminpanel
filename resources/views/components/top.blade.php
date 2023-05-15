@@ -6,7 +6,7 @@
             </a>
         </li>
         <li class="layui-nav-item" lay-unselect>
-            <a class="layui-logo-hide layui-elip" href="{{ route('system.index') }}" title="{{ sysconf('app_name') }}">
+            <a class="layui-logo-hide layui-elip" href="{{ route('admin.index') }}" title="{{ sysconf('app_name') }}">
                 <span class="headimg headimg-no headimg-xs" data-lazy-src="{{ sysconf('site_icon') }}"></span>
             </a>
         </li>
@@ -22,20 +22,20 @@
         @auth
             <li class="layui-nav-item">
                 <dl class="layui-nav-child">
-                    <dd lay-unselect><a data-modal="{{ route('system.userinfo') }}"><i
+                    <dd lay-unselect><a data-modal="{{ route('admin.userinfo') }}"><i
                                 class="layui-icon layui-icon-set-fill"></i>基本资料</a></dd>
-                    <dd lay-unselect><a data-modal="{{ route('system.password') }}"><i
+                    <dd lay-unselect><a data-modal="{{ route('admin.password') }}"><i
                                 class="layui-icon layui-icon-component"></i>安全设置</a></dd>
-                    <dd lay-unselect><a data-modal="{{ route('system.sessions') }}"><i
+                    <dd lay-unselect><a data-modal="{{ route('admin.sessions') }}"><i
                                 class="layui-icon layui-icon-component"></i>Sessions</a></dd>
-                    <dd lay-unselect><a data-modal="{{ route('system.two-factor-auth') }}"><i
+                    <dd lay-unselect><a data-modal="{{ route('admin.two-factor-auth') }}"><i
                                 class="layui-icon layui-icon-component"></i>两步验证</a></dd>
-                    <dd lay-unselect><a data-open="{{ route('system.api-token.index',absolute: false) }}"><i
+                    <dd lay-unselect><a data-open="{{ route('admin.api-token.index',absolute: false) }}"><i
                                 class="layui-icon layui-icon-component"></i>Tokens</a></dd>
-                    <dd lay-unselect><a data-width="520px" data-modal="{{ route('system.theme') }}"><i
+                    <dd lay-unselect><a data-width="520px" data-modal="{{ route('admin.theme') }}"><i
                                 class="layui-icon layui-icon-theme"></i> 配色方案</a></dd>
                     <dd lay-unselect><a
-                            data-load="{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getLocalizedUrl(url: config('system.prefix'). '/logout') }}"
+                            data-load="{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getLocalizedUrl(url: config('admin.prefix'). '/logout') }}"
                             data-confirm="确定要退出登录吗？"
                             data-method="post"><i
                                 class="layui-icon layui-icon-release"></i> 退出登录</a></dd>

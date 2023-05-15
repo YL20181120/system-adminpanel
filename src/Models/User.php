@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Models;
+namespace Admin\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +10,7 @@ use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use System\Traits\HasDatetimeFormatter;
+use Admin\Traits\HasDatetimeFormatter;
 
 class User extends Authenticatable
 {
@@ -25,7 +25,7 @@ class User extends Authenticatable
 
     protected $table = 'system_users';
 
-    public string $guard_name = 'system';
+    public string $guard_name = 'admin';
 
     protected $fillable = ['email', 'email_verified_at', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at', 'username', 'phone', 'last_login_at', 'last_login_ip', 'ban_at', 'description', 'theme', 'lang', 'headimg'];
 

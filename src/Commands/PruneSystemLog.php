@@ -1,10 +1,10 @@
 <?php
 
-namespace System\Commands;
+namespace Admin\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use System\Models\Log;
+use Admin\Models\Log;
 
 /**
  * Class PruneSystemLog
@@ -17,11 +17,11 @@ class PruneSystemLog extends Command
      *
      * @var string
      */
-    protected $signature = 'system:prune-logs
+    protected $signature = 'admin:prune-logs
                         {--hours=24 : The number of hours to retain batch data}';
 
 
-    protected static $defaultName = 'system:prune-logs';
+    protected static $defaultName = 'admin:prune-logs';
     /**
      * The console command description.
      *

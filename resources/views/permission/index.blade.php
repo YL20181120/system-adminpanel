@@ -1,20 +1,20 @@
-<x-system::table>
+<x-admin::table>
     <x-slot:title>Permission</x-slot:title>
     <x-slot:button>
-        <x-system::table.button data-table-id="permission" data-modal="{{ route('system.permission.create') }}"
+        <x-admin::table.button data-table-id="permission" data-modal="{{ route('admin.permission.create') }}"
                                 data-width="600px">
             添加
-        </x-system::table.button>
+        </x-admin::table.button>
 
-        <x-system::table.button data-table-id="permission" data-action="{{ route('system.permission.destroy') }}"
+        <x-admin::table.button data-table-id="permission" data-action="{{ route('admin.permission.destroy') }}"
                                 data-rule="id#{id};_method#delete"
                                 data-confirm="确定要批量 Role 吗？"
                                 type="danger">
             删除
-        </x-system::table.button>
+        </x-admin::table.button>
     </x-slot:button>
     <div class="think-box-shadow">
-        @include('system::permission.index_search')
+        @include('admin::permission.index_search')
         <table id="permission" data-url="{{ request()->url() }}" data-target-search="form.form-search"></table>
     </div>
     <x-slot:script>
@@ -48,16 +48,16 @@
         </script>
         <!-- 数据操作工具条模板 -->
         <script type="text/html" id="ToolbarPermissionTableTpl">
-            <x-system::table.row-action data-event-dbclick data-width="600px" data-title="编辑权限"
+            <x-admin::table.row-action data-event-dbclick data-width="600px" data-title="编辑权限"
                                         data-modal='<%=taAdmin%>/permission/<%d.id%>'>
                 编 辑
-            </x-system::table.row-action>
+            </x-admin::table.row-action>
 
-            <x-system::table.row-action data-confirm="确定要删除权限吗?"
+            <x-admin::table.row-action data-confirm="确定要删除权限吗?"
                                         data-action='<%=taAdmin%>/permission'
                                         data-value="id#<%d.id%>;_method#delete"
                                         type="danger">删 除
-            </x-system::table.row-action>
+            </x-admin::table.row-action>
         </script>
     </x-slot:script>
-</x-system::table>
+</x-admin::table>

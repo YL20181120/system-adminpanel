@@ -1,9 +1,9 @@
-<x-system::table>
+<x-admin::table>
     <x-slot:title>Menu</x-slot:title>
     <x-slot:button>
-        <x-system::table.button data-table-id="menu" data-modal="{{ route('system.menu.create') }}">
+        <x-admin::table.button data-table-id="menu" data-modal="{{ route('admin.menu.create') }}">
             添加
-        </x-system::table.button>
+        </x-admin::table.button>
     </x-slot:button>
 
     <div class="layui-tab layui-tab-card">
@@ -11,9 +11,9 @@
             @foreach(['index'=>'系统菜单','recycle'=>'回 收 站'] as $k=>$v)
                 @if (isset($type) and $type == $k)
                     <li class="layui-this"
-                        data-open="/{{ config('system.prefix') }}/index.html#{{ route('system.menu.index', ['type' => $k], false) }}">{{$v}}</li>
+                        data-open="/{{ config('admin.prefix') }}/index.html#{{ route('admin.menu.index', ['type' => $k], false) }}">{{$v}}</li>
                 @else
-                    <li data-open="/{{ config('system.prefix') }}/index.html#{{ route('system.menu.index', ['type' => $k], false) }}">{{$v}}</li>
+                    <li data-open="/{{ config('admin.prefix') }}/index.html#{{ route('admin.menu.index', ['type' => $k], false) }}">{{$v}}</li>
                 @endif
             @endforeach
         </ul>
@@ -67,7 +67,7 @@
                 layui.form.on('switch(StatusSwitch)', function (object) {
                     object.data = {status: object.elem.checked > 0 ? 1 : 0};
                     object.data.id = object.value.split('|')[object.data.status] || object.value;
-                    $.form.load("{{ route('system.menu.state') }}", object.data, 'post', function (ret) {
+                    $.form.load("{{ route('admin.menu.state') }}", object.data, 'post', function (ret) {
                         if (ret.code < 1) $.msg.error(ret.info, 3, function () {
                             $('#menu').trigger('reload');
                         }); else {
@@ -78,7 +78,7 @@
                 });
             });
         </script>
-        <x-system::table.sort id="SortInputTpl"/>
+        <x-admin::table.sort id="SortInputTpl"/>
 
         <script type="text/html" id="StatusSwitchTpl">
             <%# if( "{{ $type }}"=="index"|| (d.spc<1 || d.status<1)){ %>
@@ -93,31 +93,31 @@
             @if ($type == 'index')
                 <!-- Add -->
                 <%# if(d.spt<2){ %>
-                <x-system::table.row-action data-title="添加系统菜单"
+                <x-admin::table.row-action data-title="添加系统菜单"
                                             data-modal='<%=taAdmin%>/menu/create?pid=<%d.id%>'>添 加
-                </x-system::table.row-action>
+                </x-admin::table.row-action>
                 <%# }else{ %>
-                <x-system::table.row-action type="disabled">添 加</x-system::table.row-action>
+                <x-admin::table.row-action type="disabled">添 加</x-admin::table.row-action>
                 <%# } %>
                 <!-- End Add -->
                 {{--Edit--}}
-                <x-system::table.row-action data-event-dbclick data-title="编辑系统菜单"
+                <x-admin::table.row-action data-event-dbclick data-title="编辑系统菜单"
                                             data-modal='<%=taAdmin%>/menu/<%d.id%>'>编 辑
-                </x-system::table.row-action>
+                </x-admin::table.row-action>
                 {{-- End Edit --}}
             @else
                 {{-- Delete--}}
                 <%# if( (d.spc<1 || d.status<1)){ %>
-                <x-system::table.row-action data-confirm="确定要删除菜单吗？"
-                                            data-action="{{ route('system.menu.destroy') }}"
+                <x-admin::table.row-action data-confirm="确定要删除菜单吗？"
+                                            data-action="{{ route('admin.menu.destroy') }}"
                                             data-value="id#<%d.sps%>;_method#delete"
                                             type="danger">删 除
-                </x-system::table.row-action>
+                </x-admin::table.row-action>
                 <%# }else{ %>
-                <x-system::table.row-action type="disabled">删 除
-                </x-system::table.row-action>
+                <x-admin::table.row-action type="disabled">删 除
+                </x-admin::table.row-action>
                 <%# } %>
             @endif
         </script>
     </x-slot:script>
-</x-system::table>
+</x-admin::table>

@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Exceptions;
+namespace Admin\Exceptions;
 /**
  * Class AuthenticationException
  * @author Jasmine <youjingqiang@gmail.com>

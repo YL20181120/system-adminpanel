@@ -1,6 +1,6 @@
 <?php
 
-namespace System\View\Components;
+namespace Admin\View\Components;
 
 use Illuminate\View\Component;
 
@@ -23,6 +23,6 @@ class Table extends Component
      */
     public function render()
     {
-        return view('system::components.table');
+        return view('admin::components.table');
     }
 }

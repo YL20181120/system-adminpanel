@@ -1,11 +1,11 @@
 <?php
 
-namespace System\Models;
+namespace Admin\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
-use System\Models\Traits\HasUser;
-use System\Traits\HasDatetimeFormatter;
+use Admin\Models\Traits\HasUser;
+use Admin\Traits\HasDatetimeFormatter;
 
 class Log extends Model
 {

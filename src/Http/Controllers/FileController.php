@@ -1,13 +1,13 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 
 use Illuminate\Database\Query\Builder;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use System\Models\File;
-use System\Traits\WithDataTableResponse;
+use Admin\Models\File;
+use Admin\Traits\WithDataTableResponse;
 
 class FileController extends Controller
 {
@@ -19,7 +19,7 @@ class FileController extends Controller
      */
     public function index(File $file)
     {
-        return $this->page('system::file.index', builder: $file::query()
+        return $this->page('admin::file.index', builder: $file::query()
             ->searchLike('name')
             ->searchDate('created_at')
         );
@@ -51,7 +51,7 @@ class FileController extends Controller
     public function update(File $file)
     {
         return $this->form(
-            'system::file.form',
+            'admin::file.form',
             $file, [],
             ['name'],
             [

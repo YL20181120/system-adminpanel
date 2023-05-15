@@ -1,13 +1,13 @@
-<x-system::form table-id="menu"
-                :action="route('system.api-token.create')" data-callable="showMsg">
-    <x-system::form.input label="Name" name="name" :required="true"
+<x-admin::form table-id="menu"
+                :action="route('admin.api-token.create')" data-callable="showMsg">
+    <x-admin::form.input label="Name" name="name" :required="true"
                           placeholder="Please input name">
-    </x-system::form.input>
+    </x-admin::form.input>
 
-    <x-system::form.checkbox label="Permissions" :required="true"
-                             :options="\System\Http\Controllers\ApiTokenController::$permissionsMap"
+    <x-admin::form.checkbox label="Permissions" :required="true"
+                             :options="\admin\Http\Controllers\ApiTokenController::$permissionsMap"
                              name="permissions"
-    ></x-system::form.checkbox>
+    ></x-admin::form.checkbox>
 
     <x-slot:script>
         <script>
@@ -26,4 +26,4 @@
             }
         </script>
     </x-slot:script>
-</x-system::form>
+</x-admin::form>

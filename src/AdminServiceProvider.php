@@ -1,7 +1,16 @@
 <?php
 
-namespace System;
+namespace Admin;
 
+use Admin\Commands\PruneSystemLog;
+use Admin\Http\Middleware\Locale;
+use Admin\Http\Middleware\SystemLogger;
+use Admin\Http\Middleware\SystemPermissionChecker;
+use Admin\Models\User;
+use Admin\Traits\WithHttpResponse;
+use Admin\View\Components\AppLayout;
+use Admin\View\Components\Main;
+use Admin\View\Components\Table;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -19,36 +28,27 @@ use Laravel\Fortify\Fortify;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use System\Commands\PruneSystemLog;
-use System\Http\Middleware\Locale;
-use System\Http\Middleware\SystemLogger;
-use System\Http\Middleware\SystemPermissionChecker;
-use System\Models\User;
-use System\Traits\WithHttpResponse;
-use System\View\Components\AppLayout;
-use System\View\Components\Main;
-use System\View\Components\Table;
 
-class SystemServiceProvider extends PackageServiceProvider
+class AdminServiceProvider extends PackageServiceProvider
 {
 
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('system')
-            ->hasConfigFile(['system', 'laravellocalization', 'laravel-impersonate', 'permission', 'translatable', 'fortify'])
+            ->name('admin')
+            ->hasConfigFile(['admin', 'laravellocalization', 'laravel-impersonate', 'permission', 'translatable', 'fortify'])
             ->hasViews()
             ->hasAssets()
             ->hasTranslations()
-            ->hasViewComponents('system', AppLayout::class, Main::class, Table::class)
+            ->hasViewComponents('admin', AppLayout::class, Main::class, Table::class)
             ->hasCommand(PruneSystemLog::class)
             ->hasRoutes(['web']);
     }
 
 
-    public function boot(): SystemServiceProvider
+    public function boot(): AdminServiceProvider
     {
-        Fortify::viewPrefix('system::auth.');
+        Fortify::viewPrefix('admin::auth.');
 
         /**
          * 重新定义 Fortify 路由
@@ -58,7 +58,7 @@ class SystemServiceProvider extends PackageServiceProvider
         $middlewares = [
             Locale::class,
             SystemLogger::class,
-            ...config('system.middlewares', [])
+            ...config('admin.middlewares', [])
         ];
         if (class_exists(\Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class)) {
             $middlewares[] = \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class;
@@ -80,7 +80,7 @@ class SystemServiceProvider extends PackageServiceProvider
             $request->validate([
                 'email'    => 'required|email',
                 'password' => 'required',
-                'verify'   => ['nullable', 'captcha_api:' . \request('uniqid') . ',system']
+                'verify'   => ['nullable', 'captcha_api:' . \request('uniqid') . ',admin']
             ], [
                 'verify.captcha_api' => 'Captcha error'
             ]);
@@ -115,7 +115,7 @@ class SystemServiceProvider extends PackageServiceProvider
 
             public function toResponse($request)
             {
-                $this->success(__('system::login.login_successful'), route('system.index'));
+                $this->success(__('admin::login.login_successful'), route('admin.index'));
             }
         });
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
@@ -123,7 +123,7 @@ class SystemServiceProvider extends PackageServiceProvider
 
             public function toResponse($request)
             {
-                $this->success(__('system::login.logout_successful'), LaravelLocalization::getLocalizedUrl(url: config('system.prefix') . '/login'));
+                $this->success(__('admin::login.logout_successful'), LaravelLocalization::getLocalizedUrl(url: config('admin.prefix') . '/login'));
             }
         });
 
@@ -156,20 +156,20 @@ class SystemServiceProvider extends PackageServiceProvider
         config(
             Arr::dot([
                 'guards' => [
-                    'system'     => [
+                    'admin'     => [
                         'driver'   => 'session',
-                        'provider' => 'system'
+                        'provider' => 'admin'
                     ],
-                    'system-api' => [
+                    'admin-api' => [
                         'driver'   => 'sanctum',
-                        'provider' => 'system'
+                        'provider' => 'admin'
                     ],
                 ],
 
                 'providers' => [
-                    'system' => [
+                    'admin' => [
                         'driver' => 'eloquent',
-                        'model'  => config('system.model') ?? User::class
+                        'model'  => config('admin.model') ?? User::class
                     ],
                 ],
             ], 'auth.'));
@@ -189,7 +189,7 @@ class SystemServiceProvider extends PackageServiceProvider
             $middlewares[] = \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class;
         }
 
-        $this->app['router']->middlewareGroup('system', $middlewares);
+        $this->app['router']->middlewareGroup('admin', $middlewares);
     }
 
     protected function bootMacro()
@@ -261,7 +261,7 @@ class SystemServiceProvider extends PackageServiceProvider
             return $this->match(['get', 'post'], $uri, $action);
         });
 
-        Router::macro('system', function ($name, $controller) {
+        Router::macro('admin', function ($name, $controller) {
             $this->get($name, [$controller, 'index'])->name($name . '.index');
             $this->delete($name . '/destroy', [$controller, 'destroy'])->name($name . '.destroy');
             $this->get("$name/create", [$controller, 'createOrUpdate'])->name($name . '.create');

@@ -1,13 +1,13 @@
 <?php
 
-namespace System\Models;
+namespace Admin\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use System\Models\Traits\HasUser;
-use System\Traits\HasDatetimeFormatter;
+use Admin\Models\Traits\HasUser;
+use Admin\Traits\HasDatetimeFormatter;
 
 class File extends Model
 {

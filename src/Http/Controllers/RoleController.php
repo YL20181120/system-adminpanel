@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 
 use Astrotomic\Translatable\Validation\RuleFactory;
@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Spatie\Permission\PermissionRegistrar;
-use System\Models\Permission;
-use System\Models\Role;
-use System\Services\TreeService;
-use System\Traits\WithDataTableResponse;
+use Admin\Models\Permission;
+use Admin\Models\Role;
+use Admin\Services\TreeService;
+use Admin\Traits\WithDataTableResponse;
 
 class RoleController extends Controller
 {
@@ -23,7 +23,7 @@ class RoleController extends Controller
      */
     public function index(Role $role)
     {
-        return $this->page('system::role.index', builder: $role::query()
+        return $this->page('admin::role.index', builder: $role::query()
             ->searchEqual('guard_name')
             ->searchDate('created_at')
         );
@@ -37,11 +37,11 @@ class RoleController extends Controller
     public function createOrUpdate(Role $role)
     {
         return $this->form(
-            'system::role.form',
+            'admin::role.form',
             $role, [],
             ['guard_name', 'name', ...config('translatable.locales')],
             array_merge([
-                'guard_name' => 'required|in:system,user',
+                'guard_name' => 'required|in:admin,user',
             ], RuleFactory::make([
                 '%name%' => 'required|string|max:255',
             ]))
@@ -76,13 +76,13 @@ class RoleController extends Controller
             }
         }
 
-        return view('system::role.apply', ['role' => $role]);
+        return view('admin::role.apply', ['role' => $role]);
     }
 
     protected function rejectNotExistPermission($permissions)
     {
         return collect($permissions)->reject(function ($permission) {
-            return !Permission::whereGuardName('system')->whereName($permission)->exists();
+            return !Permission::whereGuardName('admin')->whereName($permission)->exists();
         });
     }
 
@@ -90,7 +90,7 @@ class RoleController extends Controller
     {
         $role->loadMissing('permissions');
         [$nodes, $pnodes] = [[], []];
-        $permisssions = app(PermissionRegistrar::class)->getPermissions()->where('guard_name', 'system')->pluck('name', 'id');
+        $permisssions = app(PermissionRegistrar::class)->getPermissions()->where('guard_name', 'admin')->pluck('name', 'id');
         foreach ($permisssions as $id => $node) {
 
             $count = substr_count($node, '/');

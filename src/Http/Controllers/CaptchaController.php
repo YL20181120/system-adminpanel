@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 
 use Mews\Captcha\Captcha;

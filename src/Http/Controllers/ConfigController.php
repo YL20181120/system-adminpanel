@@ -1,9 +1,9 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
-use System\Traits\WithDataTableResponse;
+use Admin\Traits\WithDataTableResponse;
 
 class ConfigController extends Controller
 {
@@ -25,16 +25,16 @@ class ConfigController extends Controller
 
     public function index()
     {
-        return view('system::config.index');
+        return view('admin::config.index');
     }
 
     /**
      * 系统配置
      */
-    public function system(Request $request)
+    public function admin(Request $request)
     {
         if ($request->isGet()) {
-            return view('system::config.system', ['themes' => self::themes]);
+            return view('admin::config.admin', ['themes' => self::themes]);
         } else {
             $post = $request->post();
             foreach ($post as $k => $v) sysconf($k, $v);
@@ -46,7 +46,7 @@ class ConfigController extends Controller
     {
         if ($request->isGet()) {
             $type = $request->input('type', 'local');
-            return view('system::config.storage-' . $type);
+            return view('admin::config.storage-' . $type);
         } else {
             $post = $request->post();
             if (!empty($post['storage']['allow_exts'])) {

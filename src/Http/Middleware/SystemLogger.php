@@ -1,13 +1,13 @@
 <?php
 
-namespace System\Http\Middleware;
+namespace Admin\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
-use System\Models\Log;
+use Admin\Models\Log;
 
 class SystemLogger
 {
@@ -32,8 +32,8 @@ class SystemLogger
             ->flatten();
         Log::create([
             'geoip'      => $request->getClientIp(),
-            'user_id'    => auth('system')->guest() ? 0 : $request->user('system')->getAuthIdentifier(),
-            'username'   => auth('system')->guest() ? '' : $request->user('system')->username,
+            'user_id'    => auth('admin')->guest() ? 0 : $request->user('admin')->getAuthIdentifier(),
+            'username'   => auth('admin')->guest() ? '' : $request->user('admin')->username,
             'user_agent' => $request->userAgent(),
             'request'    => [
                 'query'       => $request->query,

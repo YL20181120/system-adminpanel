@@ -1,9 +1,9 @@
 <?php
 
-namespace System\Models;
+namespace Admin\Models;
 
 use Spatie\Permission\Models\Permission as BasePermission;
-use System\Traits\HasDatetimeFormatter;
+use Admin\Traits\HasDatetimeFormatter;
 
 class Permission extends BasePermission
 {

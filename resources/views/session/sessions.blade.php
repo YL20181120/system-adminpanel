@@ -62,7 +62,7 @@
         node.id = 'passwordForm'
         node.style.display = 'none'
         node.innerHTML = `
-<form action="{{ route('system.session.destroy') }}" method="post" data-auto="true" class="layui-form layui-card"
+<form action="{{ route('admin.session.destroy') }}" method="post" data-auto="true" class="layui-form layui-card"
           onsubmit="return false;">
         <input name="_method" value="delete" type="hidden"/>
         <div class="layui-card-body">

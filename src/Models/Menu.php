@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Models;
+namespace Admin\Models;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +14,7 @@ class Menu extends Model
 
     protected $guarded = ['id'];
 
-    protected string $guard_name = 'system';
+    protected string $guard_name = 'admin';
 
     protected $attributes
         = [

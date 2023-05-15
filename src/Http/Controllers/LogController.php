@@ -1,13 +1,13 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 
 use Jenssegers\Agent\Agent;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use System\Models\Log;
-use System\Traits\WithDataTableResponse;
+use Admin\Models\Log;
+use Admin\Traits\WithDataTableResponse;
 
 class LogController extends Controller
 {
@@ -19,7 +19,7 @@ class LogController extends Controller
      */
     public function index(Log $log)
     {
-        return $this->page('system::log.index', builder: $log::query()
+        return $this->page('admin::log.index', builder: $log::query()
             ->searchLike('username')
             ->searchDate('created_at')
         );
@@ -47,6 +47,6 @@ class LogController extends Controller
 
     public function show(Log $log)
     {
-        return $this->form('system::log.show', $log);
+        return $this->form('admin::log.show', $log);
     }
 }

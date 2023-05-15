@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Services;
+namespace Admin\Services;
 
 class TreeService
 {

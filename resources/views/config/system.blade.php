@@ -99,8 +99,9 @@
                 <label class="relative block">
                     <span class="help-label"><b>运行货币</b>Currency</span>
                     <select name="currency" lay-search>
-                        @foreach(\System\Services\CurrencyService::$currency as $key => $currency)
-                            <option value="{{ $key }}" @selected(sysconf('currency') == $key)>{{ $currency['symbol'] }}-{{ $currency['name'] }}</option>
+                        @foreach(\admin\Services\CurrencyService::$currency as $key => $currency)
+                            <option value="{{ $key }}" @selected(sysconf('currency') == $key)>{{ $currency['symbol'] }}
+                                -{{ $currency['name'] }}</option>
                         @endforeach
                     </select>
                 </label>
@@ -111,7 +112,7 @@
                     <select name="watermark">
                         @foreach(['on' => '显示', 'off' => '关闭'] as $k => $v)
                             <option
-                                @selected(sysconf('watermark', default: 'off') == $k) value="{{ $k }}">{{ $v }}</option>
+                                    @selected(sysconf('watermark', default: 'off') == $k) value="{{ $k }}">{{ $v }}</option>
                         @endforeach
                     </select>
                 </label>
@@ -121,8 +122,9 @@
                 <label class="relative block">
                     <span class="help-label"><b>运行国家</b>Country</span>
                     <select name="country" lay-search>
-                        @foreach(\System\System::countries() as $key => $county)
-                            <option value="{{ $key }}" @selected(sysconf('country') == $key)>+{{ $county['phone'] }}-{{ $county['name'] }}</option>
+                        @foreach(\admin\Admin::countries() as $key => $county)
+                            <option value="{{ $key }}" @selected(sysconf('country') == $key)>+{{ $county['phone'] }}
+                                -{{ $county['name'] }}</option>
                         @endforeach
                     </select>
                 </label>

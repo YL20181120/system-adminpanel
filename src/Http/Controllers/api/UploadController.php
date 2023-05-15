@@ -1,13 +1,13 @@
 <?php
 
-namespace System\Http\Controllers\api;
+namespace Admin\Http\Controllers\api;
 
 
 use Illuminate\Http\Request;
-use System\Helpers\Storage;
-use System\Http\Controllers\Controller;
-use System\Models\File;
-use System\Traits\WithDataTableResponse;
+use Admin\Helpers\Storage;
+use Admin\Http\Controllers\Controller;
+use Admin\Models\File;
+use Admin\Traits\WithDataTableResponse;
 
 class UploadController extends Controller
 {
@@ -20,7 +20,7 @@ class UploadController extends Controller
             $data['exts'][$ext] = Storage::mime($ext);
         }
         $data['nameType'] = sysconf('storage.name_type|raw') ?: 'xmd5';
-        return response(view('system::api.upload-js', $data)->render())->header('Content-Type', 'application/x-javascript');
+        return response(view('admin::api.upload-js', $data)->render())->header('Content-Type', 'application/x-javascript');
     }
 
     public function state(Request $request)
@@ -51,7 +51,7 @@ class UploadController extends Controller
                 'safe'   => $this->getSafe(),
                 'key'    => $request->post('key'),
                 'id'     => $file->id,
-                'server' => route('system.upload.file', absolute: false),
+                'server' => route('admin.upload.file', absolute: false),
                 'url'    => $file->xurl
             ], 404);
         } else {
@@ -120,7 +120,7 @@ class UploadController extends Controller
 
     public function image(File $file, Request $request)
     {
-        return $this->page('system::api.upload.image', $file->newQuery()->where(['status' => 2, 'issafe' => 0])
+        return $this->page('admin::api.upload.image', $file->newQuery()->where(['status' => 2, 'issafe' => 0])
             ->searchLike('name')
             ->searchIn('xext')
         );

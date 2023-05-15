@@ -1,16 +1,16 @@
-<x-system::form table-id="menu"
-                :action="$model->exists ? route('system.menu.update', $model): route('system.menu.store')">
+<x-admin::form table-id="menu"
+                :action="$model->exists ? route('admin.menu.update', $model): route('admin.menu.store')">
 
-    <x-system::form.select :options="$menus" name="pid" label="上级菜单"
+    <x-admin::form.select :options="$menus" name="pid" label="上级菜单"
                            :value="$model->pid"/>
 
-    <x-system::form.translation-input label="菜单名称" name="title" :model="$model">
+    <x-admin::form.translation-input label="菜单名称" name="title" :model="$model">
         <x-slot:help>
             <b>必选</b>，请填写菜单名称 ( 如：系统管理 )，建议字符不要太长，一般 4-6 个汉字
         </x-slot:help>
-    </x-system::form.translation-input>
+    </x-admin::form.translation-input>
 
-    <x-system::form.input label="菜单链接" name="url" :required="true"
+    <x-admin::form.input label="菜单链接" name="url" :required="true"
                           placeholder="请输入菜单链接" :value="$model->url"
                           onblur="this.value=this.value === ''?'#':this.value">
         <x-slot:help>
@@ -18,14 +18,14 @@
             admin/user/index )
             <br>当填写链接地址时，以下面的 “权限节点” 来判断菜单自动隐藏或显示，注意未填写 “权限节点” 时将不会隐藏该菜单哦
         </x-slot:help>
-    </x-system::form.input>
+    </x-admin::form.input>
 
-    <x-system::form.input label="链接参数" name="params"
+    <x-admin::form.input label="链接参数" name="params"
                           placeholder="请输入链接参数" :value="$model->params">
         <x-slot:help>
             <b>可选</b>，设置菜单链接的 GET 访问参数 ( 如：name=1&age=3 )
         </x-slot:help>
-    </x-system::form.input>
+    </x-admin::form.input>
 
 
     <div class="layui-form-item">
@@ -42,11 +42,11 @@
         </div>
     </div>
 
-    <x-system::form.checkbox label="Role"
-                             :options="\System\Models\Role::query()->where('guard_name', 'system')->pluck('name', 'id')"
+    <x-admin::form.checkbox label="Role"
+                             :options="\admin\Models\Role::query()->where('guard_name', 'admin')->pluck('name', 'id')"
                              name="roles"
                              :value="$model->roles->pluck('id')->toArray()"
-    ></x-system::form.checkbox>
+    ></x-admin::form.checkbox>
 
     <x-slot:script>
         <script>
@@ -57,4 +57,4 @@
             });
         </script>
     </x-slot:script>
-</x-system::form>
+</x-admin::form>

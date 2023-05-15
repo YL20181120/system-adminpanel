@@ -1,19 +1,19 @@
 <?php
 
+use Admin\Http\Controllers;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Features\UserImpersonation;
-use System\Http\Controllers;
 
 
-Route::prefix(config('system.prefix', 'system'))->name('system.')
+Route::prefix(config('admin.prefix', 'admin'))->name('admin.')
     ->middleware([
         'web',
-        'system'
+        'admin'
     ])
     ->group(function (Router $router) {
 
-        $router->redirect('/', url(config('system.prefix') . '/index.html'));
+        $router->redirect('/', url(config('admin.prefix') . '/index.html'));
 
         $router->get('central/impersonate/{token}', function ($token) {
             return UserImpersonation::makeResponse($token);
@@ -62,7 +62,7 @@ Route::prefix(config('system.prefix', 'system'))->name('system.')
         $router->getOrPost('role/{role}/apply', [Controllers\RoleController::class, 'apply'])->name('role.apply');
 
 
-        $router->system('permission', Controllers\PermissionController::class);
+        $router->admin('permission', Controllers\PermissionController::class);
 
 
         $router->match(['get', 'post'], 'menu', [Controllers\MenuController::class, 'index'])->name('menu.index');

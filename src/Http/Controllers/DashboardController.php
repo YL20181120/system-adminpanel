@@ -1,11 +1,11 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 class DashboardController
 {
     public function index()
     {
-        return view('system::dashboard.index');
+        return view('admin::dashboard.index');
     }
 }

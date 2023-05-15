@@ -8,7 +8,7 @@
                     class="color-red">特别注意，本地存储暂不支持图片压缩！</span></p>
         </div>
 
-        @include('system::config.storage-0')
+        @include('admin::config.storage-0')
 
         <div class="layui-form-item">
             <label class="layui-form-label label-required">

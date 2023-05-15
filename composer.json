@@ -1,44 +1,39 @@
 {
-    "name": "jasmine/adminpanel_2023",
-    "description": "adminpanel",
-    "type": "library",
-    "require": {
-        "laravel/fortify": "^1.16",
-        "mews/captcha": "^3.2",
-        "spatie/laravel-package-tools": "^1.14",
-        "spatie/laravel-permission": "^5.9",
-        "jenssegers/agent": "^2.6",
-        "lab404/laravel-impersonate": "^1.7",
-        "mcamara/laravel-localization": "^1.8",
-        "propaganistas/laravel-phone": "^5.0",
-        "astrotomic/laravel-translatable": "^11.12",
-        "flugger/laravel-responder": "^3.3",
-        "moneyphp/iso-currencies": "^3.0",
-        "tightenco/ziggy": "^1.5",
-        "jackiedo/timezonelist": "^5.1"
+  "name": "wang/adminpanel",
+  "description": "adminpanel",
+  "type": "library",
+  "require": {
+    "laravel/framework": "^9.19",
+    "laravel/fortify": "^1.16",
+    "mews/captcha": "^3.2",
+    "spatie/laravel-package-tools": "^1.14",
+    "spatie/laravel-permission": "^5.9",
+    "jenssegers/agent": "^2.6",
+    "lab404/laravel-impersonate": "^1.7",
+    "mcamara/laravel-localization": "^1.8",
+    "propaganistas/laravel-phone": "^5.0",
+    "astrotomic/laravel-translatable": "^11.12",
+    "flugger/laravel-responder": "^3.3",
+    "moneyphp/iso-currencies": "^3.0",
+    "tightenco/ziggy": "^1.5",
+    "jackiedo/timezonelist": "^5.1"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Admin\\": "src/"
     },
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "System\\": "src/"
-        },
-        "files": [
-            "helpers.php"
-        ]
-    },
-    "authors": [
-        {
-            "name": "尤敬强",
-            "email": "youjingqiang@vip.qq.com"
-        }
-    ],
-    "extra": {
-        "laravel": {
-            "providers": [
-                "System\\SystemServiceProvider"
-            ]
-        }
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "files": [
+      "helpers.php"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "AdminServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }

@@ -1,26 +1,26 @@
-<x-system::table>
+<x-admin::table>
     <x-slot name="title">
         {{ __('Files') }}
     </x-slot>
     <x-slot name="button">
-        <x-system::table.button
+        <x-admin::table.button
             data-table-id="FileTable"
-            data-load="{{ route('system.file.distinct') }}"
+            data-load="{{ route('admin.file.distinct') }}"
             data-method="post"
             type="primary">
             Clean
-        </x-system::table.button>
-        <x-system::table.button
-            data-confirm="{{ __('system::system.delete_confirmation',['attribute' => __('Files')]) }}"
+        </x-admin::table.button>
+        <x-admin::table.button
+            data-confirm="{{ __('admin::admin.delete_confirmation',['attribute' => __('Files')]) }}"
             data-table-id="FileTable"
-            data-action="{{ route('system.file.destroy', '0') }}"
+            data-action="{{ route('admin.file.destroy', '0') }}"
             data-rule="id#{id};_method#delete"
             type="danger">
-            {{ __('system::system.batch_delete') }}
-        </x-system::table.button>
+            {{ __('admin::admin.batch_delete') }}
+        </x-admin::table.button>
     </x-slot>
     <div class="think-box-shadow">
-        @include('system::file.index_search')
+        @include('admin::file.index_search')
         <table id="FileTable" data-url="{{ request()->url() }}" data-target-search="form.form-search"></table>
     </div>
     <x-slot:script>
@@ -75,15 +75,15 @@
             });
         </script>
         <script type="text/html" id="toolbar">
-            <x-system::table.row-action data-modal="{{ system_route('system.file.update', '<%d.id%>') }}"
+            <x-admin::table.row-action data-modal="{{ admin_route('admin.file.update', '<%d.id%>') }}"
                                         data-title="编辑文件信息">
-                {{ __('system::system.edit') }}
-            </x-system::table.row-action>
-            <x-system::table.row-action
-                data-action="{{ system_route('system.file.destroy', '<%d.id%>')  }}"
+                {{ __('admin::admin.edit') }}
+            </x-admin::table.row-action>
+            <x-admin::table.row-action
+                data-action="{{ admin_route('admin.file.destroy', '<%d.id%>')  }}"
                 data-value="id#<%d.id%>;_method#delete"
                 type="danger">删 除
-            </x-system::table.row-action>
+            </x-admin::table.row-action>
         </script>
     </x-slot:script>
-</x-system::table>
+</x-admin::table>

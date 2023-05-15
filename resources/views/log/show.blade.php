@@ -1,5 +1,5 @@
 <?php
-/** @var \System\Models\Log $model */
+/** @var \admin\Models\Log $model */
 ?>
 <div class="p-4">
     <table class="layui-table">

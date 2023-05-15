@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Sanctum\PersonalAccessToken;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use System\Traits\WithDataTableResponse;
+use Admin\Traits\WithDataTableResponse;
 
 class ApiTokenController extends Controller
 {
@@ -20,7 +20,7 @@ class ApiTokenController extends Controller
      */
     public function index()
     {
-        return $this->page('system::api_tokens.index', builder: $this->user()->tokens());
+        return $this->page('admin::api_tokens.index', builder: $this->user()->tokens());
     }
 
     protected function _index_page_filter(&$data, $ext)
@@ -69,7 +69,7 @@ class ApiTokenController extends Controller
                 'token' => explode('|', $token->plainTextToken, 2)[1],
             ]);
         }
-        return view('system::api_tokens.form');
+        return view('admin::api_tokens.form');
     }
 
     public function destroy(Request $request)
@@ -85,6 +85,6 @@ class ApiTokenController extends Controller
             ])->save();
             $this->success('Updated.');
         }
-        return $this->form('system::api_tokens.permissions', $token);
+        return $this->form('admin::api_tokens.permissions', $token);
     }
 }

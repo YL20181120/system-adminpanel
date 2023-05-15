@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'guard' => 'system',
+    'guard' => 'admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'passwords' => 'system-users',
+    'passwords' => 'admin-users',
 
     /*
     |--------------------------------------------------------------------------
@@ -74,7 +74,7 @@ return [
     |
     */
 
-    'prefix' => env('SYSTEM_PREFIX', 'system'),
+    'prefix' => env('ADMIN_PREFIX', 'admin'),
 
     'domain' => null,
 

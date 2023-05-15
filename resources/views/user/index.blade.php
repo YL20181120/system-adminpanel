@@ -1,27 +1,27 @@
-<x-system::table>
+<x-admin::table>
     <x-slot:title>用户管理</x-slot:title>
     <x-slot:button>
         @if ($type == 'index')
-            <x-system::table.button data-table-id="UserTable" data-modal="{{ route('system.user.create') }}">
+            <x-admin::table.button data-table-id="UserTable" data-modal="{{ route('admin.user.create') }}">
                 添加用户
-            </x-system::table.button>
-            <x-system::table.button data-confirm="确定要禁用这些用户吗？" data-table-id="UserTable"
-                                    data-action="{{ route('system.user.state') }}" data-rule="id#{id};status#0"
+            </x-admin::table.button>
+            <x-admin::table.button data-confirm="确定要禁用这些用户吗？" data-table-id="UserTable"
+                                    data-action="{{ route('admin.user.state') }}" data-rule="id#{id};status#0"
                                     type="danger">
                 批量禁用
-            </x-system::table.button>
+            </x-admin::table.button>
         @else
-            <x-system::table.button data-confirm="确定要禁用这些用户吗？" data-table-id="UserTable"
-                                    data-action="{{ route('system.user.state') }}" data-rule="id#{id};status#1"
+            <x-admin::table.button data-confirm="确定要禁用这些用户吗？" data-table-id="UserTable"
+                                    data-action="{{ route('admin.user.state') }}" data-rule="id#{id};status#1"
                                     type="success">
                 批量恢复
-            </x-system::table.button>
-            <x-system::table.button data-confirm="确定永久删除这些账号吗？" data-table-id="UserTable"
-                                    data-action="{{ route('system.user.destroy') }}"
+            </x-admin::table.button>
+            <x-admin::table.button data-confirm="确定永久删除这些账号吗？" data-table-id="UserTable"
+                                    data-action="{{ route('admin.user.destroy') }}"
                                     data-rule="id#{id};_method#delete"
                                     type="danger">
                 批量删除
-            </x-system::table.button>
+            </x-admin::table.button>
         @endif
     </x-slot:button>
     <div class="layui-tab layui-tab-card">
@@ -29,14 +29,14 @@
             @foreach(['index'=>'系统用户','recycle'=>'回 收 站'] as $k=>$v)
                 @if (isset($type) and $type == $k)
                     <li class="layui-this"
-                        data-open="{{ route('system.user.index', ['type' => $k], false) }}">{{$v}}</li>
+                        data-open="{{ route('admin.user.index', ['type' => $k], false) }}">{{$v}}</li>
                 @else
-                    <li data-open="{{ route('system.user.index', ['type' => $k], false) }}">{{$v}}</li>
+                    <li data-open="{{ route('admin.user.index', ['type' => $k], false) }}">{{$v}}</li>
                 @endif
             @endforeach
         </ul>
         <div class="layui-tab-content">
-            @include('system::user.index_search')
+            @include('admin::user.index_search')
             <table id="UserTable" data-url="{{ request()->url() }}" data-target-search="form.form-search"></table>
         </div>
     </div>
@@ -101,7 +101,7 @@
                 });
                 layui.form.on('switch(UserStatusSwitch)', function (obj) {
                     var data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
-                    $.form.load("{{ route('system.user.state') }}", data, 'post', function (ret) {
+                    $.form.load("{{ route('admin.user.state') }}", data, 'post', function (ret) {
                         if (ret.code < 1) $.msg.error(ret.info, 3, function () {
                             $('#UserTable').trigger('reload');
                         }); else {
@@ -129,30 +129,30 @@
         <script type="text/html" id="toolbar">
             @if ($type === 'index')
                 <!-- Add -->
-                <x-system::table.row-action data-title="编辑用户"
+                <x-admin::table.row-action data-title="编辑用户"
                                             data-modal='<%=taAdmin%>/user/<%d.id%>/edit' type="success">编 辑
-                </x-system::table.row-action>
+                </x-admin::table.row-action>
                 <%# if(d.id!='{{ auth()->user()->getAuthIdentifier() }}' && d.id!={{ $impersonator ? $impersonator->getAuthIdentifier() : '0' }}) { %>
-                <x-system::table.row-action
-                    data-href="javascript:location.href=route('system.impersonate', {'id': '<%d.id%>'})">Impersonate
-                </x-system::table.row-action>
+                <x-admin::table.row-action
+                    data-href="javascript:location.href=route('admin.impersonate', {'id': '<%d.id%>'})">Impersonate
+                </x-admin::table.row-action>
                 <%#} %>
-                <x-system::table.row-action data-title="设置密码"
+                <x-admin::table.row-action data-title="设置密码"
                                             data-modal="<%=taAdmin%>/user/<%d.id%>/password" type="normal">密
                     码
-                </x-system::table.row-action>
+                </x-admin::table.row-action>
                 <!-- End Add -->
             @else
                 Delete
-                <x-system::table.row-action data-title="编辑用户"
+                <x-admin::table.row-action data-title="编辑用户"
                                             data-modal='<%=taAdmin%>/user/<%d.id%>/edit'>编 辑
-                </x-system::table.row-action>
-                <x-system::table.row-action data-confirm="确定要永久删除此账号吗？"
-                                            data-action="route('system.user.destroy')"
+                </x-admin::table.row-action>
+                <x-admin::table.row-action data-confirm="确定要永久删除此账号吗？"
+                                            data-action="route('admin.user.destroy')"
                                             data-value="id#<%d.id%>;_method#delete"
                                             type="danger">删 除
-                </x-system::table.row-action>
+                </x-admin::table.row-action>
             @endif
         </script>
     </x-slot:script>
-</x-system::table>
+</x-admin::table>

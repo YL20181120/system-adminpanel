@@ -1,11 +1,11 @@
 <?php
 
-namespace System\Actions\Fortify;
+namespace Admin\Actions\Fortify;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
-use System\Models\User;
+use Admin\Models\User;
 
 class UpdateUserPassword implements UpdatesUserPasswords
 {
@@ -20,7 +20,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
     {
         $input['current_password'] = md5(md5($input['current_password']));
         Validator::make($input, [
-            'current_password' => ['required', 'string', 'current_password:system'],
+            'current_password' => ['required', 'string', 'current_password:admin'],
             'password'         => $this->passwordRules(),
         ], [
             'current_password.current_password' => __('The provided password does not match your current password.'),

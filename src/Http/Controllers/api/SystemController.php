@@ -1,10 +1,10 @@
 <?php
 
-namespace System\Http\Controllers\api;
+namespace Admin\Http\Controllers\api;
 
 
 use Illuminate\Http\Request;
-use System\Http\Controllers\Controller;
+use Admin\Http\Controllers\Controller;
 
 class SystemController extends Controller
 {

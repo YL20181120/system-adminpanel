@@ -1,12 +1,12 @@
 <?php
 
-namespace System\Http\Controllers;
+namespace Admin\Http\Controllers;
 
 use Flugg\Responder\Http\MakesResponses;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
-use System\Models\User;
+use Admin\Models\User;
 
 class AuthController extends Controller
 {
@@ -16,7 +16,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:system-api')->except($this->except);
+        $this->middleware('auth:admin-api')->except($this->except);
     }
 
     public function login(Request $request)
@@ -48,7 +48,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth('system-api')->user()->destroyCurrentSanctumTokens();
+        auth('admin-api')->user()->destroyCurrentSanctumTokens();
         return $this->success('Logout successful.');
     }
 }

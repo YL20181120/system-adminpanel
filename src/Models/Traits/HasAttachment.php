@@ -1,9 +1,9 @@
 <?php
 
-namespace System\Models\Traits;
+namespace Admin\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use System\Models\File;
+use Admin\Models\File;
 
 trait HasAttachment
 {

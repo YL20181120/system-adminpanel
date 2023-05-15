@@ -9,8 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <link rel="stylesheet" href="{{ asset('vendor/system/theme/css/iconfont.css') }}?at={:date('md')}">
-    <link rel="stylesheet" href="{{ asset('vendor/system/plugs/layui/css/layui.css') }}?v={:date('ymd')}">
+    <link rel="stylesheet" href="{{ asset('vendor/admin/theme/css/iconfont.css') }}?at={:date('md')}">
+    <link rel="stylesheet" href="{{ asset('vendor/admin/plugs/layui/css/layui.css') }}?v={:date('ymd')}">
     <style> ::-webkit-input-placeholder {
             color: #aaa
         }
@@ -1158,7 +1158,7 @@
     </li>
 </ul>
 
-<script src="{{ asset('vendor/system/plugs/jquery/jquery.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('vendor/admin/plugs/jquery/jquery.min.js') }}" type="text/javascript"></script>
 <script>
     $(function () {
         $('li').on('click', function (className) {
