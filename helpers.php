@@ -52,8 +52,8 @@ if (!function_exists('arr2str')) {
     }
 }
 
-if (!function_exists('system_route')) {
-    function system_route($name, $parameters = [], $absolute = true): string
+if (!function_exists('admin_route')) {
+    function admin_route($name, $parameters = [], $absolute = true): string
     {
         $url = app('url')->route($name, $parameters, $absolute);
         return urldecode($url);

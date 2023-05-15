@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \admin\Models\User $model
+ * @var \Admin\Models\User $model
  */
 ?>
 <x-admin::form table-id="UserTable">
@@ -57,7 +57,7 @@
             <label class="layui-form-item block relative margin-top-10">
                 <span class="help-label"><b>角色</b>Role</span>
                 <div class="layui-textarea help-checks">
-                    @foreach(\admin\Models\Role::query()->where('guard_name', 'admin')->pluck('name', 'id') as $k => $v)
+                    @foreach(\Admin\Models\Role::query()->where('guard_name', 'admin')->pluck('name', 'id') as $k => $v)
                         <label class="think-checkbox">
                             <input type="checkbox" @checked($model->hasRole($k)) name="roles[]" value="{{ $k }}"
                                    lay-ignore>{{ $v }}

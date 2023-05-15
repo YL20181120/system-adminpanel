@@ -11,6 +11,8 @@ use Admin\Traits\WithHttpResponse;
 use Admin\View\Components\AppLayout;
 use Admin\View\Components\Main;
 use Admin\View\Components\Table;
+use As\Models\Customer;
+use As\Observers\CustomerObserver;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -150,6 +152,7 @@ class AdminServiceProvider extends PackageServiceProvider
     public function bootingPackage()
     {
         $this->registerAuthGuardsAndProviders();
+        $this->registerObserver();
     }
 
     protected function registerAuthGuardsAndProviders()
@@ -270,5 +273,11 @@ class AdminServiceProvider extends PackageServiceProvider
             $this->get(sprintf("%s/{%s}", $name, $name), [$controller, 'createOrUpdate'])->name($name . '.edit');
             $this->post(sprintf("%s/{%s}", $name, $name), [$controller, 'createOrUpdate'])->name($name . '.update');
         });
+    }
+
+    // 注册观察者
+    protected function registerObserver()
+    {
+        Customer::observe(CustomerObserver::class);
     }
 }

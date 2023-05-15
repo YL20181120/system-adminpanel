@@ -4,7 +4,7 @@
 ])
 @if ($fieldset)
     <fieldset>
-        <legend>条件搜索</legend>
+        <legend>Conditional</legend>
         @endif
 
         <form class="layui-form layui-form-pane form-search" action="{{ $action }}" onsubmit="return false" method="get"

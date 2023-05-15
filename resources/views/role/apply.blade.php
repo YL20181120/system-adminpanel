@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \admin\Models\Role $role
- * @var \admin\Models\Permission $permission
+ * @var \Admin\Models\Role $role
+ * @var \Admin\Models\Permission $permission
  */
 ?>
 <x-admin::table>

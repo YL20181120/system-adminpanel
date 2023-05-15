@@ -154,7 +154,7 @@
                 <div class="help-label"><b>运行货币</b>Currency</div>
                 <label class="relative block">
                     <input readonly
-                           value="{{ \admin\Services\CurrencyService::currency()['symbol'] }} {{ \admin\Services\CurrencyService::currency()['name'] }}"
+                           value="{{ \Admin\Services\CurrencyService::currency()['symbol'] }} {{ \Admin\Services\CurrencyService::currency()['name'] }}"
                            class="layui-input layui-bg-gray">
                 </label>
             </div>

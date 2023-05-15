@@ -5,7 +5,7 @@
     </x-admin::form.input>
 
     <x-admin::form.checkbox label="Permissions" :required="true"
-                             :options="\admin\Http\Controllers\ApiTokenController::$permissionsMap"
+                             :options="\Admin\Http\Controllers\ApiTokenController::$permissionsMap"
                              name="permissions"
     ></x-admin::form.checkbox>
 

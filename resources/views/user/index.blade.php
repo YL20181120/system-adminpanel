@@ -6,20 +6,20 @@
                 添加用户
             </x-admin::table.button>
             <x-admin::table.button data-confirm="确定要禁用这些用户吗？" data-table-id="UserTable"
-                                    data-action="{{ route('admin.user.state') }}" data-rule="id#{id};status#0"
-                                    type="danger">
+                                   data-action="{{ route('admin.user.state') }}" data-rule="id#{id};status#0"
+                                   type="danger">
                 批量禁用
             </x-admin::table.button>
         @else
             <x-admin::table.button data-confirm="确定要禁用这些用户吗？" data-table-id="UserTable"
-                                    data-action="{{ route('admin.user.state') }}" data-rule="id#{id};status#1"
-                                    type="success">
+                                   data-action="{{ route('admin.user.state') }}" data-rule="id#{id};status#1"
+                                   type="success">
                 批量恢复
             </x-admin::table.button>
             <x-admin::table.button data-confirm="确定永久删除这些账号吗？" data-table-id="UserTable"
-                                    data-action="{{ route('admin.user.destroy') }}"
-                                    data-rule="id#{id};_method#delete"
-                                    type="danger">
+                                   data-action="{{ route('admin.user.destroy') }}"
+                                   data-rule="id#{id};_method#delete"
+                                   type="danger">
                 批量删除
             </x-admin::table.button>
         @endif
@@ -114,23 +114,26 @@
         </script>
 
         <script type="text/html" id="StatusSwitchTpl">
-            <input type="checkbox" value="<%d.id%>" lay-text="已启用|已禁用" lay-filter="UserStatusSwitch"
-                   lay-skin="switch" <%d.ban_at==null?'checked':''%>>
-            <%-d.ban_at==null ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'%>
+            @can(route('admin.user.state', absolute: false))
+                <input type="checkbox" value="<%d.id%>" lay-text="已启用|已禁用" lay-filter="UserStatusSwitch"
+                       lay-skin="switch" <%d.ban_at==null?'checked':''%>>
+            @else
+                <%-d.ban_at==null ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'%>
+            @endcan
         </script>
 
-        <?php
-        /** @var \Lab404\Impersonate\Services\ImpersonateManager $app */
-        $app = app('impersonate');
-        $impersonator = $app->getImpersonator();
-        ?>
+            <?php
+            /** @var \Lab404\Impersonate\Services\ImpersonateManager $app */
+            $app = app('impersonate');
+            $impersonator = $app->getImpersonator();
+            ?>
 
 
         <script type="text/html" id="toolbar">
             @if ($type === 'index')
                 <!-- Add -->
                 <x-admin::table.row-action data-title="编辑用户"
-                                            data-modal='<%=taAdmin%>/user/<%d.id%>/edit' type="success">编 辑
+                                           data-modal='<%=taAdmin%>/user/<%d.id%>/edit' type="success">编 辑
                 </x-admin::table.row-action>
                 <%# if(d.id!='{{ auth()->user()->getAuthIdentifier() }}' && d.id!={{ $impersonator ? $impersonator->getAuthIdentifier() : '0' }}) { %>
                 <x-admin::table.row-action
@@ -138,19 +141,19 @@
                 </x-admin::table.row-action>
                 <%#} %>
                 <x-admin::table.row-action data-title="设置密码"
-                                            data-modal="<%=taAdmin%>/user/<%d.id%>/password" type="normal">密
+                                           data-modal="<%=taAdmin%>/user/<%d.id%>/password" type="normal">密
                     码
                 </x-admin::table.row-action>
                 <!-- End Add -->
             @else
                 Delete
                 <x-admin::table.row-action data-title="编辑用户"
-                                            data-modal='<%=taAdmin%>/user/<%d.id%>/edit'>编 辑
+                                           data-modal='<%=taAdmin%>/user/<%d.id%>/edit'>编 辑
                 </x-admin::table.row-action>
                 <x-admin::table.row-action data-confirm="确定要永久删除此账号吗？"
-                                            data-action="route('admin.user.destroy')"
-                                            data-value="id#<%d.id%>;_method#delete"
-                                            type="danger">删 除
+                                           data-action="route('admin.user.destroy')"
+                                           data-value="id#<%d.id%>;_method#delete"
+                                           type="danger">删 除
                 </x-admin::table.row-action>
             @endif
         </script>

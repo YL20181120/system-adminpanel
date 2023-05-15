@@ -49,7 +49,7 @@ Route::prefix(config('admin.prefix', 'admin'))->name('admin.')
             $router->post('upload/done', [Controllers\api\UploadController::class, 'done'])->name('upload.done');
             $router->get('upload/image', [Controllers\api\UploadController::class, 'image'])->name('upload.image');
 
-            $router->post('system/editor', [Controllers\api\SystemController::class, 'editor'])->name('system.editor');
+            $router->post('admin/editor', [Controllers\api\SystemController::class, 'editor'])->name('admin.editor');
         });
 
         $router->get('role', [Controllers\RoleController::class, 'index'])->name('role.index');
@@ -86,7 +86,7 @@ Route::prefix(config('admin.prefix', 'admin'))->name('admin.')
         // Config
         $router->get('config/index', [Controllers\ConfigController::class, 'index'])->name('config.index');
         $router->getOrPost('config/storage', [Controllers\ConfigController::class, 'storage'])->name('config.storage');
-        $router->getOrPost('config/system', [Controllers\ConfigController::class, 'system'])->name('config.system');
+        $router->getOrPost('config/admin', [Controllers\ConfigController::class, 'admin'])->name('config.admin');
 
         // File
         $router->get('files', [Controllers\FileController::class, 'index'])->name('files');

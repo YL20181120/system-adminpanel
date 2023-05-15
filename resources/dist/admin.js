@@ -312,7 +312,7 @@ $(function () {
             $.form.reInit($(this.selecter).html(html));
         };
         /*! 异步加载的数据 */
-        this.load = function (url, data, method, callable, loading, tips, time, headers) {
+        this.load = function (url, data, method, callable, loading, tips, time, headers, callback = null) {
             // 如果主页面 loader 显示中，绝对不显示 loading 图标
             loading = $('.layui-page-loader').is(':visible') ? false : loading;
             var loadidx = loading !== false ? $.msg.loading(tips) : 0;
@@ -390,6 +390,26 @@ $(function () {
                 }, success: function (ret) {
                     time = time || ret.wait || undefined;
                     if (typeof callable === 'function' && callable.call($.form, ret, time) === false) return false;
+
+                    if (callback !== null) {
+                        var isCall = false;
+                        if (typeof callback === 'string') {
+                            eval(callback + '()');
+                            isCall = true;
+                        }
+                        if (typeof callback === 'object') {
+                            if (callback.name !== null && typeof callback.name === 'string') {
+                                eval(callback.name + '()');
+                                $.msg.closeLastModal();
+                                isCall = true;
+                            }
+                        }
+                        if (isCall) {
+                            var msg = ret.msg || (typeof ret.info === 'string' ? ret.info : '');
+                            return $.msg.tips(msg, 1);
+                        }
+                    }
+
                     return typeof ret === 'object' ? $.msg.auto(ret, time) : $.form.show(ret);
                 }, complete: function () {
                     $.msg.page.done();
@@ -426,6 +446,7 @@ $(function () {
         /*! 打开 IFRAME 窗口 */
         this.iframe = function (url, name, area, offset, destroy, success, isfull) {
             this.idx = layer.open({
+                shadeClose: true,
                 title: name || '窗口',
                 type: 2,
                 area: area || ['800px', '580px'],
@@ -443,6 +464,7 @@ $(function () {
             this.load(url, data, 'GET', function (res) {
                 if (typeof res === 'object') return $.msg.auto(res), false;
                 return $.msg.mdx.push(this.idx = layer.open({
+                    shadeClose: true,
                     type: 1,
                     btn: false,
                     area: area || "800px",
@@ -892,7 +914,8 @@ $(function () {
         return $els.map(function (idx, form) {
             $(this).vali(function (data) {
                 var dset = form.dataset, type = form.method || 'POST', href = form.action || location.href;
-                var tips = dset.tips || undefined, time = dset.time || undefined, taid = dset.tableId || false;
+                var tips = dset.tips || undefined, time = dset.time || undefined, taid = dset.tableId || false,
+                    callback = dset.callback || null;
                 var call = window[dset.callable || '_default_callable'] || (taid ? function (ret) {
                     if (typeof ret === 'object' && ret.code > 0 && $('#' + taid).size() > 0) {
                         return $.msg.success(ret.info, 3, function () {
@@ -902,7 +925,7 @@ $(function () {
                     }
                 } : undefined);
                 onConfirm(dset.confirm, function () {
-                    $.form.load(href, data, type, call, true, tips, time);
+                    $.form.load(href, data, type, call, true, tips, time, {}, {name: callback});
                 });
             });
         });
@@ -1010,7 +1033,7 @@ $(function () {
         applyRuleValue(this, {}, function (data, elem, dset) {
             Object.assign(data, {'_token_': dset.token || dset.csrf || '--'})
             var load = dset.loading !== 'false', tips = typeof load === 'string' ? load : undefined;
-            $.form.load(dset.action, data, dset.method || 'post', onConfirm.getLoadCallable(dset.tableId), load, tips, dset.time)
+            $.form.load(dset.action, data, dset.method || 'post', onConfirm.getLoadCallable(dset.tableId), load, tips, dset.time, {}, dset.callback)
         });
     });
 

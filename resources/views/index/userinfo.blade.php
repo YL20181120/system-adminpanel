@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \admin\Models\User $model
+ * @var \Admin\Models\User $model
  */
 ?>
 <x-admin::form table-id="UserTable">
