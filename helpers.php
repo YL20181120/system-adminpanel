@@ -1,6 +1,6 @@
 <?php
 
-use System\Services\SystemConfigService;
+use Admin\Services\SystemConfigService;
 
 if (!function_exists('sysconf')) {
     function sysconf(string $name = '', $value = null, $default = null)

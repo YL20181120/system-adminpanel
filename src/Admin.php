@@ -2,13 +2,13 @@
 
 namespace Admin;
 
+use Admin\Http\Middleware\SystemPermissionChecker;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
-use Admin\Http\Middleware\SystemPermissionChecker;
 
 /**
  * Class System
@@ -52,7 +52,7 @@ class Admin
         return $path === '' ? '/' : $path;
     }
 
-    public static function check_system_permission($user, ComponentAttributeBag|array $attributes = [])
+    public static function check_admin_permission($user, ComponentAttributeBag|array $attributes = [])
     {
         if (in_array(request()->getHost(), config('tenancy.central_domains', []))) {
             return true;

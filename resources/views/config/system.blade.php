@@ -122,7 +122,7 @@
                 <label class="relative block">
                     <span class="help-label"><b>运行国家</b>Country</span>
                     <select name="country" lay-search>
-                        @foreach(\admin\Admin::countries() as $key => $county)
+                        @foreach(\Admin\Admin::countries() as $key => $county)
                             <option value="{{ $key }}" @selected(sysconf('country') == $key)>+{{ $county['phone'] }}
                                 -{{ $county['name'] }}</option>
                         @endforeach

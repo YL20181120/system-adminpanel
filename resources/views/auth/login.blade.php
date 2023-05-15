@@ -6,22 +6,18 @@
         <link rel="stylesheet" href="{{ asset('vendor/admin/theme/css/login.css') }}">
     </x-slot:style>
     <x-slot:body>
-        <div class="login-container"
-             style="background-image: url({{ asset('vendor/admin/theme/img/login/background.svg') }})">
-            <div class="header flex justify-between sm:hidden px-20 items-center">
-                <div>
-                    <a href="{{ url('/') }}"
-                       class="text-lg tracking-[1px] text-white layui-unselect">{{ sysconf('app_name') }}
-                        <span class="">{{ sysconf('app_version') }}</span></a>
-                </div>
+        <div class="login-container">
+            <div class="header flex justify-end sm:hidden px-20 items-end">
                 <div>
                     <x-admin::switch-locale/>
                 </div>
             </div>
-            <form data-login-form onsubmit="return false" method="post" class="layui-anim layui-anim-upbit"
-                  autocomplete="off">
+            <form data-login-form onsubmit="return false" method="post" autocomplete="off"
+                  style=" background-color:rgba(255,255,255,0.2); border-radius: 15px; padding: 35px; ">
                 <input type="hidden" name="uniqid" value="">
-                <h2 class="notselect">{{ __('admin::login.title') }}</h2>
+                <h2 class="notselect">
+                    {{ sysconf('app_name') }}
+                </h2>
                 <ul>
                     <li class="username">
                         <label class="label-required-null">
@@ -47,7 +43,7 @@
                                    autocomplete="off" vali-name="{{ __('admin::login.captcha') }}"
                                    placeholder="{{ __('admin::login.captcha') }}">
                         </label>
-                        <div data-captcha="{{ route('admin.captcha', ['config' => 'admin']) }}"
+                        <div data-captcha="{{ route('admin.captcha', ['config' => 'system']) }}"
                              data-field-verify="verify"
                              data-field-uniqid="uniqid" data-captcha-type="LoginCaptcha"></div>
                     </li>
@@ -59,22 +55,6 @@
                     </li>
                 </ul>
             </form>
-            <div class="footer notselect">
-                <p class="layui-hide-xs">{!! __('admin::login.browser') !!}</p>
-                {{ sysconf('site_copy') }}
-                @if(sysconf('beian'))
-                    <span class="padding-5">|</span><a target="_blank"
-                                                       href="https://beian.miit.gov.cn/">{{ sysconf('beian') }}</a>
-                @endif
-                @if(sysconf('miitbeian'))
-                    <span class="padding-5">|</span><a target="_blank"
-                                                       href="https://beian.miit.gov.cn/">{{ sysconf('miitbeian') }}</a>
-                @endif
-                @if (class_exists(\Stancl\Tenancy\Tenancy::class))
-                    <div>{{ tenant('name') }}</div>
-                @endif
-
-            </div>
         </div>
     </x-slot:body>
 

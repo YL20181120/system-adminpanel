@@ -11,7 +11,7 @@
                 source: (function (subjects, data) {
                     for (var i in subjects) data.push({value: subjects[i], label: subjects[i]});
                     return data;
-                })(@json(\admin\Admin::nodes()), [])
+                })(@json(\Admin\Admin::nodes()), [])
             })
         });
     </script>

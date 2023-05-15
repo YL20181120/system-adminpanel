@@ -43,7 +43,7 @@
     </div>
 
     <x-admin::form.checkbox label="Role"
-                             :options="\admin\Models\Role::query()->where('guard_name', 'admin')->pluck('name', 'id')"
+                             :options="use System\Models\Role::query()->where('guard_name', 'admin')->pluck('name', 'id')"
                              name="roles"
                              :value="$model->roles->pluck('id')->toArray()"
     ></x-admin::form.checkbox>

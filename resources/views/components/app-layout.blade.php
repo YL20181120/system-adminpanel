@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/admin/theme/css/iconfont.css') }}?at={{ date('md') }}">
     <link rel="stylesheet" href="{{ asset('vendor/admin/theme/css/console.css') }}?at={{ date('md') }}">
     <link rel="stylesheet" href="{{ asset('vendor/admin/extra/style.css') }}?at={{ date('md') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/as/extra/style.css') }}?at={{ date('md') }}">
     <script src="{{ asset('vendor/admin/plugs/jquery/pace.min.js') }}"></script>
     <script src="{{ route('admin.plugs.script') }}"></script>
     @routes()

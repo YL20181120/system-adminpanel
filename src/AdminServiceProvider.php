@@ -42,6 +42,7 @@ class AdminServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->hasViewComponents('admin', AppLayout::class, Main::class, Table::class)
             ->hasCommand(PruneSystemLog::class)
+            ->hasMigrations()
             ->hasRoutes(['web']);
     }
 
